@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EventEase Admin Panel</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #222;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            color: #cbd5e1;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card h3 {
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .stat-card strong {
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .bookings-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        .bookings-box h2 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th,
+        td {
+            padding: 13px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .clear-btn,
+        .refresh-btn {
+            padding: 11px 18px;
+            border: none;
+            border-radius: 7px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .clear-btn {
+            background: #dc2626;
+        }
+
+        .clear-btn:hover {
+            background: #b91c1c;
+        }
+
+        .refresh-btn {
+            background: #2563eb;
+        }
+
+        .refresh-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .status {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 7px;
+            display: none;
+        }
+
+        .success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 800px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 20px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>EventEase Admin Panel</h1>
+        <p>Manage and view event bookings</p>
+    </header>
+
+    <div class="container">
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3>Total Bookings</h3>
+                <strong id="totalBookings">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Tickets</h3>
+                <strong id="totalTickets">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Revenue</h3>
+                <strong id="totalRevenue">₹0</strong>
+            </div>
+
+            <div class="stat-card">
+                <h3>Events Booked</h3>
+                <strong id="eventsBooked">0</strong>
+            </div>
+
+        </div>
+
+        <div class="bookings-box">
+
+            <h2>Booking Records</h2>
+
+            <div id="statusMessage" class="status"></div>
+
+            <div id="bookingTable">
+                <div class="empty">Loading bookings...</div>
+            </div>
+
+            <div class="buttons">
+
+                <button class="refresh-btn" onclick="loadBookings()">
+                    Refresh Bookings
+                </button>
+
+                <button class="clear-btn" onclick="clearBookings()">
+                    Clear All Bookings
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const API_URL = "http://localhost:5000";
+
+        let bookings = [];
+
+        function showStatus(message, type) {
+
+            const statusMessage =
+                document.getElementById("statusMessage");
+
+            statusMessage.textContent = message;
+
+            statusMessage.className =
+                "status " + type;
+
+        }
+
+        async function loadBookings() {
+
+            const tableContainer =
+                document.getElementById("bookingTable");
+
+            tableContainer.innerHTML =
+                '<div class="empty">Loading bookings...</div>';
+
+            try {
+
+                const response =
+                    await fetch(`${API_URL}/api/bookings`);
+
+                const data =
+                    await response.json();
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message || "Failed to load bookings"
+                    );
+
+                }
+
+                bookings = data.bookings || [];
+
+                displayBookings();
+
+                showStatus(
+                    "Bookings loaded successfully from MongoDB.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error("Booking fetch error:", error);
+
+                tableContainer.innerHTML =
+                    '<div class="empty">Unable to load bookings from MongoDB.</div>';
+
+                showStatus(
+                    "Unable to connect to EventEase server. Make sure server.js is running.",
+                    "error"
+                );
+
+            }
+
+        }
+
+        function displayBookings() {
+
+            const tableContainer =
+                document.getElementById("bookingTable");
+
+            document.getElementById("totalBookings").textContent =
+                bookings.length;
+
+            let totalTickets = 0;
+            let totalRevenue = 0;
+            let eventNames = new Set();
+
+            bookings.forEach(function(booking) {
+
+                const quantity =
+                    Number(
+                        booking.quantity ||
+                        booking.ticketQuantity
+                    ) || 0;
+
+                totalTickets += quantity;
+
+                const amount =
+                    Number(booking.totalAmount) || 0;
+
+                totalRevenue += amount;
+
+                const eventName =
+                    booking.eventName ||
+                    booking.event;
+
+                if (eventName) {
+                    eventNames.add(eventName);
+                }
+
+            });
+
+            document.getElementById("totalTickets").textContent =
+                totalTickets;
+
+            document.getElementById("totalRevenue").textContent =
+                "₹" + totalRevenue.toLocaleString("en-IN");
+
+            document.getElementById("eventsBooked").textContent =
+                eventNames.size;
+
+            if (bookings.length === 0) {
+
+                tableContainer.innerHTML =
+                    '<div class="empty">No bookings found.</div>';
+
+                return;
+            }
+
+            let html = `
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Event</th>
+                            <th>Quantity</th>
+                            <th>Seats</th>
+                            <th>Total</th>
+                            <th>Booking Time</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+            `;
+
+            bookings.forEach(function(booking) {
+
+                const quantity =
+                    booking.quantity ||
+                    booking.ticketQuantity ||
+                    "-";
+
+                let seats = "-";
+
+                if (Array.isArray(booking.seats)) {
+
+                    seats =
+                        booking.seats.join(", ");
+
+                } else if (booking.seat) {
+
+                    seats =
+                        booking.seat;
+
+                }
+
+                const eventName =
+                    booking.eventName ||
+                    booking.event ||
+                    "-";
+
+                const bookingTime =
+                    booking.registrationTime ||
+                    booking.bookingDate ||
+                    "-";
+
+                const totalAmount =
+                    booking.totalAmount !== undefined
+                        ? "₹" +
+                          Number(booking.totalAmount)
+                              .toLocaleString("en-IN")
+                        : "-";
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${booking.bookingId || "-"}
+                        </td>
+
+                        <td>
+                            ${booking.name || "-"}
+                        </td>
+
+                        <td>
+                            ${booking.email || "-"}
+                        </td>
+
+                        <td>
+                            ${eventName}
+                        </td>
+
+                        <td>
+                            ${quantity}
+                        </td>
+
+                        <td>
+                            ${seats}
+                        </td>
+
+                        <td>
+                            ${totalAmount}
+                        </td>
+
+                        <td>
+                            ${bookingTime}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            });
+
+            html += `
+
+                    </tbody>
+
+                </table>
+
+            `;
+
+            tableContainer.innerHTML = html;
+
+        }
+
+        async function clearBookings() {
+
+            const confirmDelete =
+                confirm(
+                    "Are you sure you want to permanently delete all booking records from MongoDB?"
+                );
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/bookings`,
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to delete bookings"
+                    );
+
+                }
+
+                bookings = [];
+
+                displayBookings();
+
+                showStatus(
+                    "All booking records deleted from MongoDB.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                console.error("Delete error:", error);
+
+                showStatus(
+                    "Unable to delete bookings. Server may not support DELETE yet.",
+                    "error"
+                );
+
+            }
+
+        }
+
+        loadBookings();
+
+    </script>
+
+</body>
+</html>

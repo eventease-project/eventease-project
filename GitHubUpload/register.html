@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Event Registration - EventEase</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+        #aiButton {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 64px;
+            height: 64px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+        }
+
+        #aiButton:hover {
+            transform: scale(1.08);
+        }
+
+        .ai-icon {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .ai-spark {
+            position: absolute;
+            top: 12px;
+            right: 13px;
+            width: 7px;
+            height: 7px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+        }
+
+        #aiAssistant {
+            position: fixed;
+            right: 24px;
+            bottom: 100px;
+            width: 350px;
+            max-width: calc(100% - 32px);
+            height: 500px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+        }
+
+        #aiHeader {
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #aiHeader h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        #aiHeader p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        #aiClose {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        #aiMessages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background: #f7f8fc;
+        }
+
+        .ai-message {
+            max-width: 85%;
+            padding: 10px 13px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .ai-bot {
+            background: white;
+            color: #333;
+            border: 1px solid #e6e6e6;
+            margin-right: auto;
+        }
+
+        .ai-user {
+            background: #6c5ce7;
+            color: white;
+            margin-left: auto;
+        }
+
+        #aiSuggestions {
+            padding: 10px 14px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .suggestion-title {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 7px;
+        }
+
+        .suggestion-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-buttons button {
+            border: 1px solid #6c5ce7;
+            background: white;
+            color: #6c5ce7;
+            border-radius: 20px;
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-buttons button:hover {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        #aiInputArea {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #eee;
+            gap: 8px;
+        }
+
+        #aiInput {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 14px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        #aiSend {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #6c5ce7;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #aiSend:hover {
+            background: #5849c7;
+        }
+
+        .seat-group {
+            margin-bottom: 15px;
+        }
+
+        .seat-group label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .seat-select {
+            width: 100%;
+        }
+
+        .enjoy-message {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 18px;
+            color: #6c5ce7;
+        }
+
+        .email-status {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .database-status {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .seat-loading {
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            #aiAssistant {
+                right: 16px;
+                bottom: 90px;
+                width: calc(100% - 32px);
+                height: 470px;
+            }
+
+            #aiButton {
+                right: 16px;
+                bottom: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>EventEase</h1>
+
+    <p>Discover. Register. Experience.</p>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+<main>
+
+<section class="registration-section">
+
+    <h2>Event Registration</h2>
+
+    <p class="registration-intro">
+        Select your event, choose your tickets and reserve your seats.
+    </p>
+
+    <form id="registrationForm">
+
+        <label for="fullName">Full Name</label>
+
+        <input
+            type="text"
+            id="fullName"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <label for="email">Email Address</label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label for="phone">Mobile Number</label>
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your mobile number"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            required
+        >
+
+        <label for="eventSelect">Select Event</label>
+
+        <select id="eventSelect" required>
+
+            <option value="">-- Select an Event --</option>
+
+            <option value="Summer Music Festival" data-price="999">
+                Summer Music Festival - ₹999
+            </option>
+
+            <option value="Tech Innovation Summit" data-price="699">
+                Tech Innovation Summit - ₹699
+            </option>
+
+            <option value="Art & Culture Expo" data-price="499">
+                Art & Culture Expo - ₹499
+            </option>
+
+            <option value="City Sports Championship" data-price="399">
+                City Sports Championship - ₹399
+            </option>
+
+            <option value="Future Skills Workshop" data-price="299">
+                Future Skills Workshop - ₹299
+            </option>
+
+            <option value="Startup & Business Summit" data-price="799">
+                Startup & Business Summit - ₹799
+            </option>
+
+            <option value="Food & Lifestyle Festival" data-price="599">
+                Food & Lifestyle Festival - ₹599
+            </option>
+
+            <option value="Gaming Arena" data-price="499">
+                Gaming Arena - ₹499
+            </option>
+
+            <option value="Comedy Night" data-price="799">
+                Comedy Night - ₹799
+            </option>
+
+            <option value="Film & Entertainment Festival" data-price="699">
+                Film & Entertainment Festival - ₹699
+            </option>
+
+        </select>
+
+        <label for="ticketQuantity">Number of Tickets</label>
+
+        <select id="ticketQuantity" required>
+
+            <option value="">-- Select Tickets --</option>
+            <option value="1">1 Ticket</option>
+            <option value="2">2 Tickets</option>
+            <option value="3">3 Tickets</option>
+            <option value="4">4 Tickets</option>
+            <option value="5">5 Tickets</option>
+
+        </select>
+
+        <div class="price-box">
+
+            <p>
+                Ticket Price:
+                <strong id="ticketPrice">₹0</strong>
+            </p>
+
+            <p>
+                Total Amount:
+                <strong id="totalAmount">₹0</strong>
+            </p>
+
+        </div>
+
+        <div id="seatContainer"></div>
+
+        <button type="submit">
+            Confirm Registration
+        </button>
+
+    </form>
+
+    <div id="confirmation" class="confirmation-box"></div>
+
+</section>
+
+</main>
+
+<footer>
+
+    <p>
+        © 2026 EventEase. All Rights Reserved.
+    </p>
+
+</footer>
+
+<button
+    id="aiButton"
+    type="button"
+    onclick="toggleAI()"
+    aria-label="Open EventEase Assistant"
+>
+    <span class="ai-spark"></span>
+    <span class="ai-icon">AI</span>
+</button>
+
+<div id="aiAssistant">
+
+    <div id="aiHeader">
+
+        <div>
+
+            <h3>EventEase Assistant</h3>
+
+            <p>How can I help you?</p>
+
+        </div>
+
+        <button
+            id="aiClose"
+            type="button"
+            onclick="toggleAI()"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div id="aiMessages">
+
+        <div class="ai-message ai-bot">
+            Hello! I am the EventEase Assistant. Ask me about events, registration, seats, prices or booking.
+        </div>
+
+    </div>
+
+    <div id="aiSuggestions">
+
+        <div class="suggestion-title">
+            Quick questions
+        </div>
+
+        <div class="suggestion-buttons">
+
+            <button
+                type="button"
+                onclick="askAI('What events are available?')"
+            >
+                Events
+            </button>
+
+            <button
+                type="button"
+                onclick="askAI('How can I register?')"
+            >
+                Registration
+            </button>
+
+            <button
+                type="button"
+                onclick="askAI('How many seats are available?')"
+            >
+                Seats
+            </button>
+
+            <button
+                type="button"
+                onclick="askAI('What are the ticket prices?')"
+            >
+                Prices
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="aiInputArea">
+
+        <input
+            type="text"
+            id="aiInput"
+            placeholder="Ask EventEase..."
+            onkeydown="if(event.key === 'Enter') sendAIMessage()"
+        >
+
+        <button
+            id="aiSend"
+            type="button"
+            onclick="sendAIMessage()"
+        >
+            →
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+emailjs.init({
+    publicKey: "UdLmu2Hy_ZWzewu8U"
+});
+
+const API_URL = "http://localhost:5000";
+
+const eventSelect =
+    document.getElementById("eventSelect");
+
+const ticketQuantity =
+    document.getElementById("ticketQuantity");
+
+const ticketPrice =
+    document.getElementById("ticketPrice");
+
+const totalAmount =
+    document.getElementById("totalAmount");
+
+const registrationForm =
+    document.getElementById("registrationForm");
+
+const confirmation =
+    document.getElementById("confirmation");
+
+const seatContainer =
+    document.getElementById("seatContainer");
+
+let bookedSeats = [];
+
+const eventDetails = {
+
+    "Summer Music Festival": {
+        date: "15 September 2026",
+        time: "6:00 PM - 10:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 999,
+        calendarDate: "20260915",
+        start: "180000",
+        end: "220000"
+    },
+
+    "Tech Innovation Summit": {
+        date: "22 September 2026",
+        time: "10:00 AM - 5:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 699,
+        calendarDate: "20260922",
+        start: "100000",
+        end: "170000"
+    },
+
+    "Art & Culture Expo": {
+        date: "28 September 2026",
+        time: "11:00 AM - 6:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 499,
+        calendarDate: "20260928",
+        start: "110000",
+        end: "180000"
+    },
+
+    "City Sports Championship": {
+        date: "5 October 2026",
+        time: "9:00 AM - 6:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 399,
+        calendarDate: "20261005",
+        start: "090000",
+        end: "180000"
+    },
+
+    "Future Skills Workshop": {
+        date: "12 October 2026",
+        time: "10:00 AM - 4:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 299,
+        calendarDate: "20261012",
+        start: "100000",
+        end: "160000"
+    },
+
+    "Startup & Business Summit": {
+        date: "20 October 2026",
+        time: "10:00 AM - 5:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 799,
+        calendarDate: "20261020",
+        start: "100000",
+        end: "170000"
+    },
+
+    "Food & Lifestyle Festival": {
+        date: "31 October 2026",
+        time: "12:00 PM - 9:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 599,
+        calendarDate: "20261031",
+        start: "120000",
+        end: "210000"
+    },
+
+    "Gaming Arena": {
+        date: "8 November 2026",
+        time: "11:00 AM - 8:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 499,
+        calendarDate: "20261108",
+        start: "110000",
+        end: "200000"
+    },
+
+    "Comedy Night": {
+        date: "15 November 2026",
+        time: "7:00 PM - 10:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 799,
+        calendarDate: "20261115",
+        start: "190000",
+        end: "220000"
+    },
+
+    "Film & Entertainment Festival": {
+        date: "22 November 2026",
+        time: "5:00 PM - 10:00 PM",
+        location: "Andheri West, Mumbai",
+        price: 699,
+        calendarDate: "20261122",
+        start: "170000",
+        end: "220000"
+    }
+
+};
+
+async function loadBookedSeats() {
+
+    const eventName = eventSelect.value;
+
+    bookedSeats = [];
+
+    if (!eventName) {
+        return;
+    }
+
+    seatContainer.innerHTML =
+        "<p class='seat-loading'>Loading seat availability...</p>";
+
+    try {
+
+        const response = await fetch(
+            API_URL +
+            "/api/bookings/seats?eventName=" +
+            encodeURIComponent(eventName)
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.message ||
+                "Could not load seat availability."
+            );
+        }
+
+        bookedSeats = result.bookedSeats || [];
+
+    } catch (error) {
+
+        console.error(
+            "Seat availability error:",
+            error
+        );
+
+        seatContainer.innerHTML =
+            "<p>Could not load seat availability. Please make sure the EventEase server is running.</p>";
+    }
+}
+
+function getAvailableSeats() {
+
+    const eventName =
+        eventSelect.value;
+
+    const availableSeats = [];
+
+    if (!eventName) {
+        return availableSeats;
+    }
+
+    for (let row of ["A", "B", "C"]) {
+
+        for (let number = 1; number <= 10; number++) {
+
+            const seat =
+                row + number;
+
+            if (!bookedSeats.includes(seat)) {
+                availableSeats.push(seat);
+            }
+
+        }
+
+    }
+
+    return availableSeats;
+}
+
+function createSeatSelectors() {
+
+    seatContainer.innerHTML = "";
+
+    const quantity =
+        Number(ticketQuantity.value);
+
+    if (!eventSelect.value || !quantity) {
+        return;
+    }
+
+    const availableSeats =
+        getAvailableSeats();
+
+    if (availableSeats.length < quantity) {
+
+        seatContainer.innerHTML =
+            "<p>Sorry, only " +
+            availableSeats.length +
+            " seats are available for this event.</p>";
+
+        return;
+    }
+
+    for (let i = 1; i <= quantity; i++) {
+
+        const group =
+            document.createElement("div");
+
+        group.className =
+            "seat-group";
+
+        const label =
+            document.createElement("label");
+
+        label.textContent =
+            "Select Seat " + i;
+
+        const select =
+            document.createElement("select");
+
+        select.className =
+            "seat-select";
+
+        select.required = true;
+
+        const firstOption =
+            document.createElement("option");
+
+        firstOption.value = "";
+
+        firstOption.textContent =
+            "-- Select Seat " + i + " --";
+
+        select.appendChild(firstOption);
+
+        availableSeats.forEach(function(seat) {
+
+            const option =
+                document.createElement("option");
+
+            option.value =
+                seat;
+
+            option.textContent =
+                seat;
+
+            select.appendChild(option);
+
+        });
+
+        select.addEventListener(
+            "change",
+            updateSeatOptions
+        );
+
+        group.appendChild(label);
+
+        group.appendChild(select);
+
+        seatContainer.appendChild(group);
+
+    }
+
+}
+
+function updateSeatOptions() {
+
+    const allSelects =
+        document.querySelectorAll(".seat-select");
+
+    const selectedSeats = [];
+
+    allSelects.forEach(function(select) {
+
+        if (select.value) {
+            selectedSeats.push(select.value);
+        }
+
+    });
+
+    allSelects.forEach(function(select) {
+
+        const currentValue =
+            select.value;
+
+        Array.from(select.options).forEach(function(option) {
+
+            if (
+                option.value === "" ||
+                option.value === currentValue
+            ) {
+
+                option.disabled = false;
+
+            } else if (
+                selectedSeats.includes(option.value)
+            ) {
+
+                option.disabled = true;
+
+            } else {
+
+                option.disabled = false;
+
+            }
+
+        });
+
+    });
+
+}
+
+eventSelect.addEventListener(
+    "change",
+    async function() {
+
+        calculateTotal();
+
+        await loadBookedSeats();
+
+        createSeatSelectors();
+
+    }
+);
+
+ticketQuantity.addEventListener(
+    "change",
+    function() {
+
+        calculateTotal();
+
+        createSeatSelectors();
+
+    }
+);
+
+function calculateTotal() {
+
+    const selectedEvent =
+        eventSelect.options[
+            eventSelect.selectedIndex
+        ];
+
+    if (
+        !selectedEvent ||
+        !selectedEvent.value
+    ) {
+
+        ticketPrice.textContent =
+            "₹0";
+
+        totalAmount.textContent =
+            "₹0";
+
+        return;
+
+    }
+
+    const price =
+        Number(
+            selectedEvent.getAttribute("data-price")
+        );
+
+    const quantity =
+        Number(ticketQuantity.value);
+
+    if (price && quantity) {
+
+        ticketPrice.textContent =
+            "₹" + price;
+
+        totalAmount.textContent =
+            "₹" + (price * quantity);
+
+    } else {
+
+        ticketPrice.textContent =
+            "₹0";
+
+        totalAmount.textContent =
+            "₹0";
+
+    }
+
+}
+
+function addToGoogleCalendar(
+    eventName,
+    seats,
+    bookingId
+) {
+
+    const selectedEventData =
+        eventDetails[eventName];
+
+    if (!selectedEventData) {
+
+        alert("Event details not found.");
+
+        return;
+
+    }
+
+    const startDateTime =
+        selectedEventData.calendarDate +
+        "T" +
+        selectedEventData.start;
+
+    const endDateTime =
+        selectedEventData.calendarDate +
+        "T" +
+        selectedEventData.end;
+
+    const details =
+        "EventEase Booking" +
+        "\nBooking ID: " +
+        bookingId +
+        "\nSeats: " +
+        seats;
+
+    const calendarUrl =
+        "https://calendar.google.com/calendar/render" +
+        "?action=TEMPLATE" +
+        "&text=" +
+        encodeURIComponent(eventName) +
+        "&dates=" +
+        startDateTime +
+        "/" +
+        endDateTime +
+        "&details=" +
+        encodeURIComponent(details) +
+        "&location=" +
+        encodeURIComponent(
+            selectedEventData.location
+        ) +
+        "&ctz=Asia/Kolkata";
+
+    window.open(
+        calendarUrl,
+        "_blank"
+    );
+
+}
+
+registrationForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const name =
+            document.getElementById("fullName").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const selectedEvent =
+            eventSelect.value;
+
+        const quantity =
+            Number(ticketQuantity.value);
+
+        const seatSelects =
+            document.querySelectorAll(".seat-select");
+
+        const selectedSeats = [];
+
+        seatSelects.forEach(function(select) {
+
+            if (select.value) {
+                selectedSeats.push(select.value);
+            }
+
+        });
+
+        const totalNumber =
+            Number(
+                totalAmount.textContent
+                    .replace("₹", "")
+            );
+
+        if (!name) {
+
+            alert(
+                "Please enter your full name."
+            );
+
+            return;
+
+        }
+
+        if (!email) {
+
+            alert(
+                "Please enter your email address."
+            );
+
+            return;
+
+        }
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+
+            alert(
+                "Please enter a valid 10-digit mobile number."
+            );
+
+            return;
+
+        }
+
+        if (!selectedEvent) {
+
+            alert(
+                "Please select an event."
+            );
+
+            return;
+
+        }
+
+        if (!quantity) {
+
+            alert(
+                "Please select the number of tickets."
+            );
+
+            return;
+
+        }
+
+        if (selectedSeats.length !== quantity) {
+
+            alert(
+                "Please select a seat for every ticket."
+            );
+
+            return;
+
+        }
+
+        const uniqueSeats =
+            new Set(selectedSeats);
+
+        if (
+            uniqueSeats.size !==
+            selectedSeats.length
+        ) {
+
+            alert(
+                "Please select different seats for each ticket."
+            );
+
+            return;
+
+        }
+
+        const selectedEventData =
+            eventDetails[selectedEvent];
+
+        if (!selectedEventData) {
+
+            alert(
+                "Event information could not be found."
+            );
+
+            return;
+
+        }
+
+        confirmation.innerHTML =
+            "<p>Checking latest seat availability...</p>";
+
+        try {
+
+            await loadBookedSeats();
+
+            const unavailableSeats =
+                selectedSeats.filter(function(seat) {
+                    return bookedSeats.includes(seat);
+                });
+
+            if (unavailableSeats.length > 0) {
+
+                alert(
+                    "Sorry, these seats are already booked: " +
+                    unavailableSeats.join(", ") +
+                    ". Please choose different seats."
+                );
+
+                createSeatSelectors();
+
+                confirmation.innerHTML = "";
+
+                return;
+
+            }
+
+            const bookingId =
+                "EE-" +
+                Date.now()
+                    .toString()
+                    .slice(-8);
+
+            const seatsText =
+                selectedSeats.join(", ");
+
+            const registrationTime =
+                new Date().toLocaleString("en-IN");
+
+            const booking = {
+
+                bookingId:
+                    bookingId,
+
+                name:
+                    name,
+
+                email:
+                    email,
+
+                phone:
+                    phone,
+
+                event:
+                    selectedEvent,
+
+                eventName:
+                    selectedEvent,
+
+                eventDate:
+                    selectedEventData.date,
+
+                eventTime:
+                    selectedEventData.time,
+
+                location:
+                    selectedEventData.location,
+
+                ticketPrice:
+                    selectedEventData.price,
+
+                quantity:
+                    quantity,
+
+                ticketQuantity:
+                    quantity,
+
+                seats:
+                    selectedSeats,
+
+                seat:
+                    seatsText,
+
+                totalAmount:
+                    totalNumber,
+
+                bookingDate:
+                    registrationTime,
+
+                registrationTime:
+                    registrationTime
+
+            };
+
+            confirmation.innerHTML =
+                "<p>Saving your booking to MongoDB...</p>";
+
+            const response =
+                await fetch(
+                    API_URL + "/api/bookings",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(booking)
+                    }
+                );
+
+            const result =
+                await response.json();
+
+            if (response.status === 409) {
+
+                bookedSeats =
+                    result.bookedSeats || [];
+
+                alert(
+                    result.message ||
+                    "One or more selected seats are already booked."
+                );
+
+                createSeatSelectors();
+
+                confirmation.innerHTML = "";
+
+                return;
+            }
+
+            if (!response.ok || !result.success) {
+
+                throw new Error(
+                    result.message ||
+                    "Booking could not be saved."
+                );
+
+            }
+
+            confirmation.innerHTML =
+
+                "<h3>Registration Successful!</h3>" +
+
+                "<p>Booking ID: <strong>" +
+                bookingId +
+                "</strong></p>" +
+
+                "<p>Thank you, <strong>" +
+                name +
+                "</strong>.</p>" +
+
+                "<p>Email: <strong>" +
+                email +
+                "</strong></p>" +
+
+                "<p>Mobile: <strong>" +
+                phone +
+                "</strong></p>" +
+
+                "<p>Event: <strong>" +
+                selectedEvent +
+                "</strong></p>" +
+
+                "<p>Date: <strong>" +
+                selectedEventData.date +
+                "</strong></p>" +
+
+                "<p>Time: <strong>" +
+                selectedEventData.time +
+                "</strong></p>" +
+
+                "<p>Location: <strong>" +
+                selectedEventData.location +
+                "</strong></p>" +
+
+                "<p>Tickets: <strong>" +
+                quantity +
+                "</strong></p>" +
+
+                "<p>Seats: <strong>" +
+                seatsText +
+                "</strong></p>" +
+
+                "<p>Total Amount: <strong>₹" +
+                totalNumber +
+                "</strong></p>" +
+
+                "<p>Booking Time: <strong>" +
+                registrationTime +
+                "</strong></p>" +
+
+                "<p>Your booking has been saved successfully.</p>" +
+
+                "<p class='database-status'>" +
+                "Booking saved to EventEase MongoDB database successfully." +
+                "</p>" +
+
+                "<p class='email-status' id='emailStatus'>" +
+                "Sending confirmation email..." +
+                "</p>" +
+
+                "<p class='enjoy-message'>" +
+                "Enjoy Your Event!" +
+                "</p>" +
+
+                "<button type='button' id='calendarButton'>" +
+                "Add to Google Calendar" +
+                "</button>";
+
+            document.getElementById("calendarButton")
+                .addEventListener("click", function() {
+
+                    addToGoogleCalendar(
+                        selectedEvent,
+                        seatsText,
+                        bookingId
+                    );
+
+                });
+
+            registrationForm.reset();
+
+            ticketPrice.textContent =
+                "₹0";
+
+            totalAmount.textContent =
+                "₹0";
+
+            seatContainer.innerHTML = "";
+
+            const emailParams = {
+
+                name:
+                    name,
+
+                email:
+                    email,
+
+                message:
+                    "Booking ID: " + bookingId + "\n" +
+                    "Event: " + selectedEvent + "\n" +
+                    "Date: " + selectedEventData.date + "\n" +
+                    "Time: " + selectedEventData.time + "\n" +
+                    "Location: " + selectedEventData.location + "\n" +
+                    "Ticket Quantity: " + quantity + "\n" +
+                    "Selected Seats: " + seatsText + "\n" +
+                    "Total Amount: ₹" + totalNumber + "\n" +
+                    "Registration Time: " + registrationTime
+
+            };
+
+            emailjs.send(
+                "service_uku5gun",
+                "template_rylxlkz",
+                emailParams
+            )
+            .then(function(response) {
+
+                console.log(
+                    "Confirmation email sent successfully.",
+                    response.status,
+                    response.text
+                );
+
+                const emailStatus =
+                    document.getElementById("emailStatus");
+
+                if (emailStatus) {
+
+                    emailStatus.textContent =
+                        "Confirmation email sent successfully to your registered email address.";
+
+                }
+
+            })
+            .catch(function(error) {
+
+                console.error(
+                    "Confirmation email error:",
+                    error
+                );
+
+                const emailStatus =
+                    document.getElementById("emailStatus");
+
+                if (emailStatus) {
+
+                    emailStatus.textContent =
+                        "Booking confirmed. The confirmation email could not be sent at this time.";
+
+                }
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Database booking error:",
+                error
+            );
+
+            confirmation.innerHTML =
+
+                "<h3>Booking Could Not Be Completed</h3>" +
+
+                "<p>We could not save your booking to the database.</p>" +
+
+                "<p>Please make sure the EventEase server is running.</p>";
+
+        }
+
+    }
+);
+
+function toggleAI() {
+
+    const assistant =
+        document.getElementById("aiAssistant");
+
+    if (
+        assistant.style.display === "flex"
+    ) {
+
+        assistant.style.display =
+            "none";
+
+    } else {
+
+        assistant.style.display =
+            "flex";
+
+        document.getElementById("aiInput").focus();
+
+    }
+
+}
+
+function addAIMessage(
+    message,
+    type
+) {
+
+    const messages =
+        document.getElementById("aiMessages");
+
+    const messageElement =
+        document.createElement("div");
+
+    messageElement.className =
+        "ai-message " +
+        (
+            type === "user"
+                ? "ai-user"
+                : "ai-bot"
+        );
+
+    messageElement.textContent =
+        message;
+
+    messages.appendChild(
+        messageElement
+    );
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+function askAI(question) {
+
+    document.getElementById(
+        "aiInput"
+    ).value = question;
+
+    sendAIMessage();
+
+}
+
+function sendAIMessage() {
+
+    const input =
+        document.getElementById("aiInput");
+
+    const question =
+        input.value.trim();
+
+    if (question === "") {
+        return;
+    }
+
+    addAIMessage(
+        question,
+        "user"
+    );
+
+    input.value = "";
+
+    setTimeout(function() {
+
+        const response =
+            getAIResponse(question);
+
+        addAIMessage(
+            response,
+            "bot"
+        );
+
+    }, 300);
+
+}
+
+function getAIResponse(question) {
+
+    const q =
+        question.toLowerCase();
+
+    if (
+        q.includes("hello") ||
+        q.includes("hi") ||
+        q.includes("hey")
+    ) {
+
+        return "Hello! Welcome to EventEase. I can help you with events, registration, seats, ticket prices and booking information.";
+
+    }
+
+    if (
+        q.includes("event") ||
+        q.includes("available") ||
+        q.includes("upcoming")
+    ) {
+
+        return "EventEase currently has 10 upcoming events: Summer Music Festival, Tech Innovation Summit, Art & Culture Expo, City Sports Championship, Future Skills Workshop, Startup & Business Summit, Food & Lifestyle Festival, Gaming Arena, Comedy Night and Film & Entertainment Festival.";
+
+    }
+
+    if (
+        q.includes("register") ||
+        q.includes("registration")
+    ) {
+
+        return "To register, enter your name, email and mobile number, select an event, choose the number of tickets, select an available seat for each ticket and click Confirm Registration.";
+
+    }
+
+    if (
+        q.includes("book") ||
+        q.includes("booking")
+    ) {
+
+        return "To book an event, complete the registration form, choose the number of tickets and select a different available seat for each ticket. After confirmation, you will receive a Booking ID and confirmation email, and you can add the event to Google Calendar.";
+
+    }
+
+    if (
+        q.includes("seat") ||
+        q.includes("available seats")
+    ) {
+
+        return "Each EventEase event has 30 seats: A1 to A10, B1 to B10 and C1 to C10. Seats already booked in the MongoDB database are automatically removed from the selection list.";
+
+    }
+
+    if (
+        q.includes("price") ||
+        q.includes("cost") ||
+        q.includes("ticket")
+    ) {
+
+        return "EventEase ticket prices range from ₹299 to ₹999. The exact ticket price and total amount are automatically displayed when you select an event and ticket quantity.";
+
+    }
+
+    if (
+        q.includes("email") ||
+        q.includes("mail")
+    ) {
+
+        return "After successful registration, EventEase sends a confirmation email to the email address entered in the registration form.";
+
+    }
+
+    if (
+        q.includes("calendar") ||
+        q.includes("google")
+    ) {
+
+        return "After successful registration, click Add to Google Calendar to add your selected event, seats and Booking ID to Google Calendar.";
+
+    }
+
+    if (q.includes("music")) {
+
+        return "Summer Music Festival is on 15 September 2026 from 6:00 PM to 10:00 PM at Andheri West, Mumbai. Ticket price: ₹999.";
+
+    }
+
+    if (
+        q.includes("technology") ||
+        q.includes("tech")
+    ) {
+
+        return "Tech Innovation Summit is on 22 September 2026 from 10:00 AM to 5:00 PM at Andheri West, Mumbai. Ticket price: ₹699.";
+
+    }
+
+    if (
+        q.includes("art") ||
+        q.includes("culture")
+    ) {
+
+        return "Art & Culture Expo is on 28 September 2026 from 11:00 AM to 6:00 PM at Andheri West, Mumbai. Ticket price: ₹499.";
+
+    }
+
+    if (q.includes("sports")) {
+
+        return "City Sports Championship is on 5 October 2026 from 9:00 AM to 6:00 PM at Andheri West, Mumbai. Ticket price: ₹399.";
+
+    }
+
+    if (
+        q.includes("skills") ||
+        q.includes("workshop")
+    ) {
+
+        return "Future Skills Workshop is on 12 October 2026 from 10:00 AM to 4:00 PM at Andheri West, Mumbai. Ticket price: ₹299.";
+
+    }
+
+    if (
+        q.includes("business") ||
+        q.includes("startup")
+    ) {
+
+        return "Startup & Business Summit is on 20 October 2026 from 10:00 AM to 5:00 PM at Andheri West, Mumbai. Ticket price: ₹799.";
+
+    }
+
+    if (q.includes("food")) {
+
+        return "Food & Lifestyle Festival is on 31 October 2026 from 12:00 PM to 9:00 PM at Andheri West, Mumbai. Ticket price: ₹599.";
+
+    }
+
+    if (q.includes("gaming")) {
+
+        return "Gaming Arena is on 8 November 2026 from 11:00 AM to 8:00 PM at Andheri West, Mumbai. Ticket price: ₹499.";
+
+    }
+
+    if (q.includes("comedy")) {
+
+        return "Comedy Night is on 15 November 2026 from 7:00 PM to 10:00 PM at Andheri West, Mumbai. Ticket price: ₹799.";
+
+    }
+
+    if (
+        q.includes("film") ||
+        q.includes("entertainment")
+    ) {
+
+        return "Film & Entertainment Festival is on 22 November 2026 from 5:00 PM to 10:00 PM at Andheri West, Mumbai. Ticket price: ₹699.";
+
+    }
+
+    if (
+        q.includes("where") ||
+        q.includes("location")
+    ) {
+
+        return "EventEase events are currently organized at Andheri West, Mumbai.";
+
+    }
+
+    if (q.includes("thank")) {
+
+        return "You're welcome! I am always here to help you with EventEase.";
+
+    }
+
+    return "I can help you with EventEase events, registration, booking, seats, ticket prices, locations, confirmation emails and Google Calendar. Try asking about one of these topics.";
+
+}
+
+</script>
+
+</body>
+
+</html>

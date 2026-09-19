@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - EventEase</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* AI Assistant */
+        #aiButton {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 64px;
+            height: 64px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+        }
+
+        #aiButton:hover {
+            transform: scale(1.08);
+        }
+
+        .ai-icon {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .ai-spark {
+            position: absolute;
+            top: 12px;
+            right: 13px;
+            width: 7px;
+            height: 7px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+        }
+
+        #aiAssistant {
+            position: fixed;
+            right: 24px;
+            bottom: 100px;
+            width: 350px;
+            max-width: calc(100% - 32px);
+            height: 500px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+        }
+
+        #aiHeader {
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            color: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #aiHeader h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        #aiHeader p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        #aiClose {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        #aiMessages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background: #f7f8fc;
+        }
+
+        .ai-message {
+            max-width: 85%;
+            padding: 10px 13px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .ai-bot {
+            background: white;
+            color: #333;
+            border: 1px solid #e6e6e6;
+            margin-right: auto;
+        }
+
+        .ai-user {
+            background: #6c5ce7;
+            color: white;
+            margin-left: auto;
+        }
+
+        #aiSuggestions {
+            padding: 10px 14px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .suggestion-title {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 7px;
+        }
+
+        .suggestion-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-buttons button {
+            border: 1px solid #6c5ce7;
+            background: white;
+            color: #6c5ce7;
+            border-radius: 20px;
+            padding: 6px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-buttons button:hover {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        #aiInputArea {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #eee;
+            gap: 8px;
+        }
+
+        #aiInput {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 14px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        #aiSend {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: #6c5ce7;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #aiSend:hover {
+            background: #5849c7;
+        }
+
+        @media (max-width: 600px) {
+            #aiAssistant {
+                right: 16px;
+                bottom: 90px;
+                width: calc(100% - 32px);
+                height: 470px;
+            }
+
+            #aiButton {
+                right: 16px;
+                bottom: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>EventEase</h1>
+    <p>Plan. Discover. Celebrate.</p>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="register.html">Register</a>
+    </nav>
+</header>
+
+<main>
+
+    <section>
+        <h2>Contact EventEase</h2>
+
+        <p>
+            Have a question about an event, registration or booking?
+            Get in touch with the EventEase team.
+        </p>
+
+        <div class="card-container">
+
+            <div class="card">
+                <h3>Email</h3>
+                <p>eventease@example.com</p>
+            </div>
+
+            <div class="card">
+                <h3>Phone</h3>
+                <p>+91 98765 43210</p>
+            </div>
+
+            <div class="card">
+                <h3>Location</h3>
+                <p>Mumbai, Maharashtra, India</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <h2>Send Us a Message</h2>
+
+        <form id="contactForm">
+
+            <label for="contactName">Name</label>
+            <input
+                type="text"
+                id="contactName"
+                placeholder="Enter your name"
+                required
+            >
+
+            <label for="contactEmail">Email</label>
+            <input
+                type="email"
+                id="contactEmail"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="contactSubject">Subject</label>
+            <input
+                type="text"
+                id="contactSubject"
+                placeholder="Enter subject"
+                required
+            >
+
+            <label for="contactMessage">Message</label>
+            <textarea
+                id="contactMessage"
+                rows="6"
+                placeholder="Write your message"
+                required
+            ></textarea>
+
+            <button type="submit">Send Message</button>
+
+        </form>
+
+        <p id="contactResponse"></p>
+    </section>
+
+    <section class="cta">
+        <h2>Looking for an Event?</h2>
+
+        <p>
+            Explore our upcoming events and find an experience
+            that interests you.
+        </p>
+
+        <a class="hero-button" href="events.html">
+            Explore Events
+        </a>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 EventEase. All Rights Reserved.</p>
+</footer>
+
+
+<!-- AI Assistant -->
+
+<button id="aiButton" type="button" onclick="toggleAI()" aria-label="Open EventEase Assistant">
+    <span class="ai-spark"></span>
+    <span class="ai-icon">AI</span>
+</button>
+
+<div id="aiAssistant">
+
+    <div id="aiHeader">
+        <div>
+            <h3>EventEase Assistant</h3>
+            <p>How can I help you?</p>
+        </div>
+
+        <button id="aiClose" type="button" onclick="toggleAI()">×</button>
+    </div>
+
+    <div id="aiMessages">
+        <div class="ai-message ai-bot">
+            Hello! I am the EventEase Assistant. Ask me about events, registration, seats, prices or contact information.
+        </div>
+    </div>
+
+    <div id="aiSuggestions">
+
+        <div class="suggestion-title">Quick questions</div>
+
+        <div class="suggestion-buttons">
+
+            <button type="button" onclick="askAI('What events are available?')">
+                Events
+            </button>
+
+            <button type="button" onclick="askAI('How can I register?')">
+                Registration
+            </button>
+
+            <button type="button" onclick="askAI('How many seats are available?')">
+                Seats
+            </button>
+
+            <button type="button" onclick="askAI('What are the ticket prices?')">
+                Prices
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="aiInputArea">
+
+        <input
+            type="text"
+            id="aiInput"
+            placeholder="Ask EventEase..."
+            onkeydown="if(event.key === 'Enter') sendAIMessage()"
+        >
+
+        <button id="aiSend" type="button" onclick="sendAIMessage()">
+            →
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- EmailJS Library -->
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+
+    /* EmailJS Initialization */
+
+    emailjs.init({
+        publicKey: "UdLmu2Hy_ZWzewu8U"
+    });
+
+
+    /* Contact Form */
+
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const name = document.getElementById("contactName").value.trim();
+        const email = document.getElementById("contactEmail").value.trim();
+        const subject = document.getElementById("contactSubject").value.trim();
+        const message = document.getElementById("contactMessage").value.trim();
+
+        const templateParams = {
+            name: name,
+            email: email,
+            subject: subject,
+            message: message,
+            time: new Date().toLocaleString()
+        };
+
+        const responseElement = document.getElementById("contactResponse");
+
+        responseElement.textContent = "Sending your message...";
+
+        emailjs.send(
+            "service_uku5gun",
+            "template_kg8p8cc",
+            templateParams
+        )
+        .then(function() {
+
+            responseElement.textContent =
+                "Thank you for contacting EventEase. Your message has been sent successfully.";
+
+            document.getElementById("contactForm").reset();
+
+        })
+        .catch(function(error) {
+
+            console.error("EmailJS Error:", error);
+
+            responseElement.textContent =
+                "Sorry, your message could not be sent. Please try again.";
+
+        });
+
+    });
+
+
+    const eventData = [
+
+        {
+            name: "Summer Music Festival",
+            date: "15 September 2026",
+            time: "6:00 PM - 10:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 999,
+            category: "Music"
+        },
+
+        {
+            name: "Tech Innovation Summit",
+            date: "22 September 2026",
+            time: "10:00 AM - 5:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 699,
+            category: "Technology"
+        },
+
+        {
+            name: "Art & Culture Expo",
+            date: "28 September 2026",
+            time: "11:00 AM - 6:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 499,
+            category: "Art & Culture"
+        },
+
+        {
+            name: "City Sports Championship",
+            date: "5 October 2026",
+            time: "9:00 AM - 6:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 399,
+            category: "Sports"
+        },
+
+        {
+            name: "Future Skills Workshop",
+            date: "12 October 2026",
+            time: "10:00 AM - 4:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 299,
+            category: "Education"
+        },
+
+        {
+            name: "Startup & Business Summit",
+            date: "20 October 2026",
+            time: "10:00 AM - 5:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 799,
+            category: "Business"
+        },
+
+        {
+            name: "Food & Lifestyle Festival",
+            date: "31 October 2026",
+            time: "12:00 PM - 9:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 599,
+            category: "Food"
+        },
+
+        {
+            name: "Gaming Arena",
+            date: "8 November 2026",
+            time: "11:00 AM - 8:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 499,
+            category: "Gaming"
+        },
+
+        {
+            name: "Comedy Night",
+            date: "15 November 2026",
+            time: "7:00 PM - 10:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 799,
+            category: "Comedy"
+        },
+
+        {
+            name: "Film & Entertainment Festival",
+            date: "22 November 2026",
+            time: "5:00 PM - 10:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 699,
+            category: "Entertainment"
+        }
+
+    ];
+
+
+    function toggleAI() {
+
+        const assistant = document.getElementById("aiAssistant");
+
+        if (assistant.style.display === "flex") {
+            assistant.style.display = "none";
+        } else {
+            assistant.style.display = "flex";
+            document.getElementById("aiInput").focus();
+        }
+
+    }
+
+
+    function addAIMessage(message, type) {
+
+        const messages = document.getElementById("aiMessages");
+
+        const messageElement = document.createElement("div");
+
+        messageElement.className =
+            "ai-message " +
+            (type === "user" ? "ai-user" : "ai-bot");
+
+        messageElement.textContent = message;
+
+        messages.appendChild(messageElement);
+
+        messages.scrollTop = messages.scrollHeight;
+
+    }
+
+
+    function askAI(question) {
+
+        document.getElementById("aiInput").value = question;
+
+        sendAIMessage();
+
+    }
+
+
+    function sendAIMessage() {
+
+        const input = document.getElementById("aiInput");
+
+        const question = input.value.trim();
+
+        if (question === "") {
+            return;
+        }
+
+        addAIMessage(question, "user");
+
+        input.value = "";
+
+        setTimeout(function() {
+
+            const response = getAIResponse(question);
+
+            addAIMessage(response, "bot");
+
+        }, 300);
+
+    }
+
+
+    function getAIResponse(question) {
+
+        const q = question.toLowerCase();
+
+
+        if (
+            q.includes("hello") ||
+            q.includes("hi") ||
+            q.includes("hey")
+        ) {
+            return "Hello! Welcome to EventEase. I can help you with events, registration, seats, ticket prices and event information.";
+        }
+
+
+        if (
+            q.includes("event") ||
+            q.includes("available") ||
+            q.includes("upcoming")
+        ) {
+
+            return "EventEase currently has 10 upcoming events: Summer Music Festival, Tech Innovation Summit, Art & Culture Expo, City Sports Championship, Future Skills Workshop, Startup & Business Summit, Food & Lifestyle Festival, Gaming Arena, Comedy Night and Film & Entertainment Festival.";
+
+        }
+
+
+        if (
+            q.includes("register") ||
+            q.includes("registration") ||
+            q.includes("book") ||
+            q.includes("booking")
+        ) {
+
+            return "To register, open the Register page from the navigation menu. Select an event, enter your details, choose a seat and submit the registration form.";
+
+        }
+
+
+        if (
+            q.includes("seat") ||
+            q.includes("available seats")
+        ) {
+
+            return "Each EventEase event has 30 seats. Seats are arranged into three groups: A1-A10, B1-B10 and C1-C10. Available seats can be checked on the Register page.";
+
+        }
+
+
+        if (
+            q.includes("price") ||
+            q.includes("cost") ||
+            q.includes("ticket")
+        ) {
+
+            return "Ticket prices range from ₹299 to ₹999 depending on the event. You can see the exact price after selecting an event on the Register page.";
+
+        }
+
+
+        if (
+            q.includes("contact") ||
+            q.includes("email") ||
+            q.includes("phone") ||
+            q.includes("location")
+        ) {
+
+            return "You can contact EventEase through eventease@example.com or +91 98765 43210. Our location is Mumbai, Maharashtra, India.";
+
+        }
+
+
+        if (q.includes("music")) {
+
+            return "The Summer Music Festival is on 15 September 2026 from 6:00 PM to 10:00 PM at Andheri West, Mumbai. The ticket price is ₹999.";
+
+        }
+
+
+        if (q.includes("technology") || q.includes("tech")) {
+
+            return "The Tech Innovation Summit is on 22 September 2026 from 10:00 AM to 5:00 PM at Andheri West, Mumbai. The ticket price is ₹699.";
+
+        }
+
+
+        if (q.includes("art") || q.includes("culture")) {
+
+            return "The Art & Culture Expo is on 28 September 2026 from 11:00 AM to 6:00 PM at Andheri West, Mumbai. The ticket price is ₹499.";
+
+        }
+
+
+        if (q.includes("sports")) {
+
+            return "The City Sports Championship is on 5 October 2026 from 9:00 AM to 6:00 PM at Andheri West, Mumbai. The ticket price is ₹399.";
+
+        }
+
+
+        if (q.includes("business") || q.includes("startup")) {
+
+            return "The Startup & Business Summit is on 20 October 2026 from 10:00 AM to 5:00 PM at Andheri West, Mumbai. The ticket price is ₹799.";
+
+        }
+
+
+        if (q.includes("food")) {
+
+            return "The Food & Lifestyle Festival is on 31 October 2026 from 12:00 PM to 9:00 PM at Andheri West, Mumbai. The ticket price is ₹599.";
+
+        }
+
+
+        if (q.includes("gaming")) {
+
+            return "The Gaming Arena is on 8 November 2026 from 11:00 AM to 8:00 PM at Andheri West, Mumbai. The ticket price is ₹499.";
+
+        }
+
+
+        if (q.includes("comedy")) {
+
+            return "Comedy Night is on 15 November 2026 from 7:00 PM to 10:00 PM at Andheri West, Mumbai. The ticket price is ₹799.";
+
+        }
+
+
+        if (
+            q.includes("film") ||
+            q.includes("entertainment")
+        ) {
+
+            return "The Film & Entertainment Festival is on 22 November 2026 from 5:00 PM to 10:00 PM at Andheri West, Mumbai. The ticket price is ₹699.";
+
+        }
+
+
+        if (q.includes("where")) {
+
+            return "EventEase events are currently organized at Andheri West, Mumbai.";
+
+        }
+
+
+        if (q.includes("thank")) {
+
+            return "You're welcome! I am always here to help you with EventEase.";
+
+        }
+
+
+        return "I can help you with EventEase events, registration, seats, ticket prices, locations and contact information. Try asking about one of these topics.";
+
+    }
+
+</script>
+
+</body>
+</html>

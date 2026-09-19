@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Event Management</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>EventEase</h1>
+    <p>Plan. Discover. Celebrate.</p>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="register.html">Register</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Make Every Event Memorable</h2>
+
+            <p>
+                Discover amazing events, choose your favourite experience,
+                book your seat and create unforgettable memories with EventEase.
+            </p>
+
+            <div>
+                <a class="hero-button" href="events.html">Explore Events</a>
+                <a class="hero-button" href="register.html">Book Your Seat</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Welcome to EventEase</h2>
+
+        <p>
+            EventEase is a modern event management platform designed to make
+            discovering and registering for events simple, convenient and
+            enjoyable. Explore different event categories, check event details,
+            select your preferred seat and complete your registration.
+        </p>
+    </section>
+
+    <section>
+        <h2>Popular Event Categories</h2>
+
+        <div class="card-container">
+
+            <div class="card">
+                <h3>Music</h3>
+                <p>Enjoy concerts, music festivals and live entertainment experiences.</p>
+            </div>
+
+            <div class="card">
+                <h3>Technology</h3>
+                <p>Discover technology conferences, innovation summits and practical workshops.</p>
+            </div>
+
+            <div class="card">
+                <h3>Art & Culture</h3>
+                <p>Explore exhibitions, cultural programs and creative experiences.</p>
+            </div>
+
+            <div class="card">
+                <h3>Sports</h3>
+                <p>Follow exciting championships, tournaments and sporting events.</p>
+            </div>
+
+            <div class="card">
+                <h3>Business</h3>
+                <p>Connect with entrepreneurs, startups and business professionals.</p>
+            </div>
+
+            <div class="card">
+                <h3>Entertainment</h3>
+                <p>Enjoy comedy, gaming, film and other entertainment events.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <h2>Featured Experiences</h2>
+
+        <div class="card-container">
+
+            <div class="card">
+                <h3>10+ Upcoming Events</h3>
+                <p>
+                    Choose from music, technology, sports, business,
+                    food and entertainment events.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>30 Seats Per Event</h3>
+                <p>
+                    Select your preferred available seat from our
+                    A1 to C10 seating system.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Quick Registration</h3>
+                <p>
+                    Enter your details, select tickets and reserve an
+                    available seat through EventEase.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <h2>Why Choose EventEase?</h2>
+
+        <div class="card-container">
+
+            <div class="card">
+                <h3>Easy Discovery</h3>
+                <p>Find different types of events in one convenient platform.</p>
+            </div>
+
+            <div class="card">
+                <h3>Seat Selection</h3>
+                <p>Check available seats and choose the seat that suits you.</p>
+            </div>
+
+            <div class="card">
+                <h3>Booking Confirmation</h3>
+                <p>Receive a booking ID after successfully completing registration.</p>
+            </div>
+
+            <div class="card">
+                <h3>Simple Navigation</h3>
+                <p>Move easily between events, registration, information and contact pages.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section>
+        <h2>Our Services</h2>
+
+        <div class="card-container">
+
+            <div class="card">
+                <h3>Event Discovery</h3>
+                <p>
+                    Explore upcoming events across music, technology, sports,
+                    business, culture and entertainment.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Online Registration</h3>
+                <p>
+                    Register for your favourite event quickly by entering your
+                    details and selecting the required number of tickets.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Seat Selection</h3>
+                <p>
+                    Choose an available seat from the EventEase seating system
+                    before confirming your registration.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Booking Confirmation</h3>
+                <p>
+                    Get a unique booking ID after successfully completing your
+                    event registration.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Event Information</h3>
+                <p>
+                    View event dates, timings, locations, ticket prices and
+                    important event details in one place.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>Easy Access</h3>
+                <p>
+                    Access EventEase easily through a simple and responsive
+                    website interface.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Ready to Explore?</h2>
+
+        <p>
+            Discover your next experience and reserve your seat with EventEase.
+        </p>
+
+        <a class="hero-button" href="events.html">
+            View Upcoming Events
+        </a>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 EventEase. All Rights Reserved.</p>
+</footer>
+
+
+<!-- EventEase AI Assistant -->
+
+<button id="aiButton" type="button" onclick="toggleAI()" aria-label="Open EventEase Assistant">
+    <span class="ai-spark"></span>
+    <span class="ai-icon">AI</span>
+</button>
+
+<div id="aiAssistant">
+
+    <div id="aiHeader">
+        <div class="ai-title-area">
+            <div class="ai-avatar">AI</div>
+
+            <div>
+                <strong>EventEase Assistant</strong>
+                <small>Online • Ready to help</small>
+            </div>
+        </div>
+
+        <button id="aiClose" type="button" onclick="toggleAI()">×</button>
+    </div>
+
+    <div id="aiMessages">
+
+        <div class="ai-message bot">
+            Hello! Welcome to EventEase. I can help you with events,
+            registration, seats, prices and booking.
+        </div>
+
+    </div>
+
+    <div id="aiSuggestions">
+
+        <div class="suggestion-title">Quick questions</div>
+
+        <div class="suggestion-buttons">
+
+            <button type="button" onclick="askAI('What events are available?')">
+                Events
+            </button>
+
+            <button type="button" onclick="askAI('How can I register?')">
+                Registration
+            </button>
+
+            <button type="button" onclick="askAI('How many seats are available?')">
+                Seats
+            </button>
+
+            <button type="button" onclick="askAI('What are the ticket prices?')">
+                Prices
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="aiInputArea">
+
+        <input
+            type="text"
+            id="aiInput"
+            placeholder="Ask about EventEase..."
+            autocomplete="off"
+        >
+
+        <button type="button" onclick="sendAIMessage()">
+            Send
+        </button>
+
+    </div>
+
+</div>
+
+
+<style>
+
+#aiButton {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    width: 64px;
+    height: 64px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #111827, #374151);
+    color: white;
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#aiButton:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.ai-icon {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.ai-spark {
+    position: absolute;
+    top: 11px;
+    right: 13px;
+    width: 7px;
+    height: 7px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255,255,255,0.9);
+}
+
+#aiAssistant {
+    position: fixed;
+    right: 28px;
+    bottom: 105px;
+    width: 370px;
+    height: 560px;
+    max-width: calc(100vw - 30px);
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    z-index: 9999;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.22);
+    animation: aiOpen 0.25s ease;
+}
+
+@keyframes aiOpen {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#aiHeader {
+    background: linear-gradient(135deg, #111827, #374151);
+    color: white;
+    padding: 17px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-title-area {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.ai-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+#aiHeader strong {
+    display: block;
+    font-size: 15px;
+    letter-spacing: 0.2px;
+}
+
+#aiHeader small {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+#aiClose {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 23px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#aiClose:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+#aiMessages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background: #f8fafc;
+}
+
+.ai-message {
+    padding: 11px 13px;
+    margin-bottom: 11px;
+    border-radius: 14px;
+    max-width: 86%;
+    line-height: 1.5;
+    font-size: 13px;
+    word-wrap: break-word;
+}
+
+.ai-message.bot {
+    background: white;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
+    border-top-left-radius: 5px;
+}
+
+.ai-message.user {
+    background: #111827;
+    color: white;
+    margin-left: auto;
+    border-top-right-radius: 5px;
+}
+
+#aiSuggestions {
+    padding: 11px 13px 12px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.suggestion-title {
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.suggestion-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+#aiSuggestions button {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 18px;
+    background: #f9fafb;
+    color: #374151;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+#aiSuggestions button:hover {
+    background: #111827;
+    color: white;
+    border-color: #111827;
+    transform: translateY(-1px);
+}
+
+#aiInputArea {
+    display: flex;
+    padding: 11px;
+    gap: 8px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+#aiInput {
+    flex: 1;
+    min-width: 0;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    outline: none;
+    font-size: 13px;
+    color: #111827;
+}
+
+#aiInput:focus {
+    border-color: #6b7280;
+}
+
+#aiInputArea button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+#aiInputArea button:hover {
+    background: #374151;
+}
+
+@media (max-width: 500px) {
+
+    #aiButton {
+        right: 16px;
+        bottom: 16px;
+        width: 58px;
+        height: 58px;
+    }
+
+    #aiAssistant {
+        right: 10px;
+        bottom: 84px;
+        width: calc(100vw - 20px);
+        height: 72vh;
+        max-height: 600px;
+        border-radius: 18px;
+    }
+
+    #aiMessages {
+        padding: 13px;
+    }
+
+    #aiSuggestions {
+        padding: 9px 10px 10px;
+    }
+
+    #aiSuggestions button {
+        font-size: 11px;
+        padding: 7px 10px;
+    }
+}
+
+</style>
+
+
+<script>
+
+const eventData = [
+    {
+        name: "Summer Music Festival",
+        date: "15 September 2026",
+        time: "6:00 PM - 10:00 PM",
+        price: "₹999"
+    },
+    {
+        name: "Tech Innovation Summit",
+        date: "22 September 2026",
+        time: "10:00 AM - 5:00 PM",
+        price: "₹699"
+    },
+    {
+        name: "Art & Culture Expo",
+        date: "28 September 2026",
+        time: "11:00 AM - 6:00 PM",
+        price: "₹499"
+    },
+    {
+        name: "City Sports Championship",
+        date: "5 October 2026",
+        time: "9:00 AM - 6:00 PM",
+        price: "₹399"
+    },
+    {
+        name: "Future Skills Workshop",
+        date: "12 October 2026",
+        time: "10:00 AM - 4:00 PM",
+        price: "₹299"
+    },
+    {
+        name: "Startup & Business Summit",
+        date: "20 October 2026",
+        time: "10:00 AM - 5:00 PM",
+        price: "₹799"
+    },
+    {
+        name: "Food & Lifestyle Festival",
+        date: "31 October 2026",
+        time: "12:00 PM - 9:00 PM",
+        price: "₹599"
+    },
+    {
+        name: "Gaming Arena",
+        date: "8 November 2026",
+        time: "11:00 AM - 8:00 PM",
+        price: "₹499"
+    },
+    {
+        name: "Comedy Night",
+        date: "15 November 2026",
+        time: "7:00 PM - 10:00 PM",
+        price: "₹799"
+    },
+    {
+        name: "Film & Entertainment Festival",
+        date: "22 November 2026",
+        time: "5:00 PM - 10:00 PM",
+        price: "₹699"
+    }
+];
+
+
+function toggleAI() {
+
+    const assistant = document.getElementById("aiAssistant");
+
+    if (assistant.style.display === "flex") {
+
+        assistant.style.display = "none";
+
+    } else {
+
+        assistant.style.display = "flex";
+
+        setTimeout(function() {
+            document.getElementById("aiInput").focus();
+        }, 100);
+    }
+}
+
+
+function addAIMessage(message, type) {
+
+    const messages = document.getElementById("aiMessages");
+
+    const div = document.createElement("div");
+
+    div.className = "ai-message " + type;
+
+    div.textContent = message;
+
+    messages.appendChild(div);
+
+    messages.scrollTop = messages.scrollHeight;
+}
+
+
+function sendAIMessage() {
+
+    const input = document.getElementById("aiInput");
+
+    const message = input.value.trim();
+
+    if (message === "") {
+        return;
+    }
+
+    addAIMessage(message, "user");
+
+    input.value = "";
+
+    setTimeout(function() {
+
+        const response = getAIResponse(message);
+
+        addAIMessage(response, "bot");
+
+    }, 350);
+}
+
+
+function askAI(question) {
+
+    addAIMessage(question, "user");
+
+    setTimeout(function() {
+
+        const response = getAIResponse(question);
+
+        addAIMessage(response, "bot");
+
+    }, 350);
+}
+
+
+document.getElementById("aiInput").addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+        sendAIMessage();
+    }
+
+});
+
+
+function getAIResponse(message) {
+
+    const text = message.toLowerCase();
+
+
+    if (
+        text.includes("hello") ||
+        text.includes("hi") ||
+        text.includes("hey")
+    ) {
+
+        return "Hello! Welcome to EventEase. I can help you find events, check prices, understand registration and choose seats.";
+
+    }
+
+
+    if (
+        text.includes("what events") ||
+        text.includes("events available") ||
+        text.includes("upcoming events") ||
+        text === "events" ||
+        text.includes("all events")
+    ) {
+
+        return "EventEase has 10 upcoming events: Summer Music Festival, Tech Innovation Summit, Art & Culture Expo, City Sports Championship, Future Skills Workshop, Startup & Business Summit, Food & Lifestyle Festival, Gaming Arena, Comedy Night and Film & Entertainment Festival.";
+
+    }
+
+
+    if (
+        text.includes("music") ||
+        text.includes("concert")
+    ) {
+
+        return "The Summer Music Festival is on 15 September 2026 from 6:00 PM to 10:00 PM in Andheri West, Mumbai. Ticket price is ₹999.";
+
+    }
+
+
+    if (
+        text.includes("technology") ||
+        text.includes("tech")
+    ) {
+
+        return "The Tech Innovation Summit is on 22 September 2026 from 10:00 AM to 5:00 PM in Andheri West, Mumbai. Ticket price is ₹699.";
+
+    }
+
+
+    if (
+        text.includes("art") ||
+        text.includes("culture")
+    ) {
+
+        return "The Art & Culture Expo is on 28 September 2026 from 11:00 AM to 6:00 PM in Andheri West, Mumbai. Ticket price is ₹499.";
+
+    }
+
+
+    if (
+        text.includes("sports") ||
+        text.includes("sport")
+    ) {
+
+        return "The City Sports Championship is on 5 October 2026 from 9:00 AM to 6:00 PM in Andheri West, Mumbai. Ticket price is ₹399.";
+
+    }
+
+
+    if (
+        text.includes("future skills") ||
+        text.includes("workshop")
+    ) {
+
+        return "The Future Skills Workshop is on 12 October 2026 from 10:00 AM to 4:00 PM in Andheri West, Mumbai. Ticket price is ₹299.";
+
+    }
+
+
+    if (
+        text.includes("business") ||
+        text.includes("startup")
+    ) {
+
+        return "The Startup & Business Summit is on 20 October 2026 from 10:00 AM to 5:00 PM in Andheri West, Mumbai. Ticket price is ₹799.";
+
+    }
+
+
+    if (
+        text.includes("food") ||
+        text.includes("lifestyle")
+    ) {
+
+        return "The Food & Lifestyle Festival is on 31 October 2026 from 12:00 PM to 9:00 PM in Andheri West, Mumbai. Ticket price is ₹599.";
+
+    }
+
+
+    if (
+        text.includes("gaming") ||
+        text.includes("game")
+    ) {
+
+        return "Gaming Arena is on 8 November 2026 from 11:00 AM to 8:00 PM in Andheri West, Mumbai. Ticket price is ₹499.";
+
+    }
+
+
+    if (
+        text.includes("comedy")
+    ) {
+
+        return "Comedy Night is on 15 November 2026 from 7:00 PM to 10:00 PM in Andheri West, Mumbai. Ticket price is ₹799.";
+
+    }
+
+
+    if (
+        text.includes("film") ||
+        text.includes("entertainment")
+    ) {
+
+        return "The Film & Entertainment Festival is on 22 November 2026 from 5:00 PM to 10:00 PM in Andheri West, Mumbai. Ticket price is ₹699.";
+
+    }
+
+
+    if (
+        text.includes("price") ||
+        text.includes("prices") ||
+        text.includes("cost") ||
+        text.includes("ticket")
+    ) {
+
+        return "EventEase ticket prices range from ₹299 to ₹999. The lowest-priced event is Future Skills Workshop at ₹299 and the highest-priced event is Summer Music Festival at ₹999.";
+
+    }
+
+
+    if (
+        text.includes("register") ||
+        text.includes("registration") ||
+        text.includes("book")
+    ) {
+
+        return "To register, open the Register page, enter your name, email and mobile number, select an event, choose the number of tickets and select an available seat.";
+
+    }
+
+
+    if (
+        text.includes("seat") ||
+        text.includes("available seat")
+    ) {
+
+        return "Each EventEase event has 30 seats arranged from A1 to C10. Available seats can be selected during registration.";
+
+    }
+
+
+    if (
+        text.includes("location") ||
+        text.includes("where")
+    ) {
+
+        return "All current EventEase events are located in Andheri West, Mumbai.";
+
+    }
+
+
+    if (
+        text.includes("contact") ||
+        text.includes("help")
+    ) {
+
+        return "You can contact EventEase through the Contact page. The Contact page provides the available contact information and a message form.";
+
+    }
+
+
+    if (
+        text.includes("calendar") ||
+        text.includes("google calendar")
+    ) {
+
+        return "After successful registration, use the Add to Google Calendar button to add your selected event to Google Calendar.";
+
+    }
+
+
+    if (
+        text.includes("website") ||
+        text.includes("eventease")
+    ) {
+
+        return "EventEase is an event management platform where users can discover events, view event information, select seats and complete event registration.";
+
+    }
+
+
+    return "I can help you with EventEase events, dates, prices, registration, seats, locations and Google Calendar. Try asking: What events are available?";
+
+}
+
+</script>
+
+</body>
+</html>
