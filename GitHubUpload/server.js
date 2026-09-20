@@ -13,6 +13,9 @@ app.use(express.json());
 // Serve EventEase website files
 app.use(express.static(__dirname));
 
+// Serve EventEase images
+app.use("/images", express.static(__dirname + "/images"));
+
 const PORT = process.env.PORT || 5000;
 
 // Home page
@@ -23,7 +26,6 @@ app.get("/", (req, res) => {
 // Get booked seats for an event
 app.get("/api/bookings/seats", async (req, res) => {
     try {
-
         const eventName = req.query.eventName;
 
         if (!eventName) {
@@ -46,7 +48,6 @@ app.get("/api/bookings/seats", async (req, res) => {
         });
 
     } catch (error) {
-
         console.error(
             "Seat fetch error:",
             error.message
@@ -62,7 +63,6 @@ app.get("/api/bookings/seats", async (req, res) => {
 // Save booking to MongoDB
 app.post("/api/bookings", async (req, res) => {
     try {
-
         const { eventName, seats } = req.body;
 
         if (
@@ -118,7 +118,6 @@ app.post("/api/bookings", async (req, res) => {
         });
 
     } catch (error) {
-
         console.error(
             "Booking save error:",
             error.message
@@ -135,7 +134,6 @@ app.post("/api/bookings", async (req, res) => {
 // Get all bookings
 app.get("/api/bookings", async (req, res) => {
     try {
-
         const bookings =
             await Booking.find()
                 .sort({ createdAt: -1 });
@@ -146,7 +144,6 @@ app.get("/api/bookings", async (req, res) => {
         });
 
     } catch (error) {
-
         console.error(
             "Booking fetch error:",
             error.message
@@ -162,7 +159,6 @@ app.get("/api/bookings", async (req, res) => {
 // Delete all bookings
 app.delete("/api/bookings", async (req, res) => {
     try {
-
         const result =
             await Booking.deleteMany({});
 
@@ -173,7 +169,6 @@ app.delete("/api/bookings", async (req, res) => {
         });
 
     } catch (error) {
-
         console.error(
             "Booking delete error:",
             error.message
