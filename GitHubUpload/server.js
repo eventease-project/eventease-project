@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -11,11 +10,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve EventEase website files
+app.use(express.static(__dirname));
+
 const PORT = process.env.PORT || 5000;
 
-// Home test
+// Home page
 app.get("/", (req, res) => {
-    res.send("EventEase server is running");
+    res.sendFile(__dirname + "/index.html");
 });
 
 // Get booked seats for an event
