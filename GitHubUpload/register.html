@@ -506,7 +506,22 @@ emailjs.init({
     publicKey: "UdLmu2Hy_ZWzewu8U"
 });
 
-const API_URL = "http://localhost:5000";
+/*
+    EventEase API configuration
+
+    When running on Render:
+    window.location.origin = your Render website URL.
+
+    When running locally:
+    window.location.origin = your local Live Server URL.
+    The local Node.js server is then used through localhost:5000.
+*/
+
+const API_URL =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:5000"
+        : window.location.origin;
 
 const eventSelect =
     document.getElementById("eventSelect");
@@ -637,7 +652,8 @@ const eventDetails = {
 
 async function loadBookedSeats() {
 
-    const eventName = eventSelect.value;
+    const eventName =
+        eventSelect.value;
 
     bookedSeats = [];
 
@@ -650,22 +666,30 @@ async function loadBookedSeats() {
 
     try {
 
-        const response = await fetch(
-            API_URL +
-            "/api/bookings/seats?eventName=" +
-            encodeURIComponent(eventName)
-        );
+        const response =
+            await fetch(
+                API_URL +
+                "/api/bookings/seats?eventName=" +
+                encodeURIComponent(eventName)
+            );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
-        if (!response.ok || !result.success) {
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
             throw new Error(
                 result.message ||
                 "Could not load seat availability."
             );
+
         }
 
-        bookedSeats = result.bookedSeats || [];
+        bookedSeats =
+            result.bookedSeats || [];
 
     } catch (error) {
 
@@ -676,7 +700,9 @@ async function loadBookedSeats() {
 
         seatContainer.innerHTML =
             "<p>Could not load seat availability. Please make sure the EventEase server is running.</p>";
+
     }
+
 }
 
 function getAvailableSeats() {
@@ -690,15 +716,25 @@ function getAvailableSeats() {
         return availableSeats;
     }
 
-    for (let row of ["A", "B", "C"]) {
+    for (
+        let row of ["A", "B", "C"]
+    ) {
 
-        for (let number = 1; number <= 10; number++) {
+        for (
+            let number = 1;
+            number <= 10;
+            number++
+        ) {
 
             const seat =
                 row + number;
 
-            if (!bookedSeats.includes(seat)) {
+            if (
+                !bookedSeats.includes(seat)
+            ) {
+
                 availableSeats.push(seat);
+
             }
 
         }
@@ -706,6 +742,7 @@ function getAvailableSeats() {
     }
 
     return availableSeats;
+
 }
 
 function createSeatSelectors() {
@@ -715,14 +752,22 @@ function createSeatSelectors() {
     const quantity =
         Number(ticketQuantity.value);
 
-    if (!eventSelect.value || !quantity) {
+    if (
+        !eventSelect.value ||
+        !quantity
+    ) {
+
         return;
+
     }
 
     const availableSeats =
         getAvailableSeats();
 
-    if (availableSeats.length < quantity) {
+    if (
+        availableSeats.length <
+        quantity
+    ) {
 
         seatContainer.innerHTML =
             "<p>Sorry, only " +
@@ -730,9 +775,14 @@ function createSeatSelectors() {
             " seats are available for this event.</p>";
 
         return;
+
     }
 
-    for (let i = 1; i <= quantity; i++) {
+    for (
+        let i = 1;
+        i <= quantity;
+        i++
+    ) {
 
         const group =
             document.createElement("div");
@@ -762,33 +812,45 @@ function createSeatSelectors() {
         firstOption.textContent =
             "-- Select Seat " + i + " --";
 
-        select.appendChild(firstOption);
+        select.appendChild(
+            firstOption
+        );
 
-        availableSeats.forEach(function(seat) {
+        availableSeats.forEach(
+            function(seat) {
 
-            const option =
-                document.createElement("option");
+                const option =
+                    document.createElement("option");
 
-            option.value =
-                seat;
+                option.value =
+                    seat;
 
-            option.textContent =
-                seat;
+                option.textContent =
+                    seat;
 
-            select.appendChild(option);
+                select.appendChild(
+                    option
+                );
 
-        });
+            }
+        );
 
         select.addEventListener(
             "change",
             updateSeatOptions
         );
 
-        group.appendChild(label);
+        group.appendChild(
+            label
+        );
 
-        group.appendChild(select);
+        group.appendChild(
+            select
+        );
 
-        seatContainer.appendChild(group);
+        seatContainer.appendChild(
+            group
+        );
 
     }
 
@@ -797,47 +859,63 @@ function createSeatSelectors() {
 function updateSeatOptions() {
 
     const allSelects =
-        document.querySelectorAll(".seat-select");
+        document.querySelectorAll(
+            ".seat-select"
+        );
 
     const selectedSeats = [];
 
-    allSelects.forEach(function(select) {
+    allSelects.forEach(
+        function(select) {
 
-        if (select.value) {
-            selectedSeats.push(select.value);
-        }
+            if (select.value) {
 
-    });
-
-    allSelects.forEach(function(select) {
-
-        const currentValue =
-            select.value;
-
-        Array.from(select.options).forEach(function(option) {
-
-            if (
-                option.value === "" ||
-                option.value === currentValue
-            ) {
-
-                option.disabled = false;
-
-            } else if (
-                selectedSeats.includes(option.value)
-            ) {
-
-                option.disabled = true;
-
-            } else {
-
-                option.disabled = false;
+                selectedSeats.push(
+                    select.value
+                );
 
             }
 
-        });
+        }
+    );
 
-    });
+    allSelects.forEach(
+        function(select) {
+
+            const currentValue =
+                select.value;
+
+            Array.from(
+                select.options
+            ).forEach(
+                function(option) {
+
+                    if (
+                        option.value === "" ||
+                        option.value === currentValue
+                    ) {
+
+                        option.disabled = false;
+
+                    } else if (
+                        selectedSeats.includes(
+                            option.value
+                        )
+                    ) {
+
+                        option.disabled = true;
+
+                    } else {
+
+                        option.disabled = false;
+
+                    }
+
+                }
+            );
+
+        }
+    );
 
 }
 
@@ -889,19 +967,28 @@ function calculateTotal() {
 
     const price =
         Number(
-            selectedEvent.getAttribute("data-price")
+            selectedEvent.getAttribute(
+                "data-price"
+            )
         );
 
     const quantity =
-        Number(ticketQuantity.value);
+        Number(
+            ticketQuantity.value
+        );
 
-    if (price && quantity) {
+    if (
+        price &&
+        quantity
+    ) {
 
         ticketPrice.textContent =
             "₹" + price;
 
         totalAmount.textContent =
-            "₹" + (price * quantity);
+            "₹" + (
+                price * quantity
+            );
 
     } else {
 
@@ -926,7 +1013,9 @@ function addToGoogleCalendar(
 
     if (!selectedEventData) {
 
-        alert("Event details not found.");
+        alert(
+            "Event details not found."
+        );
 
         return;
 
@@ -953,13 +1042,17 @@ function addToGoogleCalendar(
         "https://calendar.google.com/calendar/render" +
         "?action=TEMPLATE" +
         "&text=" +
-        encodeURIComponent(eventName) +
+        encodeURIComponent(
+            eventName
+        ) +
         "&dates=" +
         startDateTime +
         "/" +
         endDateTime +
         "&details=" +
-        encodeURIComponent(details) +
+        encodeURIComponent(
+            details
+        ) +
         "&location=" +
         encodeURIComponent(
             selectedEventData.location
@@ -980,32 +1073,51 @@ registrationForm.addEventListener(
         event.preventDefault();
 
         const name =
-            document.getElementById("fullName").value.trim();
+            document
+                .getElementById("fullName")
+                .value
+                .trim();
 
         const email =
-            document.getElementById("email").value.trim();
+            document
+                .getElementById("email")
+                .value
+                .trim();
 
         const phone =
-            document.getElementById("phone").value.trim();
+            document
+                .getElementById("phone")
+                .value
+                .trim();
 
         const selectedEvent =
             eventSelect.value;
 
         const quantity =
-            Number(ticketQuantity.value);
+            Number(
+                ticketQuantity.value
+            );
 
         const seatSelects =
-            document.querySelectorAll(".seat-select");
+            document.querySelectorAll(
+                ".seat-select"
+            );
 
         const selectedSeats = [];
 
-        seatSelects.forEach(function(select) {
+        seatSelects.forEach(
+            function(select) {
 
-            if (select.value) {
-                selectedSeats.push(select.value);
+                if (select.value) {
+
+                    selectedSeats.push(
+                        select.value
+                    );
+
+                }
+
             }
-
-        });
+        );
 
         const totalNumber =
             Number(
@@ -1033,7 +1145,9 @@ registrationForm.addEventListener(
 
         }
 
-        if (!/^[0-9]{10}$/.test(phone)) {
+        if (
+            !/^[0-9]{10}$/.test(phone)
+        ) {
 
             alert(
                 "Please enter a valid 10-digit mobile number."
@@ -1063,7 +1177,10 @@ registrationForm.addEventListener(
 
         }
 
-        if (selectedSeats.length !== quantity) {
+        if (
+            selectedSeats.length !==
+            quantity
+        ) {
 
             alert(
                 "Please select a seat for every ticket."
@@ -1110,11 +1227,19 @@ registrationForm.addEventListener(
             await loadBookedSeats();
 
             const unavailableSeats =
-                selectedSeats.filter(function(seat) {
-                    return bookedSeats.includes(seat);
-                });
+                selectedSeats.filter(
+                    function(seat) {
 
-            if (unavailableSeats.length > 0) {
+                        return bookedSeats.includes(
+                            seat
+                        );
+
+                    }
+                );
+
+            if (
+                unavailableSeats.length > 0
+            ) {
 
                 alert(
                     "Sorry, these seats are already booked: " +
@@ -1140,7 +1265,9 @@ registrationForm.addEventListener(
                 selectedSeats.join(", ");
 
             const registrationTime =
-                new Date().toLocaleString("en-IN");
+                new Date().toLocaleString(
+                    "en-IN"
+                );
 
             const booking = {
 
@@ -1202,20 +1329,41 @@ registrationForm.addEventListener(
 
             const response =
                 await fetch(
-                    API_URL + "/api/bookings",
+                    API_URL +
+                    "/api/bookings",
                     {
                         method: "POST",
+
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type":
+                                "application/json"
                         },
-                        body: JSON.stringify(booking)
+
+                        body:
+                            JSON.stringify(
+                                booking
+                            )
                     }
                 );
 
-            const result =
-                await response.json();
+            let result;
 
-            if (response.status === 409) {
+            try {
+
+                result =
+                    await response.json();
+
+            } catch (jsonError) {
+
+                throw new Error(
+                    "The EventEase server returned an invalid response."
+                );
+
+            }
+
+            if (
+                response.status === 409
+            ) {
 
                 bookedSeats =
                     result.bookedSeats || [];
@@ -1230,9 +1378,13 @@ registrationForm.addEventListener(
                 confirmation.innerHTML = "";
 
                 return;
+
             }
 
-            if (!response.ok || !result.success) {
+            if (
+                !response.ok ||
+                !result.success
+            ) {
 
                 throw new Error(
                     result.message ||
@@ -1311,16 +1463,22 @@ registrationForm.addEventListener(
                 "Add to Google Calendar" +
                 "</button>";
 
-            document.getElementById("calendarButton")
-                .addEventListener("click", function() {
+            document
+                .getElementById(
+                    "calendarButton"
+                )
+                .addEventListener(
+                    "click",
+                    function() {
 
-                    addToGoogleCalendar(
-                        selectedEvent,
-                        seatsText,
-                        bookingId
-                    );
+                        addToGoogleCalendar(
+                            selectedEvent,
+                            seatsText,
+                            bookingId
+                        );
 
-                });
+                    }
+                );
 
             registrationForm.reset();
 
@@ -1341,15 +1499,32 @@ registrationForm.addEventListener(
                     email,
 
                 message:
-                    "Booking ID: " + bookingId + "\n" +
-                    "Event: " + selectedEvent + "\n" +
-                    "Date: " + selectedEventData.date + "\n" +
-                    "Time: " + selectedEventData.time + "\n" +
-                    "Location: " + selectedEventData.location + "\n" +
-                    "Ticket Quantity: " + quantity + "\n" +
-                    "Selected Seats: " + seatsText + "\n" +
-                    "Total Amount: ₹" + totalNumber + "\n" +
-                    "Registration Time: " + registrationTime
+                    "Booking ID: " +
+                    bookingId +
+                    "\n" +
+                    "Event: " +
+                    selectedEvent +
+                    "\n" +
+                    "Date: " +
+                    selectedEventData.date +
+                    "\n" +
+                    "Time: " +
+                    selectedEventData.time +
+                    "\n" +
+                    "Location: " +
+                    selectedEventData.location +
+                    "\n" +
+                    "Ticket Quantity: " +
+                    quantity +
+                    "\n" +
+                    "Selected Seats: " +
+                    seatsText +
+                    "\n" +
+                    "Total Amount: ₹" +
+                    totalNumber +
+                    "\n" +
+                    "Registration Time: " +
+                    registrationTime
 
             };
 
@@ -1358,43 +1533,51 @@ registrationForm.addEventListener(
                 "template_rylxlkz",
                 emailParams
             )
-            .then(function(response) {
+            .then(
+                function(response) {
 
-                console.log(
-                    "Confirmation email sent successfully.",
-                    response.status,
-                    response.text
-                );
+                    console.log(
+                        "Confirmation email sent successfully.",
+                        response.status,
+                        response.text
+                    );
 
-                const emailStatus =
-                    document.getElementById("emailStatus");
+                    const emailStatus =
+                        document.getElementById(
+                            "emailStatus"
+                        );
 
-                if (emailStatus) {
+                    if (emailStatus) {
 
-                    emailStatus.textContent =
-                        "Confirmation email sent successfully to your registered email address.";
+                        emailStatus.textContent =
+                            "Confirmation email sent successfully to your registered email address.";
 
-                }
-
-            })
-            .catch(function(error) {
-
-                console.error(
-                    "Confirmation email error:",
-                    error
-                );
-
-                const emailStatus =
-                    document.getElementById("emailStatus");
-
-                if (emailStatus) {
-
-                    emailStatus.textContent =
-                        "Booking confirmed. The confirmation email could not be sent at this time.";
+                    }
 
                 }
+            )
+            .catch(
+                function(error) {
 
-            });
+                    console.error(
+                        "Confirmation email error:",
+                        error
+                    );
+
+                    const emailStatus =
+                        document.getElementById(
+                            "emailStatus"
+                        );
+
+                    if (emailStatus) {
+
+                        emailStatus.textContent =
+                            "Booking confirmed. The confirmation email could not be sent at this time.";
+
+                    }
+
+                }
+            );
 
         } catch (error) {
 
@@ -1409,7 +1592,9 @@ registrationForm.addEventListener(
 
                 "<p>We could not save your booking to the database.</p>" +
 
-                "<p>Please make sure the EventEase server is running.</p>";
+                "<p>" +
+                error.message +
+                "</p>";
 
         }
 
@@ -1419,10 +1604,13 @@ registrationForm.addEventListener(
 function toggleAI() {
 
     const assistant =
-        document.getElementById("aiAssistant");
+        document.getElementById(
+            "aiAssistant"
+        );
 
     if (
-        assistant.style.display === "flex"
+        assistant.style.display ===
+        "flex"
     ) {
 
         assistant.style.display =
@@ -1433,7 +1621,11 @@ function toggleAI() {
         assistant.style.display =
             "flex";
 
-        document.getElementById("aiInput").focus();
+        document
+            .getElementById(
+                "aiInput"
+            )
+            .focus();
 
     }
 
@@ -1445,10 +1637,14 @@ function addAIMessage(
 ) {
 
     const messages =
-        document.getElementById("aiMessages");
+        document.getElementById(
+            "aiMessages"
+        );
 
     const messageElement =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     messageElement.className =
         "ai-message " +
@@ -1472,9 +1668,12 @@ function addAIMessage(
 
 function askAI(question) {
 
-    document.getElementById(
-        "aiInput"
-    ).value = question;
+    document
+        .getElementById(
+            "aiInput"
+        )
+        .value =
+            question;
 
     sendAIMessage();
 
@@ -1483,13 +1682,19 @@ function askAI(question) {
 function sendAIMessage() {
 
     const input =
-        document.getElementById("aiInput");
+        document.getElementById(
+            "aiInput"
+        );
 
     const question =
         input.value.trim();
 
-    if (question === "") {
+    if (
+        question === ""
+    ) {
+
         return;
+
     }
 
     addAIMessage(
@@ -1499,17 +1704,22 @@ function sendAIMessage() {
 
     input.value = "";
 
-    setTimeout(function() {
+    setTimeout(
+        function() {
 
-        const response =
-            getAIResponse(question);
+            const response =
+                getAIResponse(
+                    question
+                );
 
-        addAIMessage(
-            response,
-            "bot"
-        );
+            addAIMessage(
+                response,
+                "bot"
+            );
 
-    }, 300);
+        },
+        300
+    );
 
 }
 
@@ -1593,7 +1803,9 @@ function getAIResponse(question) {
 
     }
 
-    if (q.includes("music")) {
+    if (
+        q.includes("music")
+    ) {
 
         return "Summer Music Festival is on 15 September 2026 from 6:00 PM to 10:00 PM at Andheri West, Mumbai. Ticket price: ₹999.";
 
@@ -1617,7 +1829,9 @@ function getAIResponse(question) {
 
     }
 
-    if (q.includes("sports")) {
+    if (
+        q.includes("sports")
+    ) {
 
         return "City Sports Championship is on 5 October 2026 from 9:00 AM to 6:00 PM at Andheri West, Mumbai. Ticket price: ₹399.";
 
@@ -1641,19 +1855,25 @@ function getAIResponse(question) {
 
     }
 
-    if (q.includes("food")) {
+    if (
+        q.includes("food")
+    ) {
 
         return "Food & Lifestyle Festival is on 31 October 2026 from 12:00 PM to 9:00 PM at Andheri West, Mumbai. Ticket price: ₹599.";
 
     }
 
-    if (q.includes("gaming")) {
+    if (
+        q.includes("gaming")
+    ) {
 
         return "Gaming Arena is on 8 November 2026 from 11:00 AM to 8:00 PM at Andheri West, Mumbai. Ticket price: ₹499.";
 
     }
 
-    if (q.includes("comedy")) {
+    if (
+        q.includes("comedy")
+    ) {
 
         return "Comedy Night is on 15 November 2026 from 7:00 PM to 10:00 PM at Andheri West, Mumbai. Ticket price: ₹799.";
 
@@ -1677,7 +1897,9 @@ function getAIResponse(question) {
 
     }
 
-    if (q.includes("thank")) {
+    if (
+        q.includes("thank")
+    ) {
 
         return "You're welcome! I am always here to help you with EventEase.";
 
