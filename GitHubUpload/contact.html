@@ -45,50 +45,63 @@
             line-height: 1.8;
         }
 
+        /* CONTACT CARDS - WHITE BACKGROUND */
         .contact-cards {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 18px;
             margin: 25px 0 35px;
+            background: transparent !important;
         }
 
-        .contact-card {
-            background: white;
+        .contact-cards .contact-card {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
             border: 1px solid #e8e4da;
             border-radius: 16px;
             padding: 25px;
             box-shadow: 0 8px 25px rgba(23, 36, 59, 0.05);
+            color: #17243b;
         }
 
         .contact-card .contact-icon {
             font-size: 28px;
             margin-bottom: 12px;
+            background: transparent !important;
         }
 
         .contact-card h3 {
-            color: #172b49;
+            color: #172b49 !important;
+            background: transparent !important;
             margin: 0 0 10px;
             font-size: 19px;
         }
 
-        .contact-card p,
-        .contact-card a {
-            color: #586477;
+        .contact-cards .contact-card p {
+            color: #586477 !important;
+            background: #ffffff !important;
             line-height: 1.7;
             overflow-wrap: anywhere;
+            margin: 0;
         }
 
-        /* FIX: Keep email and phone links navy, not blue */
-        .contact-card a,
-        .contact-card a:link,
-        .contact-card a:visited {
+        /* Email and phone: navy text, transparent link background */
+        .contact-cards .contact-card a,
+        .contact-cards .contact-card a:link,
+        .contact-cards .contact-card a:visited {
             color: #172b49 !important;
+            background: transparent !important;
+            background-color: transparent !important;
             text-decoration: none !important;
+            box-shadow: none !important;
+            border: none !important;
         }
 
-        .contact-card a:hover,
-        .contact-card a:focus-visible {
+        .contact-cards .contact-card a:hover,
+        .contact-cards .contact-card a:focus-visible {
             color: #a7833e !important;
+            background: transparent !important;
+            background-color: transparent !important;
             text-decoration: underline !important;
         }
 
@@ -131,7 +144,7 @@
             padding: 13px 14px;
             border: 1px solid #d9dce2;
             border-radius: 9px;
-            background: #fff;
+            background: #ffffff;
             color: #17243b;
             font: inherit;
             outline: none;
