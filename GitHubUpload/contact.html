@@ -78,8 +78,18 @@
             overflow-wrap: anywhere;
         }
 
-        .contact-card a:hover {
-            color: #172b49;
+        /* FIX: Keep email and phone links navy, not blue */
+        .contact-card a,
+        .contact-card a:link,
+        .contact-card a:visited {
+            color: #172b49 !important;
+            text-decoration: none !important;
+        }
+
+        .contact-card a:hover,
+        .contact-card a:focus-visible {
+            color: #a7833e !important;
+            text-decoration: underline !important;
         }
 
         .contact-form-section {
