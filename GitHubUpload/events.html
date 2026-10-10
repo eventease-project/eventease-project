@@ -1,216 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Upcoming Events - EventEase</title>
-
     <link rel="stylesheet" href="./style.css">
 
     <style>
-        /* AI ASSISTANT */
+        /* EVENTS PAGE — MATCH HOMEPAGE DESIGN */
+
+        body {
+            background: #f7f7f5;
+            color: #1f2937;
+        }
+
+        .events-page main {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+        }
+
+        .events-page section {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .events-heading {
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 65px 0 35px;
+            background: transparent;
+        }
+
+        .events-heading .section-kicker {
+            color: #a47a3c;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .events-heading h1 {
+            color: #111827;
+            font-size: clamp(34px, 4vw, 50px);
+            line-height: 1.2;
+            letter-spacing: -1.5px;
+            margin-bottom: 15px;
+        }
+
+        .events-heading p {
+            color: #687180;
+            max-width: 650px;
+            font-size: 15px;
+            line-height: 1.9;
+            margin-bottom: 22px;
+        }
+
+        #eventSearch {
+            display: block;
+            width: 100%;
+            max-width: 550px;
+            margin: 0;
+            padding: 15px 19px;
+            background: #fff;
+            border: 1px solid #deded8;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        #eventSearch:focus {
+            border-color: #a47a3c;
+            box-shadow: 0 0 0 3px rgba(164, 122, 60, 0.12);
+        }
+
+        .events-list-section {
+            padding: 10px 0 85px;
+            background: transparent;
+        }
+
+        .event-grid {
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .event-card {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid #e8e6df;
+            border-radius: 13px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(17, 24, 39, 0.045);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px rgba(17, 24, 39, 0.10);
+        }
+
+        .event-image {
+            height: 225px;
+            overflow: hidden;
+            background: #e8e7e2;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .event-card:hover .event-image img {
+            transform: scale(1.04);
+        }
+
+        .event-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1;
+            padding: 23px;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 5px 11px;
+            margin-bottom: 12px;
+            background: #f2e7d3;
+            color: #795b2f;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .event-content h2 {
+            color: #111827;
+            font-size: 21px;
+            line-height: 1.4;
+            margin: 0 0 14px;
+        }
+
+        .event-content p {
+            color: #687180;
+            font-size: 13px;
+            line-height: 1.8;
+            margin: 3px 0;
+        }
+
+        .event-content .event-description {
+            margin-top: 12px;
+            margin-bottom: 20px;
+            color: #737b87;
+        }
+
+        .event-content .event-price {
+            color: #111827;
+            font-size: 15px;
+            font-weight: 800;
+            margin-top: 7px;
+        }
+
+        .event-content .event-seats {
+            color: #737b87;
+            font-size: 12px;
+        }
+
+        .event-register {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: auto;
+            padding: 12px 17px;
+            background: #111827;
+            color: #fff;
+            border: 1px solid #111827;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .event-register:hover {
+            background: #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        #noEvents {
+            display: none;
+            width: 92%;
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 25px;
+            background: #fff;
+            border: 1px solid #e8e6df;
+            border-radius: 12px;
+            color: #687180;
+            text-align: center;
+        }
+
+        /* AI ASSISTANT — MATCHING NAVY AND GOLD THEME */
 
         #aiButton {
             position: fixed;
-            right: 25px;
-            bottom: 25px;
-            width: 64px;
-            height: 64px;
-            border: none;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6a5cff, #8f5cff);
-            color: white;
-            cursor: pointer;
+            right: 24px;
+            bottom: 24px;
             z-index: 9999;
-            box-shadow: 0 10px 30px rgba(70, 55, 180, 0.35);
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.3s ease;
+            border: 1px solid #d7a85b;
+            border-radius: 50%;
+            background: #111827;
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(17, 24, 39, 0.22);
+            transition: 0.25s ease;
         }
 
         #aiButton:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 14px 35px rgba(70, 55, 180, 0.45);
+            background: #2563eb;
+            transform: translateY(-3px);
         }
 
         .ai-icon {
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 800;
-            letter-spacing: 1px;
         }
 
         .ai-spark {
             position: absolute;
-            top: 12px;
-            right: 13px;
-            width: 8px;
-            height: 8px;
-            background: white;
+            top: 10px;
+            right: 11px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            box-shadow: 0 0 10px white;
+            background: #d7a85b;
         }
 
         #aiAssistant {
             position: fixed;
-            right: 25px;
-            bottom: 100px;
+            right: 24px;
+            bottom: 96px;
+            z-index: 9998;
             width: 360px;
             max-width: calc(100vw - 30px);
-            height: 520px;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
-            z-index: 9998;
+            height: 510px;
             display: none;
             flex-direction: column;
-            border: 1px solid #e5e5e5;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            box-shadow: 0 15px 45px rgba(17, 24, 39, 0.18);
         }
 
         #aiHeader {
-            background: linear-gradient(135deg, #6254e7, #8b5cf6);
-            color: white;
-            padding: 18px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 17px;
+            background: #111827;
+            color: white;
+            border-bottom: 2px solid #d7a85b;
         }
 
         .ai-title {
-            font-size: 17px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 800;
         }
 
         .ai-subtitle {
-            font-size: 12px;
-            opacity: 0.85;
             margin-top: 3px;
+            color: #d1d5db;
+            font-size: 12px;
         }
 
         #aiClose {
+            padding: 3px 8px;
             background: transparent;
-            border: none;
             color: white;
             font-size: 24px;
-            cursor: pointer;
         }
 
         #aiMessages {
             flex: 1;
-            padding: 16px;
+            padding: 15px;
             overflow-y: auto;
-            background: #f7f7fb;
+            background: #f7f7f5;
         }
 
         .ai-message {
-            max-width: 85%;
-            padding: 11px 13px;
+            max-width: 88%;
             margin-bottom: 10px;
-            border-radius: 13px;
-            font-size: 14px;
-            line-height: 1.5;
-            word-wrap: break-word;
+            padding: 10px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
         .ai-bot {
             background: white;
-            color: #333;
-            border: 1px solid #e7e7e7;
+            color: #374151;
+            border: 1px solid #e5e7eb;
             border-top-left-radius: 4px;
         }
 
         .ai-user {
-            background: #6957e8;
-            color: white;
             margin-left: auto;
+            background: #111827;
+            color: white;
             border-top-right-radius: 4px;
         }
 
         #aiSuggestions {
-            padding: 10px 12px;
-            background: white;
-            border-top: 1px solid #eeeeee;
+            padding: 11px;
+            border-top: 1px solid #eee;
+            background: #fff;
         }
 
         .suggestion-title {
-            font-size: 12px;
-            color: #777;
             margin-bottom: 8px;
-            font-weight: 600;
+            color: #737b87;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .suggestion-buttons {
             display: flex;
-            gap: 7px;
             flex-wrap: wrap;
+            gap: 6px;
         }
 
         .suggestion-buttons button {
-            border: 1px solid #ddd;
-            background: #fafafa;
             padding: 7px 10px;
+            background: #faf8f4;
+            color: #374151;
+            border: 1px solid #e5e7eb;
             border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            color: #444;
+            font-size: 11px;
         }
 
         .suggestion-buttons button:hover {
-            background: #6957e8;
+            background: #111827;
             color: white;
-            border-color: #6957e8;
         }
 
         #aiInputArea {
             display: flex;
+            align-items: center;
             gap: 8px;
-            padding: 12px;
+            padding: 11px;
             background: white;
-            border-top: 1px solid #eeeeee;
+            border-top: 1px solid #eee;
         }
 
         #aiInput {
+            min-width: 0;
             flex: 1;
-            border: 1px solid #ddd;
+            padding: 11px 13px;
+            border: 1px solid #deded8;
             border-radius: 22px;
-            padding: 10px 14px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        #aiInput:focus {
-            border-color: #6957e8;
+            font-size: 13px;
         }
 
         #aiSend {
-            width: 42px;
-            height: 42px;
-            border: none;
-            border-radius: 50%;
-            background: #6957e8;
+            padding: 10px 13px;
+            background: #111827;
             color: white;
-            cursor: pointer;
-            font-weight: 700;
+            border-radius: 22px;
+            font-size: 12px;
         }
 
         #aiSend:hover {
-            background: #5544d5;
+            background: #2563eb;
+        }
+
+        @media (max-width: 1000px) {
+            .event-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         @media (max-width: 600px) {
+            .events-heading {
+                padding: 42px 0 25px;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .event-image {
+                height: 220px;
+            }
+
+            .event-content {
+                padding: 21px;
+            }
+
             #aiButton {
-                right: 18px;
-                bottom: 18px;
+                right: 17px;
+                bottom: 17px;
             }
 
             #aiAssistant {
                 right: 15px;
-                bottom: 92px;
+                bottom: 88px;
                 width: calc(100vw - 30px);
-                height: 500px;
+                height: 490px;
             }
         }
     </style>
@@ -218,803 +434,445 @@
 
 <body>
 
-<header>
-    <h1>EventEase</h1>
-    <p>Discover. Register. Experience.</p>
+<!-- HOMEPAGE-STYLE NAVIGATION -->
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="events.html">Events</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+<header class="site-header">
+    <div class="nav-container">
+        <a class="brand" href="index.html">
+            <span class="brand-mark">E</span>
+            <span>EventEase</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="events.html">Events</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+        </div>
+    </div>
 </header>
 
-<main>
+<main class="events-page">
 
-<section class="events-header">
+    <!-- PAGE INTRODUCTION -->
 
-    <h2>Upcoming Events</h2>
-
-    <p>
-        Discover exciting experiences happening in Mumbai
-        and register for your favourite event.
-    </p>
-
-    <input
-        type="text"
-        id="eventSearch"
-        placeholder="Search events..."
-        onkeyup="searchEvents()"
-    >
-
-</section>
-
-<section>
-
-<div class="event-grid" id="eventList">
-
-<!-- EVENT 1 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/music.jpg" alt="Summer Music Festival">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Music</span>
-
-        <h3>Summer Music Festival</h3>
-
-        <p>15 September 2026</p>
-        <p>6:00 PM - 10:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹999</p>
-        <p>Seats: A01 - A50</p>
-
+    <section class="events-heading">
+        <div class="section-kicker">Discover experiences</div>
+        <h1>Upcoming Events</h1>
         <p>
-            Enjoy live music, performances and entertainment.
+            Discover exciting experiences in Mumbai, explore new interests
+            and find an event worth remembering.
         </p>
 
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 2 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/technology.jpg" alt="Tech Innovation Summit">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Technology</span>
-
-        <h3>Tech Innovation Summit</h3>
-
-        <p>22 September 2026</p>
-        <p>10:00 AM - 5:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹699</p>
-        <p>Seats: B01 - B50</p>
-
-        <p>
-            Explore technology, innovation and future ideas.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 3 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/cultural.jpg" alt="Art and Culture Expo">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Culture</span>
-
-        <h3>Art & Culture Expo</h3>
-
-        <p>28 September 2026</p>
-        <p>11:00 AM - 6:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹499</p>
-        <p>Seats: C01 - C40</p>
-
-        <p>
-            Experience art, culture and creative exhibitions.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 4 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/Sports.jpg" alt="City Sports Championship">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Sports</span>
-
-        <h3>City Sports Championship</h3>
-
-        <p>5 October 2026</p>
-        <p>9:00 AM - 6:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹399</p>
-        <p>Seats: D01 - D40</p>
-
-        <p>
-            Experience a thrilling day of sports and competition.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 5 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/education.jpg" alt="Future Skills Workshop">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Education</span>
-
-        <h3>Future Skills Workshop</h3>
-
-        <p>12 October 2026</p>
-        <p>10:00 AM - 4:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹299</p>
-        <p>Seats: E01 - E30</p>
-
-        <p>
-            Learn useful skills for education and careers.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 6 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/Business.jpg" alt="Startup and Business Summit">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Business</span>
-
-        <h3>Startup & Business Summit</h3>
-
-        <p>20 October 2026</p>
-        <p>10:00 AM - 5:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹799</p>
-        <p>Seats: F01 - F50</p>
-
-        <p>
-            Meet entrepreneurs and explore new business ideas.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 7 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/Food.jpg" alt="Food and Lifestyle Festival">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Food</span>
-
-        <h3>Food & Lifestyle Festival</h3>
-
-        <p>31 October 2026</p>
-        <p>12:00 PM - 9:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹599</p>
-        <p>Seats: G01 - G60</p>
-
-        <p>
-            Discover delicious food and lifestyle experiences.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 8 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/Gaming.jpg" alt="Gaming Arena">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Gaming</span>
-
-        <h3>Gaming Arena</h3>
-
-        <p>8 November 2026</p>
-        <p>11:00 AM - 8:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹499</p>
-        <p>Seats: H01 - H50</p>
-
-        <p>
-            Compete, play and experience an exciting gaming arena.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 9 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="images/Comedy.jpg" alt="Comedy Night">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Comedy</span>
-
-        <h3>Comedy Night</h3>
-
-        <p>15 November 2026</p>
-        <p>7:00 PM - 10:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹799</p>
-        <p>Seats: I01 - I50</p>
-
-        <p>
-            Enjoy an entertaining evening filled with comedy and laughter.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-<!-- EVENT 10 -->
-
-<div class="event-card">
-
-    <div class="event-image">
-        <img src="./images/Film.jpg" alt="Film and Entertainment Festival">
-    </div>
-
-    <div class="event-content">
-
-        <span class="event-category">Entertainment</span>
-
-        <h3>Film & Entertainment Festival</h3>
-
-        <p>22 November 2026</p>
-        <p>5:00 PM - 10:00 PM</p>
-        <p>Andheri West, Mumbai</p>
-        <p>Ticket: ₹699</p>
-        <p>Seats: J01 - J50</p>
-
-        <p>
-            Celebrate films, entertainment and creative performances.
-        </p>
-
-        <a href="register.html">Register Now</a>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
+        <input
+            type="search"
+            id="eventSearch"
+            placeholder="Search events, categories or locations..."
+            aria-label="Search events"
+        >
+    </section>
+
+    <!-- ALL 10 EVENTS -->
+
+    <section class="events-list-section" aria-label="Available events">
+        <div class="event-grid" id="eventList">
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/music.jpg" alt="Summer Music Festival" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Music</span>
+                    <h2>Summer Music Festival</h2>
+                    <p>15 September 2026</p>
+                    <p>6:00 PM – 10:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹999</p>
+                    <p class="event-seats">Seats: A01 – A50</p>
+                    <p class="event-description">Enjoy live music, performances and entertainment.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/technology.jpg" alt="Tech Innovation Summit" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Technology</span>
+                    <h2>Tech Innovation Summit</h2>
+                    <p>22 September 2026</p>
+                    <p>10:00 AM – 5:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹699</p>
+                    <p class="event-seats">Seats: B01 – B50</p>
+                    <p class="event-description">Explore technology, innovation and future ideas.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/cultural.jpg" alt="Art and Culture Expo" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Culture</span>
+                    <h2>Art &amp; Culture Expo</h2>
+                    <p>28 September 2026</p>
+                    <p>11:00 AM – 6:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹499</p>
+                    <p class="event-seats">Seats: C01 – C40</p>
+                    <p class="event-description">Experience art, culture and creative exhibitions.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/Sports.jpg" alt="City Sports Championship" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Sports</span>
+                    <h2>City Sports Championship</h2>
+                    <p>5 October 2026</p>
+                    <p>9:00 AM – 6:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹399</p>
+                    <p class="event-seats">Seats: D01 – D40</p>
+                    <p class="event-description">Experience a thrilling day of sports and competition.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/education.jpg" alt="Future Skills Workshop" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Education</span>
+                    <h2>Future Skills Workshop</h2>
+                    <p>12 October 2026</p>
+                    <p>10:00 AM – 4:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹299</p>
+                    <p class="event-seats">Seats: E01 – E30</p>
+                    <p class="event-description">Learn useful skills for education and careers.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/Business.jpg" alt="Startup and Business Summit" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Business</span>
+                    <h2>Startup &amp; Business Summit</h2>
+                    <p>20 October 2026</p>
+                    <p>10:00 AM – 5:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹799</p>
+                    <p class="event-seats">Seats: F01 – F50</p>
+                    <p class="event-description">Meet entrepreneurs and explore new business ideas.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/Food.jpg" alt="Food and Lifestyle Festival" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Food</span>
+                    <h2>Food &amp; Lifestyle Festival</h2>
+                    <p>31 October 2026</p>
+                    <p>12:00 PM – 9:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹599</p>
+                    <p class="event-seats">Seats: G01 – G60</p>
+                    <p class="event-description">Discover delicious food and lifestyle experiences.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/Gaming.jpg" alt="Gaming Arena" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Gaming</span>
+                    <h2>Gaming Arena</h2>
+                    <p>8 November 2026</p>
+                    <p>11:00 AM – 8:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹499</p>
+                    <p class="event-seats">Seats: H01 – H50</p>
+                    <p class="event-description">Compete, play and enjoy an exciting gaming arena.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/Comedy.jpg" alt="Comedy Night" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Comedy</span>
+                    <h2>Comedy Night</h2>
+                    <p>15 November 2026</p>
+                    <p>7:00 PM – 10:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹799</p>
+                    <p class="event-seats">Seats: I01 – I50</p>
+                    <p class="event-description">Enjoy an entertaining evening filled with comedy and laughter.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="images/Film.jpg" alt="Film and Entertainment Festival" loading="lazy">
+                </div>
+                <div class="event-content">
+                    <span class="event-category">Entertainment</span>
+                    <h2>Film &amp; Entertainment Festival</h2>
+                    <p>22 November 2026</p>
+                    <p>5:00 PM – 10:00 PM</p>
+                    <p>Andheri West, Mumbai</p>
+                    <p class="event-price">Ticket: ₹699</p>
+                    <p class="event-seats">Seats: J01 – J50</p>
+                    <p class="event-description">Celebrate films, entertainment and creative performances.</p>
+                    <a class="event-register" href="register.html">Register Now →</a>
+                </div>
+            </article>
+
+        </div>
+
+        <p id="noEvents">No events found. Try another search.</p>
+    </section>
 
 </main>
 
-<footer>
+<!-- HOMEPAGE-STYLE FOOTER -->
 
-    <p>
+<footer class="site-footer">
+    <div class="footer-main">
+        <div class="footer-brand">
+            <a class="footer-logo" href="index.html">
+                <span class="brand-mark">E</span>
+                <span>EventEase</span>
+            </a>
+            <p>
+                Discover exciting experiences, explore events and make
+                memorable moments in Mumbai.
+            </p>
+        </div>
+
+        <div class="footer-links">
+            <h3>Explore</h3>
+            <a href="index.html">Home</a>
+            <a href="events.html">Upcoming Events</a>
+            <a href="about.html">About Us</a>
+        </div>
+
+        <div class="footer-links">
+            <h3>Get in Touch</h3>
+            <a href="contact.html">Contact Us</a>
+            <a href="register.html">Event Registration</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
         &copy; 2026 EventEase. All Rights Reserved.
-    </p>
-
+    </div>
 </footer>
 
-<!-- AI ASSISTANT -->
+<!-- EVENTEASE AI ASSISTANT -->
 
 <button id="aiButton" type="button" onclick="toggleAI()" aria-label="Open EventEase Assistant">
     <span class="ai-spark"></span>
     <span class="ai-icon">AI</span>
 </button>
 
-<div id="aiAssistant">
-
+<div id="aiAssistant" role="dialog" aria-label="EventEase Assistant">
     <div id="aiHeader">
-
         <div>
             <div class="ai-title">EventEase Assistant</div>
             <div class="ai-subtitle">How can I help you?</div>
         </div>
-
-        <button id="aiClose" type="button" onclick="toggleAI()">×</button>
-
+        <button id="aiClose" type="button" onclick="toggleAI()" aria-label="Close assistant">×</button>
     </div>
 
-    <div id="aiMessages">
-
+    <div id="aiMessages" aria-live="polite">
         <div class="ai-message ai-bot">
-            Hello. I am the EventEase Assistant. Ask me about events, registration, seats or ticket prices.
+            Hello! I am the EventEase Assistant. Ask me about events, registration or ticket prices.
         </div>
-
     </div>
 
     <div id="aiSuggestions">
-
         <div class="suggestion-title">Quick questions</div>
-
         <div class="suggestion-buttons">
-
-            <button type="button" onclick="askAI('What events are available?')">
-                Events
-            </button>
-
-            <button type="button" onclick="askAI('How can I register?')">
-                Registration
-            </button>
-
-            <button type="button" onclick="askAI('How many seats are available?')">
-                Seats
-            </button>
-
-            <button type="button" onclick="askAI('What are the ticket prices?')">
-                Prices
-            </button>
-
+            <button type="button" onclick="askAI('What events are available?')">Events</button>
+            <button type="button" onclick="askAI('How can I register?')">Registration</button>
+            <button type="button" onclick="askAI('How many seats are available?')">Seats</button>
+            <button type="button" onclick="askAI('What are the ticket prices?')">Prices</button>
         </div>
-
     </div>
 
     <div id="aiInputArea">
-
-        <input
-            type="text"
-            id="aiInput"
-            placeholder="Ask about EventEase..."
-            autocomplete="off"
-        >
-
-        <button id="aiSend" type="button" onclick="sendAIMessage()">
-            Send
-        </button>
-
+        <input type="text" id="aiInput" placeholder="Ask about EventEase..." autocomplete="off" aria-label="Ask the assistant">
+        <button id="aiSend" type="button" onclick="sendAIMessage()">Send</button>
     </div>
-
 </div>
 
 <script>
+    /* EVENT SEARCH */
 
-function searchEvents() {
+    function searchEvents() {
+        const input = document.getElementById("eventSearch");
+        const searchText = input.value.toLowerCase().trim();
+        const cards = document.querySelectorAll(".event-card");
+        let visibleCount = 0;
 
-    const searchInput = document.getElementById("eventSearch");
-    const searchText = searchInput.value.toLowerCase().trim();
-    const eventCards = document.querySelectorAll(".event-card");
+        cards.forEach(function(card) {
+            const matches = card.textContent.toLowerCase().includes(searchText);
+            card.style.display = matches ? "" : "none";
 
-    eventCards.forEach(function(card) {
+            if (matches) {
+                visibleCount++;
+            }
+        });
 
-        const title = card.querySelector("h3")
-            ? card.querySelector("h3").textContent.toLowerCase()
-            : "";
-
-        const description = card.querySelector("p")
-            ? card.querySelector("p").textContent.toLowerCase()
-            : "";
-
-        const content = card.textContent.toLowerCase();
-
-        if (
-            title.includes(searchText) ||
-            description.includes(searchText) ||
-            content.includes(searchText)
-        ) {
-
-            card.style.display = "";
-
-        } else {
-
-            card.style.display = "none";
-
-        }
-
-    });
-
-}
-
-
-/* AI ASSISTANT */
-
-const eventData = [
-
-    {
-        name: "Summer Music Festival",
-        date: "15 September 2026",
-        time: "6:00 PM - 10:00 PM",
-        price: "₹999",
-        category: "Music"
-    },
-
-    {
-        name: "Tech Innovation Summit",
-        date: "22 September 2026",
-        time: "10:00 AM - 5:00 PM",
-        price: "₹699",
-        category: "Technology"
-    },
-
-    {
-        name: "Art & Culture Expo",
-        date: "28 September 2026",
-        time: "11:00 AM - 6:00 PM",
-        price: "₹499",
-        category: "Culture"
-    },
-
-    {
-        name: "City Sports Championship",
-        date: "5 October 2026",
-        time: "9:00 AM - 6:00 PM",
-        price: "₹399",
-        category: "Sports"
-    },
-
-    {
-        name: "Future Skills Workshop",
-        date: "12 October 2026",
-        time: "10:00 AM - 4:00 PM",
-        price: "₹299",
-        category: "Education"
-    },
-
-    {
-        name: "Startup & Business Summit",
-        date: "20 October 2026",
-        time: "10:00 AM - 5:00 PM",
-        price: "₹799",
-        category: "Business"
-    },
-
-    {
-        name: "Food & Lifestyle Festival",
-        date: "31 October 2026",
-        time: "12:00 PM - 9:00 PM",
-        price: "₹599",
-        category: "Food"
-    },
-
-    {
-        name: "Gaming Arena",
-        date: "8 November 2026",
-        time: "11:00 AM - 8:00 PM",
-        price: "₹499",
-        category: "Gaming"
-    },
-
-    {
-        name: "Comedy Night",
-        date: "15 November 2026",
-        time: "7:00 PM - 10:00 PM",
-        price: "₹799",
-        category: "Comedy"
-    },
-
-    {
-        name: "Film & Entertainment Festival",
-        date: "22 November 2026",
-        time: "5:00 PM - 10:00 PM",
-        price: "₹699",
-        category: "Entertainment"
+        document.getElementById("noEvents").style.display =
+            visibleCount === 0 ? "block" : "none";
     }
 
-];
+    document.getElementById("eventSearch").addEventListener("input", searchEvents);
 
+    /* EVENT INFORMATION FOR THE ASSISTANT */
 
-function toggleAI() {
+    const eventData = [
+        { name: "Summer Music Festival", date: "15 September 2026", time: "6:00 PM - 10:00 PM", price: "₹999", category: "Music" },
+        { name: "Tech Innovation Summit", date: "22 September 2026", time: "10:00 AM - 5:00 PM", price: "₹699", category: "Technology" },
+        { name: "Art & Culture Expo", date: "28 September 2026", time: "11:00 AM - 6:00 PM", price: "₹499", category: "Culture" },
+        { name: "City Sports Championship", date: "5 October 2026", time: "9:00 AM - 6:00 PM", price: "₹399", category: "Sports" },
+        { name: "Future Skills Workshop", date: "12 October 2026", time: "10:00 AM - 4:00 PM", price: "₹299", category: "Education" },
+        { name: "Startup & Business Summit", date: "20 October 2026", time: "10:00 AM - 5:00 PM", price: "₹799", category: "Business" },
+        { name: "Food & Lifestyle Festival", date: "31 October 2026", time: "12:00 PM - 9:00 PM", price: "₹599", category: "Food" },
+        { name: "Gaming Arena", date: "8 November 2026", time: "11:00 AM - 8:00 PM", price: "₹499", category: "Gaming" },
+        { name: "Comedy Night", date: "15 November 2026", time: "7:00 PM - 10:00 PM", price: "₹799", category: "Comedy" },
+        { name: "Film & Entertainment Festival", date: "22 November 2026", time: "5:00 PM - 10:00 PM", price: "₹699", category: "Entertainment" }
+    ];
 
-    const assistant = document.getElementById("aiAssistant");
+    function toggleAI() {
+        const assistant = document.getElementById("aiAssistant");
+        const isOpen = assistant.style.display === "flex";
 
-    if (assistant.style.display === "flex") {
+        assistant.style.display = isOpen ? "none" : "flex";
 
-        assistant.style.display = "none";
+        if (!isOpen) {
+            setTimeout(function() {
+                document.getElementById("aiInput").focus();
+            }, 100);
+        }
+    }
 
-    } else {
+    function addAIMessage(message, type) {
+        const messages = document.getElementById("aiMessages");
+        const messageDiv = document.createElement("div");
 
-        assistant.style.display = "flex";
+        messageDiv.className = "ai-message " +
+            (type === "user" ? "ai-user" : "ai-bot");
+        messageDiv.textContent = message;
+
+        messages.appendChild(messageDiv);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function askAI(question) {
+        addAIMessage(question, "user");
+
+        const answer = getAIResponse(question);
 
         setTimeout(function() {
-            document.getElementById("aiInput").focus();
-        }, 100);
-
+            addAIMessage(answer, "bot");
+        }, 250);
     }
 
-}
+    function sendAIMessage() {
+        const input = document.getElementById("aiInput");
+        const message = input.value.trim();
 
+        if (!message) return;
 
-function addAIMessage(message, type) {
+        addAIMessage(message, "user");
+        input.value = "";
 
-    const messages = document.getElementById("aiMessages");
+        const answer = getAIResponse(message);
 
-    const messageDiv = document.createElement("div");
-
-    messageDiv.className = "ai-message " +
-        (type === "user" ? "ai-user" : "ai-bot");
-
-    messageDiv.textContent = message;
-
-    messages.appendChild(messageDiv);
-
-    messages.scrollTop = messages.scrollHeight;
-
-}
-
-
-function askAI(question) {
-
-    addAIMessage(question, "user");
-
-    const answer = getAIResponse(question);
-
-    setTimeout(function() {
-
-        addAIMessage(answer, "bot");
-
-    }, 300);
-
-}
-
-
-function sendAIMessage() {
-
-    const input = document.getElementById("aiInput");
-
-    const message = input.value.trim();
-
-    if (message === "") {
-        return;
+        setTimeout(function() {
+            addAIMessage(answer, "bot");
+        }, 250);
     }
 
-    addAIMessage(message, "user");
+    function getAIResponse(message) {
+        const text = message.toLowerCase();
 
-    input.value = "";
+        if (/^(hi|hello|hey)\b/.test(text)) {
+            return "Hello! Welcome to EventEase. Ask me about events, dates, locations, ticket prices or registration.";
+        }
 
-    const answer = getAIResponse(message);
+        if (text.includes("register") || text.includes("registration") ||
+            text.includes("book") || text.includes("booking")) {
+            return "Choose an event and click Register Now. The registration page will open so you can enter your details.";
+        }
 
-    setTimeout(function() {
+        if (text.includes("seat")) {
+            return "Each event displays its seat range on this page. Please check the registration page for the seat selection options available there.";
+        }
 
-        addAIMessage(answer, "bot");
+        if (text.includes("price") || text.includes("ticket") || text.includes("cost")) {
+            return "Ticket prices: Future Skills Workshop ₹299; City Sports Championship ₹399; Art & Culture Expo ₹499; Gaming Arena ₹499; Food & Lifestyle Festival ₹599; Tech Innovation Summit ₹699; Film & Entertainment Festival ₹699; Startup & Business Summit ₹799; Comedy Night ₹799; Summer Music Festival ₹999.";
+        }
 
-    }, 300);
+        if (text.includes("location") || text.includes("where") || text.includes("place")) {
+            return "The events listed on this page are located in Andheri West, Mumbai.";
+        }
 
-}
+        const matchedEvent = eventData.find(function(event) {
+            const words = event.name.toLowerCase().split(/[\s&]+/).filter(function(word) {
+                return word.length > 3;
+            });
 
+            return words.some(function(word) {
+                return text.includes(word);
+            });
+        });
 
-function getAIResponse(message) {
+        if (matchedEvent) {
+            return matchedEvent.name + " is on " + matchedEvent.date +
+                ", from " + matchedEvent.time + ", in Andheri West, Mumbai. Ticket price: " +
+                matchedEvent.price + ".";
+        }
 
-    const text = message.toLowerCase();
+        if (text.includes("event") || text.includes("available")) {
+            return "There are 10 events listed: music, technology, culture, sports, education, business, food, gaming, comedy and entertainment. You can search for an event above.";
+        }
 
-
-    if (
-        text.includes("hello") ||
-        text.includes("hi") ||
-        text.includes("hey")
-    ) {
-
-        return "Hello. Welcome to EventEase. I can help you find events, ticket prices, seats and registration information.";
-
+        return "I can help with EventEase events, dates, locations, ticket prices and registration. Try asking about a specific event.";
     }
 
-
-    if (
-        text.includes("register") ||
-        text.includes("registration") ||
-        text.includes("book") ||
-        text.includes("booking")
-    ) {
-
-        return "To register for an event, open the Events page, choose your event and click Register Now. You can then select your details and seat on the registration page.";
-
-    }
-
-
-    if (
-        text.includes("seat") ||
-        text.includes("available")
-    ) {
-
-        return "EventEase provides seat selection during registration. Each event has a dedicated seat range, and the registration page is used to select an available seat.";
-
-    }
-
-
-    if (
-        text.includes("price") ||
-        text.includes("ticket") ||
-        text.includes("cost")
-    ) {
-
-        return "Ticket prices range from ₹299 to ₹999. The Future Skills Workshop is ₹299, City Sports Championship is ₹399, Art & Culture Expo is ₹499, Gaming Arena is ₹499, Food & Lifestyle Festival is ₹599, Tech Innovation Summit is ₹699, Film & Entertainment Festival is ₹699, Startup & Business Summit is ₹799, Comedy Night is ₹799 and Summer Music Festival is ₹999.";
-
-    }
-
-
-    if (
-        text.includes("event") ||
-        text.includes("events")
-    ) {
-
-        return "EventEase currently has 10 upcoming events including music, technology, culture, sports, education, business, food, gaming, comedy and entertainment.";
-
-    }
-
-
-    if (text.includes("music")) {
-
-        return "Summer Music Festival is on 15 September 2026 from 6:00 PM to 10:00 PM in Andheri West, Mumbai. The ticket price is ₹999.";
-
-    }
-
-
-    if (
-        text.includes("technology") ||
-        text.includes("tech")
-    ) {
-
-        return "Tech Innovation Summit is on 22 September 2026 from 10:00 AM to 5:00 PM in Andheri West, Mumbai. The ticket price is ₹699.";
-
-    }
-
-
-    if (text.includes("culture") || text.includes("art")) {
-
-        return "Art & Culture Expo is on 28 September 2026 from 11:00 AM to 6:00 PM in Andheri West, Mumbai. The ticket price is ₹499.";
-
-    }
-
-
-    if (text.includes("sports")) {
-
-        return "City Sports Championship is on 5 October 2026 from 9:00 AM to 6:00 PM in Andheri West, Mumbai. The ticket price is ₹399.";
-
-    }
-
-
-    if (
-        text.includes("education") ||
-        text.includes("workshop") ||
-        text.includes("skills")
-    ) {
-
-        return "Future Skills Workshop is on 12 October 2026 from 10:00 AM to 4:00 PM in Andheri West, Mumbai. The ticket price is ₹299.";
-
-    }
-
-
-    if (
-        text.includes("business") ||
-        text.includes("startup")
-    ) {
-
-        return "Startup & Business Summit is on 20 October 2026 from 10:00 AM to 5:00 PM in Andheri West, Mumbai. The ticket price is ₹799.";
-
-    }
-
-
-    if (
-        text.includes("food") ||
-        text.includes("lifestyle")
-    ) {
-
-        return "Food & Lifestyle Festival is on 31 October 2026 from 12:00 PM to 9:00 PM in Andheri West, Mumbai. The ticket price is ₹599.";
-
-    }
-
-
-    if (text.includes("gaming")) {
-
-        return "Gaming Arena is on 8 November 2026 from 11:00 AM to 8:00 PM in Andheri West, Mumbai. The ticket price is ₹499.";
-
-    }
-
-
-    if (text.includes("comedy")) {
-
-        return "Comedy Night is on 15 November 2026 from 7:00 PM to 10:00 PM in Andheri West, Mumbai. The ticket price is ₹799.";
-
-    }
-
-
-    if (
-        text.includes("film") ||
-        text.includes("entertainment")
-    ) {
-
-        return "Film & Entertainment Festival is on 22 November 2026 from 5:00 PM to 10:00 PM in Andheri West, Mumbai. The ticket price is ₹699.";
-
-    }
-
-
-    if (
-        text.includes("location") ||
-        text.includes("where") ||
-        text.includes("place")
-    ) {
-
-        return "The current EventEase events are located in Andheri West, Mumbai.";
-
-    }
-
-
-    return "I can help with EventEase events, dates, locations, ticket prices, seats and registration. Try asking about a specific event or use one of the quick questions above.";
-
-}
-
-
-document.getElementById("aiInput").addEventListener("keydown", function(event) {
-
-    if (event.key === "Enter") {
-
-        sendAIMessage();
-
-    }
-
-});
-
+    document.getElementById("aiInput").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            sendAIMessage();
+        }
+    });
 </script>
 
 </body>
