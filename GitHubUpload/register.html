@@ -4,305 +4,559 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register for events, choose your seats and receive your EventEase booking confirmation.">
     <title>Event Registration | EventEase</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <style>
-        :root {
-            --navy: #14213d;
-            --navy-light: #243b64;
-            --gold: #d6ae63;
-            --cream: #f7f6f1;
-            --white: #ffffff;
-            --text: #263247;
-            --muted: #687386;
-            --border: #e3e7ee;
-        }
-
-        * { box-sizing: border-box; }
+        /* EVENTEASE REGISTRATION — MATCHING THE NAVY AND GOLD THEME */
 
         body {
-            margin: 0;
-            background: var(--cream);
-            color: var(--text);
-            font-family: Arial, Helvetica, sans-serif;
-            line-height: 1.6;
+            background: #f7f7f5;
+            color: #1f2937;
         }
 
-        body > header {
-            padding: 25px 20px;
-            text-align: center;
-            color: white;
-            background: linear-gradient(125deg, #101b35, #263f6b);
-            border-bottom: 4px solid var(--gold);
-        }
-
-        body > header h1 {
-            margin: 0;
-            font-size: 34px;
-            letter-spacing: 1px;
-        }
-
-        body > header p {
-            margin: 5px 0 18px;
-            color: #e8d9b7;
-            font-size: 14px;
-        }
-
-        body > header nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        body > header nav a {
-            padding: 9px 16px;
-            color: white;
-            text-decoration: none;
-            border-radius: 7px;
-            font-size: 14px;
-            transition: .2s ease;
-        }
-
-        body > header nav a:hover {
-            color: var(--navy);
-            background: var(--gold);
-        }
-
-        main {
+        .register-page main {
             width: 100%;
-            max-width: 1120px;
-            min-height: 70vh;
-            margin: 0 auto;
-            padding: 48px 22px 65px;
+            max-width: none;
+            margin: 0;
         }
 
-        .registration-section {
-            max-width: 790px;
-            margin: 0 auto;
-            padding: 38px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            box-shadow: 0 14px 40px rgba(20, 33, 61, .09);
+        .register-page section {
+            border-radius: 0;
+            box-shadow: none;
         }
 
-        .registration-label {
-            display: inline-block;
-            padding: 6px 12px;
-            color: #795b25;
-            background: #fbf3e2;
-            border: 1px solid #efdfbd;
-            border-radius: 20px;
+        .register-heading {
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 58px 0 34px;
+            background: transparent;
+        }
+
+        .section-kicker {
+            display: block;
+            margin-bottom: 14px;
+            color: #a47a3c;
             font-size: 12px;
-            font-weight: bold;
-            letter-spacing: .8px;
+            font-weight: 800;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
-        .registration-section h2 {
-            margin: 15px 0 8px;
-            color: var(--navy);
-            font-size: 32px;
-            line-height: 1.25;
+        .register-heading h1 {
+            margin: 0 0 15px;
+            color: #111827;
+            font-size: clamp(34px, 4vw, 50px);
+            line-height: 1.2;
+            letter-spacing: -1.5px;
         }
 
-        .registration-intro {
-            margin: 0 0 28px;
-            color: var(--muted);
+        .register-heading h1 span,
+        .register-heading .heading-accent {
+            color: #a47a3c;
+        }
+
+        .register-heading p {
+            max-width: 660px;
+            margin: 0;
+            color: #687180;
             font-size: 15px;
+            line-height: 1.9;
         }
 
-        #registrationForm label {
+        .registration-section {
+            padding: 0 0 85px;
+            background: transparent;
+        }
+
+        .registration-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(280px, .8fr);
+            gap: 28px;
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        .registration-card,
+        .booking-summary,
+        .confirmation-card {
+            min-width: 0;
+            background: #fff;
+            border: 1px solid #e8e6df;
+            border-radius: 13px;
+            box-shadow: 0 5px 18px rgba(17, 24, 39, .045);
+        }
+
+        .registration-card {
+            padding: 30px;
+        }
+
+        .card-heading {
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #ece9e1;
+        }
+
+        .card-heading h2 {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 24px;
+            letter-spacing: -.5px;
+        }
+
+        .card-heading p {
+            margin: 0;
+            color: #737b87;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            min-width: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
             display: block;
-            margin: 19px 0 7px;
-            color: var(--navy);
-            font-size: 14px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            color: #293243;
+            font-size: 13px;
+            font-weight: 700;
         }
 
-        #registrationForm input,
-        #registrationForm select {
+        .required {
+            color: #a47a3c;
+        }
+
+        .form-group input,
+        .form-group select {
             display: block;
             width: 100%;
-            min-height: 47px;
+            min-height: 48px;
             padding: 12px 14px;
-            color: var(--text);
-            background: white;
-            border: 1px solid #d5dce7;
+            border: 1px solid #deded8;
             border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px;
             outline: none;
+            background: #fff;
+            color: #1f2937;
+            font-family: inherit;
+            font-size: 14px;
             transition: border-color .2s, box-shadow .2s;
         }
 
-        #registrationForm input:focus,
-        #registrationForm select:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(214, 174, 99, .18);
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #a47a3c;
+            box-shadow: 0 0 0 3px rgba(164, 122, 60, .12);
         }
 
-        #registrationForm input::placeholder {
-            color: #98a1af;
+        .form-group input::placeholder {
+            color: #9ca3af;
         }
 
-        .price-box {
-            margin-top: 25px;
-            padding: 20px 22px;
-            background: #fbf9f3;
-            border: 1px solid #e9dfc9;
-            border-left: 5px solid var(--gold);
-            border-radius: 10px;
+        .event-details-box {
+            padding: 17px;
+            background: #faf8f4;
+            border: 1px solid #eee5d6;
+            border-radius: 9px;
         }
 
-        .price-box p {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin: 6px 0;
-            color: var(--muted);
+        .event-details-box h3 {
+            margin: 0 0 12px;
+            color: #111827;
+            font-size: 16px;
         }
 
-        .price-box strong {
-            color: var(--navy);
-            font-size: 18px;
-        }
-
-        .seat-group {
-            margin: 18px 0;
-        }
-
-        .seat-group label {
-            display: block;
-            margin-bottom: 7px;
-            color: var(--navy);
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .seat-select {
-            width: 100%;
-            min-height: 46px;
-            padding: 11px;
-            background: white;
-            border: 1px solid #d5dce7;
-            border-radius: 8px;
-        }
-
-        .seat-loading {
-            padding: 12px 14px;
-            color: var(--muted);
-            background: #f2f5fa;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        #registrationForm button[type="submit"],
-        #calendarButton {
-            display: block;
-            width: 100%;
-            min-height: 50px;
-            margin-top: 25px;
-            padding: 13px 18px;
-            color: white;
-            background: var(--navy);
-            border: 0;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: .2s ease;
-        }
-
-        #registrationForm button[type="submit"]:hover,
-        #calendarButton:hover {
-            color: var(--navy);
-            background: var(--gold);
-        }
-
-        #registrationForm button[type="submit"]:disabled {
-            opacity: .65;
-            cursor: wait;
-        }
-
-        .confirmation-box {
-            margin-top: 25px;
-            padding: 24px;
-            color: var(--text);
-            background: #f5fbf5;
-            border: 1px solid #d3e8d6;
-            border-radius: 11px;
+        .event-details-box p {
+            margin: 7px 0;
+            color: #687180;
+            font-size: 13px;
+            line-height: 1.7;
             overflow-wrap: anywhere;
         }
 
-        .confirmation-box:empty {
+        .event-details-box strong {
+            color: #293243;
+        }
+
+        .seat-section {
+            padding-top: 24px;
+            margin-top: 8px;
+            border-top: 1px solid #ece9e1;
+        }
+
+        .seat-section h3 {
+            margin: 0 0 7px;
+            color: #111827;
+            font-size: 19px;
+        }
+
+        .seat-description {
+            margin: 0 0 18px;
+            color: #737b87;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .seat-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 18px;
+            color: #687180;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .legend-box {
+            width: 13px;
+            height: 13px;
+            border: 1px solid #d5d5d0;
+            border-radius: 3px;
+        }
+
+        .legend-available {
+            background: #fff;
+        }
+
+        .legend-selected {
+            background: #111827;
+            border-color: #111827;
+        }
+
+        .legend-booked {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+        }
+
+        .seat-status {
+            margin: 0 0 14px;
+            color: #687180;
+            font-size: 13px;
+        }
+
+        #seatContainer {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .seat-field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #293243;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .seat-field select {
+            width: 100%;
+            min-height: 45px;
+            padding: 10px;
+            border: 1px solid #deded8;
+            border-radius: 8px;
+            background: #fff;
+            color: #1f2937;
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        .seat-field select:focus {
+            outline: 2px solid rgba(164, 122, 60, .25);
+            border-color: #a47a3c;
+        }
+
+        .seat-loading {
+            grid-column: 1 / -1;
+            padding: 15px;
+            background: #faf8f4;
+            border-radius: 8px;
+            color: #687180;
+            font-size: 13px;
+        }
+
+        .form-error {
             display: none;
-        }
-
-        .confirmation-box h3 {
-            margin-top: 0;
-            color: #205c37;
-        }
-
-        .confirmation-box p {
-            line-height: 1.65;
-        }
-
-        .enjoy-message {
-            margin-top: 20px;
-            color: var(--navy);
-            font-size: 21px;
-            font-weight: bold;
-        }
-
-        .email-status,
-        .database-status {
-            color: var(--muted);
+            padding: 12px 14px;
+            margin: 18px 0;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            background: #fef2f2;
+            color: #991b1b;
             font-size: 13px;
+            line-height: 1.6;
         }
 
-        body > footer {
-            padding: 24px 16px;
-            color: #e8edf6;
-            background: #101b35;
-            border-top: 3px solid var(--gold);
+        .register-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 49px;
+            padding: 13px 20px;
+            margin-top: 25px;
+            border: 1px solid #111827;
+            border-radius: 7px;
+            background: #111827;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .register-submit:hover {
+            background: #a47a3c;
+            border-color: #a47a3c;
+            transform: translateY(-2px);
+        }
+
+        .register-submit:disabled {
+            opacity: .65;
+            cursor: wait;
+            transform: none;
+        }
+
+        .form-note {
+            margin: 13px 0 0;
+            color: #737b87;
+            font-size: 11px;
+            line-height: 1.7;
             text-align: center;
+        }
+
+        .booking-summary {
+            position: sticky;
+            top: 25px;
+            overflow: hidden;
+        }
+
+        .summary-header {
+            padding: 23px;
+            background: #111827;
+            border-bottom: 2px solid #d7a85b;
+            color: #fff;
+        }
+
+        .summary-header .section-kicker {
+            margin-bottom: 9px;
+            color: #e6c58e;
+            font-size: 10px;
+        }
+
+        .summary-header h2 {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .summary-body {
+            padding: 23px;
+        }
+
+        .summary-event {
+            padding-bottom: 18px;
+            border-bottom: 1px solid #ece9e1;
+        }
+
+        .summary-event h3 {
+            margin: 0 0 8px;
+            color: #111827;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        .summary-event p {
+            margin: 5px 0;
+            color: #737b87;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .summary-line {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 15px 0;
+            color: #687180;
             font-size: 13px;
         }
 
-        body > footer p { margin: 5px 0; }
+        .summary-line strong {
+            color: #293243;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
 
-        /* EventEase Assistant */
+        .summary-total {
+            padding-top: 17px;
+            margin-top: 18px;
+            border-top: 1px solid #e8e6df;
+        }
+
+        .summary-total span {
+            color: #111827;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .summary-total strong {
+            color: #a47a3c;
+            font-size: 25px;
+        }
+
+        .summary-help {
+            padding: 14px;
+            margin-top: 20px;
+            border: 1px solid #eee5d6;
+            border-radius: 8px;
+            background: #faf8f4;
+            color: #687180;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .summary-help strong {
+            color: #293243;
+        }
+
+        #confirmation {
+            display: none;
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto 50px;
+        }
+
+        .confirmation-card {
+            padding: 30px;
+            border-top: 3px solid #a47a3c;
+        }
+
+        .confirmation-card h2 {
+            margin: 0 0 10px;
+            color: #111827;
+            font-size: 27px;
+        }
+
+        .confirmation-card > p {
+            color: #687180;
+            line-height: 1.8;
+        }
+
+        .confirmation-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin: 22px 0;
+        }
+
+        .confirmation-item {
+            padding: 14px;
+            background: #faf8f4;
+            border: 1px solid #eee5d6;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .confirmation-item span {
+            display: block;
+            margin-bottom: 6px;
+            color: #737b87;
+            font-size: 11px;
+        }
+
+        .confirmation-item strong {
+            color: #111827;
+            font-size: 14px;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .confirmation-actions a,
+        .confirmation-actions button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 43px;
+            padding: 11px 16px;
+            border: 1px solid #111827;
+            border-radius: 7px;
+            background: #111827;
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .confirmation-actions .secondary-action {
+            background: #fff;
+            color: #111827;
+        }
+
+        .confirmation-actions a:hover,
+        .confirmation-actions button:hover {
+            background: #a47a3c;
+            border-color: #a47a3c;
+            color: #fff;
+        }
+
+        /* Assistant — matching EventEase navy and gold */
+
         #aiButton {
             position: fixed;
             right: 24px;
             bottom: 24px;
-            width: 62px;
-            height: 62px;
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--gold);
+            width: 60px;
+            height: 60px;
+            border: 1px solid #d7a85b;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--navy), var(--navy-light));
-            box-shadow: 0 8px 24px rgba(16, 27, 53, .25);
+            background: #111827;
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(17, 24, 39, .22);
             cursor: pointer;
-            z-index: 1000;
-            transition: .2s ease;
+            transition: .25s ease;
         }
 
-        #aiButton:hover { transform: translateY(-3px); }
+        #aiButton:hover {
+            background: #a47a3c;
+            transform: translateY(-3px);
+        }
 
         .ai-icon {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 17px;
+            font-weight: 800;
         }
 
         .ai-spark {
@@ -311,44 +565,54 @@
             right: 11px;
             width: 7px;
             height: 7px;
-            background: var(--gold);
             border-radius: 50%;
+            background: #d7a85b;
         }
 
         #aiAssistant {
             position: fixed;
             right: 24px;
-            bottom: 100px;
-            width: 355px;
-            max-width: calc(100% - 32px);
-            height: 510px;
+            bottom: 96px;
+            z-index: 9998;
             display: none;
             flex-direction: column;
+            width: 360px;
+            max-width: calc(100vw - 30px);
+            height: 510px;
             overflow: hidden;
-            background: white;
-            border: 1px solid var(--border);
+            background: #fff;
+            border: 1px solid #e5e7eb;
             border-radius: 15px;
-            box-shadow: 0 14px 42px rgba(16, 27, 53, .23);
-            z-index: 999;
+            box-shadow: 0 15px 45px rgba(17, 24, 39, .18);
         }
 
         #aiHeader {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 16px;
-            color: white;
-            background: linear-gradient(125deg, #101b35, #263f6b);
-            border-bottom: 3px solid var(--gold);
+            justify-content: space-between;
+            gap: 12px;
+            padding: 17px;
+            background: #111827;
+            color: #fff;
+            border-bottom: 2px solid #d7a85b;
         }
 
-        #aiHeader h3 { margin: 0; font-size: 17px; }
-        #aiHeader p { margin: 4px 0 0; color: #e8d9b7; font-size: 12px; }
+        .ai-title {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .ai-subtitle {
+            margin-top: 3px;
+            color: #d1d5db;
+            font-size: 12px;
+        }
 
         #aiClose {
-            color: white;
-            background: transparent;
+            padding: 3px 8px;
             border: 0;
+            background: transparent;
+            color: #fff;
             font-size: 24px;
             cursor: pointer;
         }
@@ -357,42 +621,44 @@
             flex: 1;
             padding: 15px;
             overflow-y: auto;
-            background: #f5f7fb;
+            background: #f7f7f5;
         }
 
         .ai-message {
             max-width: 88%;
-            padding: 10px 13px;
+            padding: 10px 12px;
             margin-bottom: 10px;
-            border-radius: 11px;
+            border-radius: 12px;
             font-size: 13px;
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-wrap: anywhere;
         }
 
         .ai-bot {
-            margin-right: auto;
-            color: #30394a;
-            background: white;
-            border: 1px solid var(--border);
+            background: #fff;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+            border-top-left-radius: 4px;
         }
 
         .ai-user {
             margin-left: auto;
-            color: white;
-            background: var(--navy);
+            background: #111827;
+            color: #fff;
+            border-top-right-radius: 4px;
         }
 
         #aiSuggestions {
-            padding: 10px 12px;
-            background: white;
-            border-top: 1px solid var(--border);
+            padding: 11px;
+            border-top: 1px solid #eee;
+            background: #fff;
         }
 
         .suggestion-title {
-            margin-bottom: 7px;
-            color: var(--muted);
-            font-size: 12px;
+            margin-bottom: 8px;
+            color: #737b87;
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .suggestion-buttons {
@@ -402,156 +668,347 @@
         }
 
         .suggestion-buttons button {
-            padding: 6px 10px;
-            color: var(--navy);
-            background: white;
-            border: 1px solid #d9dfeb;
+            padding: 7px 10px;
+            border: 1px solid #e5e7eb;
             border-radius: 20px;
-            font-size: 12px;
+            background: #faf8f4;
+            color: #374151;
+            font-size: 11px;
             cursor: pointer;
         }
 
         .suggestion-buttons button:hover {
-            color: white;
-            background: var(--navy);
+            background: #111827;
+            color: #fff;
         }
 
         #aiInputArea {
             display: flex;
+            align-items: center;
             gap: 8px;
-            padding: 10px;
-            background: white;
-            border-top: 1px solid var(--border);
+            padding: 11px;
+            border-top: 1px solid #eee;
+            background: #fff;
         }
 
         #aiInput {
             flex: 1;
             min-width: 0;
-            padding: 10px 13px;
-            border: 1px solid #d5dce7;
+            padding: 11px 13px;
+            border: 1px solid #deded8;
             border-radius: 22px;
-            outline: none;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         #aiSend {
-            width: 42px;
-            height: 42px;
-            flex-shrink: 0;
-            color: white;
-            background: var(--navy);
+            padding: 10px 13px;
             border: 0;
-            border-radius: 50%;
+            border-radius: 22px;
+            background: #111827;
+            color: #fff;
+            font-size: 12px;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        #aiSend:hover { background: var(--navy-light); }
+        #aiSend:hover {
+            background: #a47a3c;
+        }
+
+        @media (max-width: 900px) {
+            .registration-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-summary {
+                position: static;
+                grid-row: 1;
+            }
+        }
 
         @media (max-width: 600px) {
-            body > header { padding: 22px 14px; }
-            body > header h1 { font-size: 29px; }
-            body > header nav { gap: 4px; }
-            body > header nav a { padding: 8px 10px; font-size: 13px; }
-
-            main { padding: 25px 13px 40px; }
-
-            .registration-section {
-                padding: 23px 18px;
-                border-radius: 13px;
+            .register-heading {
+                padding: 42px 0 25px;
             }
 
-            .registration-section h2 { font-size: 27px; }
+            .registration-card {
+                padding: 21px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-group.full-width {
+                grid-column: auto;
+            }
+
+            #seatContainer {
+                grid-template-columns: 1fr;
+            }
+
+            .confirmation-card {
+                padding: 21px;
+            }
+
+            .confirmation-details {
+                grid-template-columns: 1fr;
+            }
+
+            #aiButton {
+                right: 17px;
+                bottom: 17px;
+            }
 
             #aiAssistant {
-                right: 16px;
-                bottom: 90px;
-                width: calc(100% - 32px);
-                height: 470px;
+                right: 15px;
+                bottom: 88px;
+                width: calc(100vw - 30px);
+                height: 490px;
             }
-
-            #aiButton { right: 16px; bottom: 16px; }
         }
     </style>
 </head>
 
 <body>
-<header>
-    <h1>EventEase</h1>
-    <p>Discover. Register. Experience.</p>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="events.html">Events</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+
+<header class="site-header">
+    <div class="nav-container">
+        <a href="index.html" class="brand">
+            <span class="brand-mark">E</span>
+            <span>
+                <strong>EventEase</strong>
+                <small>EXPERIENCES THAT CONNECT</small>
+            </span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a class="active" href="events.html">Events</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a class="nav-signin" href="login.html">Sign In</a>
+            <a class="nav-signup" href="signup.html">Join Us ↗</a>
+        </div>
+    </div>
 </header>
 
-<main>
-    <section class="registration-section">
-        <span class="registration-label">Your next experience starts here</span>
-        <h2>Event Registration</h2>
-        <p class="registration-intro">
-            Choose your event, select your tickets and reserve your seats.
-            Your ticket price and total amount will be calculated automatically.
+<main class="register-page">
+
+    <section class="register-heading">
+        <span class="section-kicker">YOUR NEXT EXPERIENCE STARTS HERE</span>
+        <h1>Event <span>Registration.</span></h1>
+        <p>
+            Choose your event, enter your details and select your preferred
+            seats. Your booking information will be displayed after successful
+            registration.
         </p>
+    </section>
 
-        <form id="registrationForm">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="Enter your full name"
-                   autocomplete="name" required>
+    <section class="registration-section">
+        <div class="registration-layout">
 
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter your email address"
-                   autocomplete="email" required>
+            <div class="registration-card">
+                <div class="card-heading">
+                    <span class="section-kicker">RESERVE YOUR PLACE</span>
+                    <h2>Registration Details</h2>
+                    <p>Complete the details below to register for your selected event.</p>
+                </div>
 
-            <label for="phone">Mobile Number</label>
-            <input type="tel" id="phone" placeholder="Enter 10-digit mobile number"
-                   pattern="[0-9]{10}" maxlength="10" inputmode="numeric"
-                   autocomplete="tel" required>
+                <form id="registrationForm">
+                    <div class="form-grid">
 
-            <label for="eventSelect">Select Event</label>
-            <select id="eventSelect" required>
-                <option value="">-- Select an Event --</option>
-                <option value="Summer Music Festival" data-price="999">Summer Music Festival - ₹999</option>
-                <option value="Tech Innovation Summit" data-price="699">Tech Innovation Summit - ₹699</option>
-                <option value="Art & Culture Expo" data-price="499">Art & Culture Expo - ₹499</option>
-                <option value="City Sports Championship" data-price="399">City Sports Championship - ₹399</option>
-                <option value="Future Skills Workshop" data-price="299">Future Skills Workshop - ₹299</option>
-                <option value="Startup & Business Summit" data-price="799">Startup & Business Summit - ₹799</option>
-                <option value="Food & Lifestyle Festival" data-price="599">Food & Lifestyle Festival - ₹599</option>
-                <option value="Gaming Arena" data-price="499">Gaming Arena - ₹499</option>
-                <option value="Comedy Night" data-price="799">Comedy Night - ₹799</option>
-                <option value="Film & Entertainment Festival" data-price="699">Film & Entertainment Festival - ₹699</option>
-            </select>
+                        <div class="form-group">
+                            <label for="fullName">Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" name="fullName"
+                                   placeholder="Enter your full name" autocomplete="name" required>
+                        </div>
 
-            <label for="ticketQuantity">Number of Tickets</label>
-            <select id="ticketQuantity" required>
-                <option value="">-- Select Tickets --</option>
-                <option value="1">1 Ticket</option>
-                <option value="2">2 Tickets</option>
-                <option value="3">3 Tickets</option>
-                <option value="4">4 Tickets</option>
-                <option value="5">5 Tickets</option>
-            </select>
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email"
+                                   placeholder="you@example.com" autocomplete="email" required>
+                        </div>
 
-            <div class="price-box">
-                <p>Ticket Price <strong id="ticketPrice">₹0</strong></p>
-                <p>Total Amount <strong id="totalAmount">₹0</strong></p>
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone"
+                                   placeholder="Enter your phone number"
+                                   autocomplete="tel" pattern="[0-9+\-\s()]{7,20}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ticketQuantity">Number of Tickets <span class="required">*</span></label>
+                            <select id="ticketQuantity" name="ticketQuantity" required>
+                                <option value="1">1 Ticket</option>
+                                <option value="2">2 Tickets</option>
+                                <option value="3">3 Tickets</option>
+                                <option value="4">4 Tickets</option>
+                                <option value="5">5 Tickets</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="eventSelect">Select Event <span class="required">*</span></label>
+                            <select id="eventSelect" name="eventSelect" required>
+                                <option value="">Choose an event</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <div class="event-details-box" id="eventDetails">
+                                <h3>Event Information</h3>
+                                <p>Select an event to view its date, time, location and ticket price.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="ticketPrice">Price Per Ticket</label>
+                            <input type="text" id="ticketPrice" name="ticketPrice" value="—" readonly>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="totalAmount">Total Amount</label>
+                            <input type="text" id="totalAmount" name="totalAmount" value="—" readonly>
+                        </div>
+                    </div>
+
+                    <div class="seat-section">
+                        <h3>Choose Your Seats</h3>
+                        <p class="seat-description">
+                            Select one available seat for each ticket. A seat cannot
+                            be selected twice in the same booking.
+                        </p>
+
+                        <div class="seat-legend">
+                            <span class="legend-item"><span class="legend-box legend-available"></span> Available</span>
+                            <span class="legend-item"><span class="legend-box legend-selected"></span> Selected</span>
+                            <span class="legend-item"><span class="legend-box legend-booked"></span> Booked / unavailable</span>
+                        </div>
+
+                        <p class="seat-status" id="seatStatus" aria-live="polite">
+                            Select an event to load available seats.
+                        </p>
+
+                        <div id="seatContainer">
+                            <div class="seat-loading">Your seat options will appear here.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-error" id="formError" role="alert"></div>
+
+                    <button class="register-submit" id="submitButton" type="submit">
+                        Confirm Registration ↗
+                    </button>
+
+                    <p class="form-note">
+                        Please check your event and seat selections before submitting.
+                        Booking confirmation appears after the server accepts your booking.
+                    </p>
+                </form>
             </div>
 
-            <div id="seatContainer"></div>
-            <button type="submit" id="submitButton">Confirm Registration</button>
-        </form>
+            <aside class="booking-summary">
+                <div class="summary-header">
+                    <span class="section-kicker">YOUR BOOKING</span>
+                    <h2>Booking Summary</h2>
+                </div>
 
-        <div id="confirmation" class="confirmation-box" aria-live="polite"></div>
+                <div class="summary-body">
+                    <div class="summary-event">
+                        <h3 id="summaryEventName">Choose an event</h3>
+                        <p id="summaryDate">Event date will appear here</p>
+                        <p id="summaryTime">Event time will appear here</p>
+                        <p>⌖ Andheri West, Mumbai</p>
+                    </div>
+
+                    <div class="summary-line">
+                        <span>Price per ticket</span>
+                        <strong id="summaryPrice">—</strong>
+                    </div>
+
+                    <div class="summary-line">
+                        <span>Number of tickets</span>
+                        <strong id="summaryQuantity">1</strong>
+                    </div>
+
+                    <div class="summary-line">
+                        <span>Selected seats</span>
+                        <strong id="summarySeats">Not selected</strong>
+                    </div>
+
+                    <div class="summary-line summary-total">
+                        <span>Total amount</span>
+                        <strong id="summaryTotal">—</strong>
+                    </div>
+
+                    <div class="summary-help">
+                        <strong>Need help?</strong><br>
+                        Use the EventEase Assistant at the bottom of the page
+                        for information about event dates, prices and registration.
+                    </div>
+                </div>
+            </aside>
+
+        </div>
     </section>
+
+    <section id="confirmation" aria-live="polite">
+        <div class="confirmation-card">
+            <span class="section-kicker">REGISTRATION STATUS</span>
+            <h2 id="confirmationTitle">Booking Confirmation</h2>
+            <p id="confirmationMessage"></p>
+
+            <div class="confirmation-details" id="confirmationDetails"></div>
+
+            <div class="confirmation-actions" id="confirmationActions"></div>
+            <p id="emailStatus"></p>
+        </div>
+    </section>
+
 </main>
 
-<footer>
-    <p>© 2026 EventEase. All Rights Reserved.</p>
-    <p>Creating memorable experiences in Andheri West, Mumbai.</p>
+<footer class="site-footer">
+    <div class="footer-main">
+        <div class="footer-brand">
+            <a href="index.html" class="brand footer-logo">
+                <span class="brand-mark">E</span>
+                <span>
+                    <strong>EventEase</strong>
+                    <small>EXPERIENCES THAT CONNECT</small>
+                </span>
+            </a>
+            <p>
+                Discover exciting experiences, explore events and make
+                memorable moments in Mumbai.
+            </p>
+        </div>
+
+        <div class="footer-links">
+            <h3>Explore</h3>
+            <a href="index.html">Home</a>
+            <a href="events.html">Upcoming Events</a>
+            <a href="about.html">About Us</a>
+        </div>
+
+        <div class="footer-links">
+            <h3>Get in Touch</h3>
+            <a href="contact.html">Contact Us</a>
+            <a href="login.html">Sign In</a>
+            <a href="signup.html">Create Account</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 EventEase. All Rights Reserved.</p>
+        <p>Discover. Experience. Celebrate.</p>
+    </div>
 </footer>
+
+<!-- EVENTEASE ASSISTANT -->
 
 <button id="aiButton" type="button" onclick="toggleAI()" aria-label="Open EventEase Assistant">
     <span class="ai-spark"></span>
@@ -561,15 +1018,15 @@
 <div id="aiAssistant" role="dialog" aria-label="EventEase Assistant">
     <div id="aiHeader">
         <div>
-            <h3>EventEase Assistant</h3>
-            <p>How can I help you?</p>
+            <div class="ai-title">EventEase Assistant</div>
+            <div class="ai-subtitle">How can I help you?</div>
         </div>
         <button id="aiClose" type="button" onclick="toggleAI()" aria-label="Close assistant">×</button>
     </div>
 
-    <div id="aiMessages">
+    <div id="aiMessages" aria-live="polite">
         <div class="ai-message ai-bot">
-            Hello! I am the EventEase Assistant. Ask me about events, registration, seats, prices or booking.
+            Hello! Welcome to EventEase. Ask me about events, registration, available seats or ticket prices.
         </div>
     </div>
 
@@ -584,608 +1041,799 @@
     </div>
 
     <div id="aiInputArea">
-        <input type="text" id="aiInput" placeholder="Ask EventEase..."
-               onkeydown="if(event.key === 'Enter') sendAIMessage()">
-        <button id="aiSend" type="button" onclick="sendAIMessage()" aria-label="Send message">→</button>
+        <input type="text" id="aiInput" placeholder="Ask about EventEase..."
+               autocomplete="off" aria-label="Ask the assistant">
+        <button id="aiSend" type="button" onclick="sendAIMessage()">Send</button>
     </div>
 </div>
 
 <script>
-emailjs.init({
-    publicKey: "UdLmu2Hy_ZWzewu8U"
-});
+    /* API CONFIGURATION */
 
-const API_URL =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
-        ? "http://localhost:5000"
-        : window.location.origin;
+    const API_URL =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+            ? "http://localhost:5000"
+            : window.location.origin;
 
-const eventSelect = document.getElementById("eventSelect");
-const ticketQuantity = document.getElementById("ticketQuantity");
-const ticketPrice = document.getElementById("ticketPrice");
-const totalAmount = document.getElementById("totalAmount");
-const registrationForm = document.getElementById("registrationForm");
-const confirmation = document.getElementById("confirmation");
-const seatContainer = document.getElementById("seatContainer");
-const submitButton = document.getElementById("submitButton");
+    /* EVENT INFORMATION */
 
-let bookedSeats = [];
-
-const eventDetails = {
-    "Summer Music Festival": {
-        date: "15 September 2026", time: "6:00 PM - 10:00 PM",
-        location: "Andheri West, Mumbai", price: 999,
-        calendarDate: "20260915", start: "180000", end: "220000"
-    },
-    "Tech Innovation Summit": {
-        date: "22 September 2026", time: "10:00 AM - 5:00 PM",
-        location: "Andheri West, Mumbai", price: 699,
-        calendarDate: "20260922", start: "100000", end: "170000"
-    },
-    "Art & Culture Expo": {
-        date: "28 September 2026", time: "11:00 AM - 6:00 PM",
-        location: "Andheri West, Mumbai", price: 499,
-        calendarDate: "20260928", start: "110000", end: "180000"
-    },
-    "City Sports Championship": {
-        date: "5 October 2026", time: "9:00 AM - 6:00 PM",
-        location: "Andheri West, Mumbai", price: 399,
-        calendarDate: "20261005", start: "090000", end: "180000"
-    },
-    "Future Skills Workshop": {
-        date: "12 October 2026", time: "10:00 AM - 4:00 PM",
-        location: "Andheri West, Mumbai", price: 299,
-        calendarDate: "20261012", start: "100000", end: "160000"
-    },
-    "Startup & Business Summit": {
-        date: "20 October 2026", time: "10:00 AM - 5:00 PM",
-        location: "Andheri West, Mumbai", price: 799,
-        calendarDate: "20261020", start: "100000", end: "170000"
-    },
-    "Food & Lifestyle Festival": {
-        date: "31 October 2026", time: "12:00 PM - 9:00 PM",
-        location: "Andheri West, Mumbai", price: 599,
-        calendarDate: "20261031", start: "120000", end: "210000"
-    },
-    "Gaming Arena": {
-        date: "8 November 2026", time: "11:00 AM - 8:00 PM",
-        location: "Andheri West, Mumbai", price: 499,
-        calendarDate: "20261108", start: "110000", end: "200000"
-    },
-    "Comedy Night": {
-        date: "15 November 2026", time: "7:00 PM - 10:00 PM",
-        location: "Andheri West, Mumbai", price: 799,
-        calendarDate: "20261115", start: "190000", end: "220000"
-    },
-    "Film & Entertainment Festival": {
-        date: "22 November 2026", time: "5:00 PM - 10:00 PM",
-        location: "Andheri West, Mumbai", price: 699,
-        calendarDate: "20261122", start: "170000", end: "220000"
-    }
-};
-
-async function loadBookedSeats() {
-    const eventName = eventSelect.value;
-    bookedSeats = [];
-
-    if (!eventName) {
-        seatContainer.innerHTML = "";
-        return true;
-    }
-
-    seatContainer.innerHTML =
-        "<p class='seat-loading'>Loading seat availability...</p>";
-
-    try {
-        const response = await fetch(
-            API_URL + "/api/bookings/seats?eventName=" +
-            encodeURIComponent(eventName)
-        );
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "Could not load seat availability.");
+    const eventDetails = {
+        "Summer Music Festival": {
+            date: "15 September 2026",
+            time: "6:00 PM - 10:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 999,
+            calendarDate: "20260915",
+            start: "180000",
+            end: "220000"
+        },
+        "Tech Innovation Summit": {
+            date: "22 September 2026",
+            time: "10:00 AM - 5:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 699,
+            calendarDate: "20260922",
+            start: "100000",
+            end: "170000"
+        },
+        "Art & Culture Expo": {
+            date: "28 September 2026",
+            time: "11:00 AM - 6:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 499,
+            calendarDate: "20260928",
+            start: "110000",
+            end: "180000"
+        },
+        "City Sports Championship": {
+            date: "5 October 2026",
+            time: "9:00 AM - 6:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 399,
+            calendarDate: "20261005",
+            start: "090000",
+            end: "180000"
+        },
+        "Future Skills Workshop": {
+            date: "12 October 2026",
+            time: "10:00 AM - 4:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 299,
+            calendarDate: "20261012",
+            start: "100000",
+            end: "160000"
+        },
+        "Startup & Business Summit": {
+            date: "20 October 2026",
+            time: "10:00 AM - 5:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 799,
+            calendarDate: "20261020",
+            start: "100000",
+            end: "170000"
+        },
+        "Food & Lifestyle Festival": {
+            date: "31 October 2026",
+            time: "12:00 PM - 9:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 599,
+            calendarDate: "20261031",
+            start: "120000",
+            end: "210000"
+        },
+        "Gaming Arena": {
+            date: "8 November 2026",
+            time: "11:00 AM - 8:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 499,
+            calendarDate: "20261108",
+            start: "110000",
+            end: "200000"
+        },
+        "Comedy Night": {
+            date: "15 November 2026",
+            time: "7:00 PM - 10:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 799,
+            calendarDate: "20261115",
+            start: "190000",
+            end: "220000"
+        },
+        "Film & Entertainment Festival": {
+            date: "22 November 2026",
+            time: "5:00 PM - 10:00 PM",
+            location: "Andheri West, Mumbai",
+            price: 699,
+            calendarDate: "20261122",
+            start: "170000",
+            end: "220000"
         }
+    };
 
-        bookedSeats = result.bookedSeats || [];
-        return true;
-    } catch (error) {
-        console.error("Seat availability error:", error);
-        seatContainer.innerHTML =
-            "<p class='seat-loading'>Could not load seats. Please check that the EventEase server is running.</p>";
-        return false;
-    }
-}
-
-function getAvailableSeats() {
-    const availableSeats = [];
-
-    if (!eventSelect.value) return availableSeats;
-
-    for (const row of ["A", "B", "C"]) {
+    const allSeats = [];
+    ["A", "B", "C"].forEach(function(row) {
         for (let number = 1; number <= 10; number++) {
-            const seat = row + number;
-            if (!bookedSeats.includes(seat)) {
-                availableSeats.push(seat);
-            }
+            allSeats.push(row + number);
         }
-    }
-
-    return availableSeats;
-}
-
-function createSeatSelectors() {
-    seatContainer.innerHTML = "";
-
-    const quantity = Number(ticketQuantity.value);
-    if (!eventSelect.value || !quantity) return;
-
-    const availableSeats = getAvailableSeats();
-
-    if (availableSeats.length < quantity) {
-        seatContainer.innerHTML =
-            "<p class='seat-loading'>Sorry, only " +
-            availableSeats.length +
-            " seats are available for this event.</p>";
-        return;
-    }
-
-    for (let i = 1; i <= quantity; i++) {
-        const group = document.createElement("div");
-        group.className = "seat-group";
-
-        const label = document.createElement("label");
-        label.textContent = "Select Seat " + i;
-
-        const select = document.createElement("select");
-        select.className = "seat-select";
-        select.required = true;
-        select.setAttribute("aria-label", "Select seat " + i);
-
-        const firstOption = document.createElement("option");
-        firstOption.value = "";
-        firstOption.textContent = "-- Select Seat " + i + " --";
-        select.appendChild(firstOption);
-
-        availableSeats.forEach(function(seat) {
-            const option = document.createElement("option");
-            option.value = seat;
-            option.textContent = seat;
-            select.appendChild(option);
-        });
-
-        select.addEventListener("change", updateSeatOptions);
-        group.appendChild(label);
-        group.appendChild(select);
-        seatContainer.appendChild(group);
-    }
-}
-
-function updateSeatOptions() {
-    const allSelects = document.querySelectorAll(".seat-select");
-    const selectedSeats = Array.from(allSelects)
-        .map(select => select.value)
-        .filter(Boolean);
-
-    allSelects.forEach(function(select) {
-        const currentValue = select.value;
-
-        Array.from(select.options).forEach(function(option) {
-            option.disabled =
-                option.value !== "" &&
-                option.value !== currentValue &&
-                selectedSeats.includes(option.value);
-        });
     });
-}
 
-eventSelect.addEventListener("change", async function() {
-    calculateTotal();
-    const loaded = await loadBookedSeats();
+    let bookedSeats = [];
+    let lastCalendarUrl = "";
+    let loadingSeats = false;
 
-    if (loaded) {
-        createSeatSelectors();
-    }
-});
+    const form = document.getElementById("registrationForm");
+    const eventSelect = document.getElementById("eventSelect");
+    const quantitySelect = document.getElementById("ticketQuantity");
+    const seatContainer = document.getElementById("seatContainer");
+    const seatStatus = document.getElementById("seatStatus");
+    const submitButton = document.getElementById("submitButton");
+    const formError = document.getElementById("formError");
 
-ticketQuantity.addEventListener("change", function() {
-    calculateTotal();
-    createSeatSelectors();
-});
+    /* FILL THE EVENT DROPDOWN */
 
-function calculateTotal() {
-    const selectedEvent = eventSelect.options[eventSelect.selectedIndex];
-    const price = selectedEvent && selectedEvent.value
-        ? Number(selectedEvent.getAttribute("data-price"))
-        : 0;
-
-    const quantity = Number(ticketQuantity.value) || 0;
-
-    ticketPrice.textContent = "₹" + price;
-    totalAmount.textContent = "₹" + (price * quantity);
-}
-
-function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, function(character) {
-        return {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        }[character];
+    Object.keys(eventDetails).forEach(function(eventName) {
+        const option = document.createElement("option");
+        option.value = eventName;
+        option.textContent = eventName;
+        eventSelect.appendChild(option);
     });
-}
 
-function addToGoogleCalendar(eventName, seats, bookingId) {
-    const data = eventDetails[eventName];
+    /* OPTIONAL: OPEN THE EVENT SELECTED FROM AN EVENT LINK */
 
-    if (!data) {
-        alert("Event details not found.");
-        return;
+    const queryParams = new URLSearchParams(window.location.search);
+    const requestedEvent = queryParams.get("event") ||
+                           queryParams.get("eventName");
+
+    if (requestedEvent && Object.prototype.hasOwnProperty.call(eventDetails, requestedEvent)) {
+        eventSelect.value = requestedEvent;
     }
 
-    const startDateTime = data.calendarDate + "T" + data.start;
-    const endDateTime = data.calendarDate + "T" + data.end;
+    /* DISPLAY EVENT INFORMATION */
 
-    const details =
-        "EventEase Booking\nBooking ID: " + bookingId + "\nSeats: " + seats;
-
-    const calendarUrl =
-        "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-        "&text=" + encodeURIComponent(eventName) +
-        "&dates=" + startDateTime + "/" + endDateTime +
-        "&details=" + encodeURIComponent(details) +
-        "&location=" + encodeURIComponent(data.location) +
-        "&ctz=Asia/Kolkata";
-
-    window.open(calendarUrl, "_blank", "noopener");
-}
-
-registrationForm.addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    if (submitButton.disabled) return;
-
-    const name = document.getElementById("fullName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const selectedEvent = eventSelect.value;
-    const quantity = Number(ticketQuantity.value);
-
-    const selectedSeats = Array.from(
-        document.querySelectorAll(".seat-select")
-    ).map(select => select.value).filter(Boolean);
-
-    const totalNumber = Number(
-        totalAmount.textContent.replace("₹", "")
-    );
-
-    const selectedEventData = eventDetails[selectedEvent];
-
-    if (!name || !email) {
-        alert("Please enter your name and email address.");
-        return;
+    function formatMoney(amount) {
+        return "₹" + Number(amount).toLocaleString("en-IN");
     }
 
-    if (!/^[0-9]{10}$/.test(phone)) {
-        alert("Please enter a valid 10-digit mobile number.");
-        return;
+    function showFormError(message) {
+        formError.textContent = message;
+        formError.style.display = "block";
     }
 
-    if (!selectedEvent || !selectedEventData) {
-        alert("Please select a valid event.");
-        return;
+    function clearFormError() {
+        formError.textContent = "";
+        formError.style.display = "none";
     }
 
-    if (!quantity) {
-        alert("Please select the number of tickets.");
-        return;
+    function getSelectedSeats() {
+        return Array.from(seatContainer.querySelectorAll("select"))
+            .map(function(select) {
+                return select.value;
+            })
+            .filter(Boolean);
     }
 
-    if (selectedSeats.length !== quantity) {
-        alert("Please select a seat for every ticket.");
-        return;
-    }
+    function updateSummary() {
+        const eventName = eventSelect.value;
+        const event = eventDetails[eventName];
+        const quantity = Number(quantitySelect.value || 1);
+        const selected = getSelectedSeats();
 
-    if (new Set(selectedSeats).size !== selectedSeats.length) {
-        alert("Please select different seats for each ticket.");
-        return;
-    }
+        document.getElementById("summaryEventName").textContent =
+            eventName || "Choose an event";
 
-    confirmation.innerHTML =
-        "<p>Checking the latest seat availability...</p>";
+        document.getElementById("summaryDate").textContent =
+            event ? event.date : "Event date will appear here";
 
-    submitButton.disabled = true;
-    submitButton.textContent = "Processing...";
+        document.getElementById("summaryTime").textContent =
+            event ? event.time : "Event time will appear here";
 
-    try {
-        const seatsLoaded = await loadBookedSeats();
+        document.getElementById("summaryPrice").textContent =
+            event ? formatMoney(event.price) : "—";
 
-        if (!seatsLoaded) {
-            throw new Error("Unable to verify seats. Please try again.");
-        }
+        document.getElementById("summaryQuantity").textContent = quantity;
 
-        const unavailableSeats = selectedSeats.filter(
-            seat => bookedSeats.includes(seat)
-        );
+        document.getElementById("summarySeats").textContent =
+            selected.length ? selected.join(", ") : "Not selected";
 
-        if (unavailableSeats.length > 0) {
-            alert(
-                "These seats are already booked: " +
-                unavailableSeats.join(", ") +
-                ". Please choose different seats."
-            );
+        document.getElementById("summaryTotal").textContent =
+            event ? formatMoney(event.price * quantity) : "—";
 
-            createSeatSelectors();
-            confirmation.innerHTML = "";
+        document.getElementById("ticketPrice").value =
+            event ? formatMoney(event.price) : "—";
+
+        document.getElementById("totalAmount").value =
+            event ? formatMoney(event.price * quantity) : "—";
+
+        const details = document.getElementById("eventDetails");
+
+        if (!event) {
+            details.replaceChildren();
+
+            const heading = document.createElement("h3");
+            heading.textContent = "Event Information";
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent =
+                "Select an event to view its date, time, location and ticket price.";
+
+            details.append(heading, paragraph);
             return;
         }
 
-        const bookingId = "EE-" + Date.now().toString().slice(-8);
-        const seatsText = selectedSeats.join(", ");
-        const registrationTime = new Date().toLocaleString("en-IN");
+        details.replaceChildren();
+
+        const heading = document.createElement("h3");
+        heading.textContent = eventName;
+
+        details.appendChild(heading);
+
+        [
+            ["Date", event.date],
+            ["Time", event.time],
+            ["Location", event.location],
+            ["Price per ticket", formatMoney(event.price)]
+        ].forEach(function(item) {
+            const paragraph = document.createElement("p");
+            const strong = document.createElement("strong");
+
+            strong.textContent = item[0] + ": ";
+            paragraph.append(strong, document.createTextNode(item[1]));
+            details.appendChild(paragraph);
+        });
+    }
+
+    /* LOAD BOOKED SEATS FROM THE EXISTING BACKEND */
+
+    async function loadBookedSeats() {
+        const eventName = eventSelect.value;
+        bookedSeats = [];
+
+        if (!eventName) {
+            loadingSeats = false;
+            seatStatus.textContent = "Select an event to load available seats.";
+            seatContainer.innerHTML =
+                '<div class="seat-loading">Your seat options will appear here.</div>';
+            createSeatSelectors();
+            updateSummary();
+            return;
+        }
+
+        loadingSeats = true;
+        seatStatus.textContent = "Loading available seats...";
+        createSeatSelectors();
+
+        try {
+            const response = await fetch(
+                API_URL + "/api/bookings/seats?eventName=" +
+                encodeURIComponent(eventName)
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not load seats from the server.");
+            }
+
+            const data = await response.json();
+
+            let seats = Array.isArray(data)
+                ? data
+                : (data.bookedSeats || data.seats || data.bookings || []);
+
+            if (!Array.isArray(seats)) seats = [];
+
+            bookedSeats = seats.map(function(item) {
+                if (typeof item === "string") return item;
+
+                if (item && typeof item === "object") {
+                    return item.seat || item.seatNumber || item.seatId || "";
+                }
+
+                return "";
+            }).filter(Boolean);
+
+            loadingSeats = false;
+            seatStatus.textContent =
+                "Select from the seats currently available for this event.";
+
+            createSeatSelectors();
+
+        } catch (error) {
+            loadingSeats = false;
+            bookedSeats = [];
+
+            seatStatus.textContent =
+                "Seat availability could not be verified. Please try again.";
+
+            seatContainer.innerHTML =
+                '<div class="seat-loading">Unable to load seats. Change the event or try again.</div>';
+
+            showFormError(
+                "Could not load seat availability. Please check your connection and try again."
+            );
+        }
+
+        updateSummary();
+    }
+
+    /* CREATE ONE SEAT SELECTOR PER TICKET */
+
+    function createSeatSelectors() {
+        const quantity = Number(quantitySelect.value || 1);
+        const previousSelections = getSelectedSeats();
+
+        seatContainer.replaceChildren();
+
+        if (!eventSelect.value) {
+            const message = document.createElement("div");
+            message.className = "seat-loading";
+            message.textContent = "Select an event to view seat options.";
+            seatContainer.appendChild(message);
+            return;
+        }
+
+        if (loadingSeats) {
+            const message = document.createElement("div");
+            message.className = "seat-loading";
+            message.textContent = "Loading available seats...";
+            seatContainer.appendChild(message);
+            return;
+        }
+
+        for (let i = 0; i < quantity; i++) {
+            const wrapper = document.createElement("div");
+            wrapper.className = "seat-field";
+
+            const label = document.createElement("label");
+            label.htmlFor = "seatSelect" + i;
+            label.textContent = "Ticket " + (i + 1) + " Seat";
+
+            const select = document.createElement("select");
+            select.id = "seatSelect" + i;
+            select.name = "seats";
+            select.required = true;
+
+            const placeholder = document.createElement("option");
+            placeholder.value = "";
+            placeholder.textContent = "Choose an available seat";
+            select.appendChild(placeholder);
+
+            const alreadyChosen = previousSelections.slice(0, i);
+
+            allSeats.forEach(function(seat) {
+                const option = document.createElement("option");
+                option.value = seat;
+
+                const isBooked = bookedSeats.includes(seat);
+                const isChosenElsewhere = alreadyChosen.includes(seat);
+
+                option.textContent = seat +
+                    (isBooked ? " — Booked" :
+                     isChosenElsewhere ? " — Selected above" : "");
+
+                option.disabled = isBooked || isChosenElsewhere;
+                select.appendChild(option);
+            });
+
+            if (previousSelections[i] &&
+                !bookedSeats.includes(previousSelections[i]) &&
+                !alreadyChosen.includes(previousSelections[i])) {
+                select.value = previousSelections[i];
+            }
+
+            select.addEventListener("change", function() {
+                updateSeatOptions();
+                updateSummary();
+                clearFormError();
+            });
+
+            wrapper.append(label, select);
+            seatContainer.appendChild(wrapper);
+        }
+
+        updateSeatOptions();
+        updateSummary();
+    }
+
+    function updateSeatOptions() {
+        const selectors = Array.from(seatContainer.querySelectorAll("select"));
+        const chosen = [];
+
+        selectors.forEach(function(select) {
+            const currentValue = select.value;
+
+            Array.from(select.options).forEach(function(option) {
+                if (!option.value) return;
+
+                const unavailable = bookedSeats.includes(option.value) ||
+                    (chosen.includes(option.value) && option.value !== currentValue);
+
+                option.disabled = unavailable;
+
+                if (bookedSeats.includes(option.value)) {
+                    option.textContent = option.value + " — Booked";
+                } else if (chosen.includes(option.value) && option.value !== currentValue) {
+                    option.textContent = option.value + " — Selected above";
+                } else {
+                    option.textContent = option.value;
+                }
+            });
+
+            if (currentValue && !bookedSeats.includes(currentValue)) {
+                chosen.push(currentValue);
+            }
+        });
+    }
+
+    eventSelect.addEventListener("change", function() {
+        clearFormError();
+        updateSummary();
+        loadBookedSeats();
+    });
+
+    quantitySelect.addEventListener("change", function() {
+        clearFormError();
+        createSeatSelectors();
+        updateSummary();
+    });
+
+    /* GOOGLE CALENDAR LINK */
+
+    function createCalendarUrl(eventName, event) {
+        const start = event.calendarDate + "T" + event.start;
+        const end = event.calendarDate + "T" + event.end;
+
+        const params = new URLSearchParams({
+            action: "TEMPLATE",
+            text: eventName,
+            dates: start + "/" + end,
+            details: "Event registered through EventEase.",
+            location: event.location,
+            ctz: "Asia/Kolkata"
+        });
+
+        return "https://calendar.google.com/calendar/render?" + params.toString();
+    }
+
+    /* SAFE CONFIRMATION DISPLAY */
+
+    function addConfirmationItem(container, label, value) {
+        const item = document.createElement("div");
+        item.className = "confirmation-item";
+
+        const title = document.createElement("span");
+        title.textContent = label;
+
+        const content = document.createElement("strong");
+        content.textContent = String(value);
+
+        item.append(title, content);
+        container.appendChild(item);
+    }
+
+    function showConfirmation(booking, event) {
+        const section = document.getElementById("confirmation");
+        const details = document.getElementById("confirmationDetails");
+        const actions = document.getElementById("confirmationActions");
+
+        details.replaceChildren();
+        actions.replaceChildren();
+
+        document.getElementById("confirmationTitle").textContent =
+            "Registration Successful!";
+
+        document.getElementById("confirmationMessage").textContent =
+            "Thank you, " + booking.name +
+            ". Your booking has been accepted by the server. Keep your booking ID for reference.";
+
+        addConfirmationItem(details, "Booking ID", booking.bookingId);
+        addConfirmationItem(details, "Name", booking.name);
+        addConfirmationItem(details, "Event", booking.eventName);
+        addConfirmationItem(details, "Date", booking.eventDate);
+        addConfirmationItem(details, "Time", booking.eventTime);
+        addConfirmationItem(details, "Seats", booking.seats.join(", "));
+        addConfirmationItem(details, "Tickets", booking.quantity);
+        addConfirmationItem(details, "Total Amount", formatMoney(booking.totalAmount));
+
+        const calendarLink = document.createElement("a");
+        calendarLink.href = lastCalendarUrl;
+        calendarLink.target = "_blank";
+        calendarLink.rel = "noopener noreferrer";
+        calendarLink.textContent = "Add to Google Calendar ↗";
+        actions.appendChild(calendarLink);
+
+        const newBookingButton = document.createElement("button");
+        newBookingButton.type = "button";
+        newBookingButton.className = "secondary-action";
+        newBookingButton.textContent = "Register for Another Event";
+        newBookingButton.addEventListener("click", function() {
+            form.reset();
+            document.getElementById("confirmation").style.display = "none";
+            clearFormError();
+            bookedSeats = [];
+            lastCalendarUrl = "";
+            loadBookedSeats();
+            updateSummary();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        actions.appendChild(newBookingButton);
+
+        section.style.display = "block";
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    /* EMAIL CONFIRMATION */
+
+    async function sendBookingEmail(booking) {
+        if (!window.emailjs) {
+            throw new Error("Email service could not be loaded.");
+        }
+
+        emailjs.init({
+            publicKey: "UdLmu2Hy_ZWzewu8U"
+        });
+
+        const emailParams = {
+            name: booking.name,
+            to_name: booking.name,
+            email: booking.email,
+            to_email: booking.email,
+            phone: booking.phone,
+            booking_id: booking.bookingId,
+            event: booking.eventName,
+            event_name: booking.eventName,
+            event_date: booking.eventDate,
+            event_time: booking.eventTime,
+            location: booking.location,
+            seats: booking.seats.join(", "),
+            quantity: booking.quantity,
+            ticket_price: formatMoney(booking.ticketPrice),
+            total_amount: formatMoney(booking.totalAmount)
+        };
+
+        return emailjs.send(
+            "service_uku5gun",
+            "template_rylxlkz",
+            emailParams
+        );
+    }
+
+    /* SUBMIT REGISTRATION */
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        clearFormError();
+
+        if (loadingSeats) {
+            showFormError("Please wait until seat availability has loaded.");
+            return;
+        }
+
+        const name = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const eventName = eventSelect.value;
+        const quantity = Number(quantitySelect.value);
+        const selectedEvent = eventDetails[eventName];
+        const selectedSeats = getSelectedSeats();
+
+        if (!name || !email || !phone || !selectedEvent) {
+            showFormError("Please complete all required fields and choose an event.");
+            return;
+        }
+
+        if (selectedSeats.length !== quantity) {
+            showFormError("Please select one available seat for every ticket.");
+            return;
+        }
+
+        if (new Set(selectedSeats).size !== selectedSeats.length) {
+            showFormError("Each ticket must have a different seat.");
+            return;
+        }
+
+        if (selectedSeats.some(function(seat) {
+            return bookedSeats.includes(seat);
+        })) {
+            showFormError("One of your selected seats is no longer available. Please choose again.");
+            await loadBookedSeats();
+            return;
+        }
+
+        const totalAmount = selectedEvent.price * quantity;
+        const now = new Date();
+        const bookingId = "EE" + now.getTime();
 
         const booking = {
             bookingId: bookingId,
             name: name,
             email: email,
             phone: phone,
-            event: selectedEvent,
-            eventName: selectedEvent,
-            eventDate: selectedEventData.date,
-            eventTime: selectedEventData.time,
-            location: selectedEventData.location,
-            ticketPrice: selectedEventData.price,
+            event: eventName,
+            eventName: eventName,
+            eventDate: selectedEvent.date,
+            eventTime: selectedEvent.time,
+            location: selectedEvent.location,
+            ticketPrice: selectedEvent.price,
             quantity: quantity,
             ticketQuantity: quantity,
             seats: selectedSeats,
-            seat: seatsText,
-            totalAmount: totalNumber,
-            bookingDate: registrationTime,
-            registrationTime: registrationTime
+            seat: selectedSeats.join(", "),
+            totalAmount: totalAmount,
+            bookingDate: now.toISOString(),
+            registrationTime: now.toLocaleString("en-IN", {
+                timeZone: "Asia/Kolkata"
+            })
         };
 
-        confirmation.innerHTML = "<p>Saving your booking...</p>";
-
-        const response = await fetch(API_URL + "/api/bookings", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(booking)
-        });
-
-        let result;
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting Registration...";
 
         try {
-            result = await response.json();
-        } catch (jsonError) {
-            throw new Error("The EventEase server returned an invalid response.");
-        }
-
-        if (response.status === 409) {
-            bookedSeats = result.bookedSeats || [];
-
-            alert(
-                result.message ||
-                "One or more selected seats are already booked."
-            );
-
-            createSeatSelectors();
-            confirmation.innerHTML = "";
-            return;
-        }
-
-        if (!response.ok || !result.success) {
-            throw new Error(result.message || "Booking could not be saved.");
-        }
-
-        confirmation.innerHTML =
-            "<h3>Registration Successful!</h3>" +
-            "<p>Booking ID: <strong>" + escapeHTML(bookingId) + "</strong></p>" +
-            "<p>Thank you, <strong>" + escapeHTML(name) + "</strong>.</p>" +
-            "<p>Email: <strong>" + escapeHTML(email) + "</strong></p>" +
-            "<p>Mobile: <strong>" + escapeHTML(phone) + "</strong></p>" +
-            "<p>Event: <strong>" + escapeHTML(selectedEvent) + "</strong></p>" +
-            "<p>Date: <strong>" + escapeHTML(selectedEventData.date) + "</strong></p>" +
-            "<p>Time: <strong>" + escapeHTML(selectedEventData.time) + "</strong></p>" +
-            "<p>Location: <strong>" + escapeHTML(selectedEventData.location) + "</strong></p>" +
-            "<p>Tickets: <strong>" + quantity + "</strong></p>" +
-            "<p>Seats: <strong>" + escapeHTML(seatsText) + "</strong></p>" +
-            "<p>Total Amount: <strong>₹" + totalNumber + "</strong></p>" +
-            "<p>Booking Time: <strong>" + escapeHTML(registrationTime) + "</strong></p>" +
-            "<p>Your booking has been saved successfully.</p>" +
-            "<p class='database-status'>Booking saved to the EventEase database.</p>" +
-            "<p class='email-status' id='emailStatus'>Sending confirmation email...</p>" +
-            "<p class='enjoy-message'>Enjoy Your Event!</p>" +
-            "<button type='button' id='calendarButton'>Add to Google Calendar</button>";
-
-        document.getElementById("calendarButton").addEventListener(
-            "click",
-            function() {
-                addToGoogleCalendar(selectedEvent, seatsText, bookingId);
-            }
-        );
-
-        const emailParams = {
-            name: name,
-            email: email,
-            message:
-                "Booking ID: " + bookingId +
-                "\nEvent: " + selectedEvent +
-                "\nDate: " + selectedEventData.date +
-                "\nTime: " + selectedEventData.time +
-                "\nLocation: " + selectedEventData.location +
-                "\nTicket Quantity: " + quantity +
-                "\nSelected Seats: " + seatsText +
-                "\nTotal Amount: ₹" + totalNumber +
-                "\nRegistration Time: " + registrationTime
-        };
-
-        emailjs.send("service_uku5gun", "template_rylxlkz", emailParams)
-            .then(function() {
-                const status = document.getElementById("emailStatus");
-
-                if (status) {
-                    status.textContent =
-                        "Confirmation email sent successfully to your registered email address.";
-                }
-            })
-            .catch(function(error) {
-                console.error("Confirmation email error:", error);
-
-                const status = document.getElementById("emailStatus");
-
-                if (status) {
-                    status.textContent =
-                        "Booking confirmed, but the confirmation email could not be sent.";
-                }
+            const response = await fetch(API_URL + "/api/bookings", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(booking)
             });
 
-        registrationForm.reset();
-        ticketPrice.textContent = "₹0";
-        totalAmount.textContent = "₹0";
-        seatContainer.innerHTML = "";
+            let result = {};
 
-    } catch (error) {
-        console.error("Database booking error:", error);
+            try {
+                result = await response.json();
+            } catch (parseError) {
+                result = {};
+            }
 
-        confirmation.innerHTML =
-            "<h3>Booking Could Not Be Completed</h3>" +
-            "<p>We could not save your booking to the database.</p>" +
-            "<p>" + escapeHTML(error.message || "Please try again.") + "</p>";
-    } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = "Confirm Registration";
-    }
-});
+            if (!response.ok) {
+                if (response.status === 409) {
+                    await loadBookedSeats();
+                    throw new Error(
+                        result.message ||
+                        "A selected seat has just been booked. Please choose another seat."
+                    );
+                }
 
-function toggleAI() {
-    const assistant = document.getElementById("aiAssistant");
-    const isOpen = assistant.style.display === "flex";
+                throw new Error(
+                    result.message ||
+                    result.error ||
+                    "The server could not complete your booking. Please try again."
+                );
+            }
 
-    assistant.style.display = isOpen ? "none" : "flex";
+            lastCalendarUrl = createCalendarUrl(eventName, selectedEvent);
+            showConfirmation(booking, selectedEvent);
 
-    if (!isOpen) {
-        document.getElementById("aiInput").focus();
-    }
-}
+            document.getElementById("emailStatus").textContent =
+                "Booking accepted. Sending email confirmation...";
 
-function addAIMessage(message, type) {
-    const messages = document.getElementById("aiMessages");
-    const messageElement = document.createElement("div");
+            try {
+                await sendBookingEmail(booking);
 
-    messageElement.className =
-        "ai-message " + (type === "user" ? "ai-user" : "ai-bot");
+                document.getElementById("emailStatus").textContent =
+                    "Email confirmation sent to " + booking.email + ".";
+            } catch (emailError) {
+                document.getElementById("emailStatus").textContent =
+                    "Your booking was saved, but the email could not be sent. " +
+                    "Please keep your booking ID: " + booking.bookingId + ".";
+            }
 
-    messageElement.textContent = message;
-    messages.appendChild(messageElement);
-    messages.scrollTop = messages.scrollHeight;
-}
+            await loadBookedSeats();
 
-function askAI(question) {
-    document.getElementById("aiInput").value = question;
-    sendAIMessage();
-}
+        } catch (error) {
+            showFormError(
+                error.message ||
+                "Something went wrong while registering. Please try again."
+            );
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = "Confirm Registration ↗";
+        }
+    });
 
-function sendAIMessage() {
-    const input = document.getElementById("aiInput");
-    const question = input.value.trim();
+    /* EVENTEASE ASSISTANT */
 
-    if (!question) return;
+    function toggleAI() {
+        const assistant = document.getElementById("aiAssistant");
+        const isOpen = assistant.style.display === "flex";
 
-    addAIMessage(question, "user");
-    input.value = "";
+        assistant.style.display = isOpen ? "none" : "flex";
 
-    addAIMessage(getAIResponse(question), "bot");
-}
-
-function getAIResponse(question) {
-    const q = question.toLowerCase();
-
-    if (/\b(hello|hi|hey)\b/.test(q)) {
-        return "Hello! Welcome to EventEase. I can help you with events, registration, seats, ticket prices and booking information.";
-    }
-
-    if (q.includes("register") || q.includes("registration")) {
-        return "Enter your name, email and mobile number, select an event and ticket quantity, choose an available seat for every ticket, and click Confirm Registration.";
-    }
-
-    if (q.includes("seat")) {
-        return "Each event has 30 listed seats: A1–A10, B1–B10 and C1–C10. Seats already booked are removed from the selection when availability loads.";
+        if (!isOpen) {
+            setTimeout(function() {
+                document.getElementById("aiInput").focus();
+            }, 100);
+        }
     }
 
-    if (q.includes("price") || q.includes("cost") || q.includes("ticket")) {
-        return "Ticket prices range from ₹299 to ₹999. Select an event and ticket quantity to see the total amount.";
+    function addAIMessage(message, type) {
+        const messages = document.getElementById("aiMessages");
+        const messageDiv = document.createElement("div");
+
+        messageDiv.className =
+            "ai-message " + (type === "user" ? "ai-user" : "ai-bot");
+
+        messageDiv.textContent = message;
+        messages.appendChild(messageDiv);
+        messages.scrollTop = messages.scrollHeight;
     }
 
-    if (q.includes("where") || q.includes("location")) {
-        return "EventEase events are listed at Andheri West, Mumbai.";
+    function askAI(question) {
+        addAIMessage(question, "user");
+
+        setTimeout(function() {
+            addAIMessage(getAIResponse(question), "bot");
+        }, 200);
     }
 
-    if (q.includes("email") || q.includes("mail")) {
-        return "After successful registration, EventEase attempts to send a confirmation email to your registered email address.";
+    function sendAIMessage() {
+        const input = document.getElementById("aiInput");
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        addAIMessage(message, "user");
+        input.value = "";
+
+        setTimeout(function() {
+            addAIMessage(getAIResponse(message), "bot");
+        }, 200);
     }
 
-    if (q.includes("calendar") || q.includes("google")) {
-        return "After successful registration, click Add to Google Calendar to add the event and booking details to your calendar.";
+    document.getElementById("aiInput").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") sendAIMessage();
+    });
+
+    function getAIResponse(message) {
+        const text = message.toLowerCase();
+
+        if (/\b(hi|hello|hey)\b/.test(text)) {
+            return "Hello! Welcome to EventEase. I can help with event details, dates, prices, registration and seats.";
+        }
+
+        if (text.includes("register") || text.includes("registration") ||
+            text.includes("booking") || text.includes("book")) {
+            return "Choose an event, enter your details, select your ticket quantity and pick available seats. Then click Confirm Registration.";
+        }
+
+        if (text.includes("seat")) {
+            return "Each event uses seats A1 to C10 on this registration page. Choose one different available seat for every ticket.";
+        }
+
+        if (text.includes("price") || text.includes("ticket") || text.includes("cost")) {
+            return "Ticket prices range from ₹299 to ₹999. Future Skills Workshop is ₹299, City Sports Championship ₹399, Art & Culture Expo and Gaming Arena ₹499, Food & Lifestyle Festival ₹599, Tech Innovation Summit and Film & Entertainment Festival ₹699, Startup & Business Summit and Comedy Night ₹799, and Summer Music Festival ₹999.";
+        }
+
+        if (text.includes("location") || text.includes("where")) {
+            return "The listed EventEase events take place in Andheri West, Mumbai.";
+        }
+
+        if (text.includes("email")) {
+            return "After the server accepts your booking, EventEase attempts to send an email confirmation to the email address you entered.";
+        }
+
+        if (text.includes("calendar")) {
+            return "After a successful booking, use the Add to Google Calendar link in the confirmation section.";
+        }
+
+        if (text.includes("event") || text.includes("available") || text.includes("date")) {
+            return "EventEase lists Summer Music Festival, Tech Innovation Summit, Art & Culture Expo, City Sports Championship, Future Skills Workshop, Startup & Business Summit, Food & Lifestyle Festival, Gaming Arena, Comedy Night and Film & Entertainment Festival. Visit the Events page for their details.";
+        }
+
+        return "I can help with EventEase event details, dates, locations, ticket prices, registration, seats, email confirmation and Google Calendar.";
     }
 
-    if (q.includes("music")) {
-        return "Summer Music Festival: 15 September 2026, 6 PM–10 PM. Ticket price: ₹999.";
-    }
+    /* INITIAL PAGE SETUP */
 
-    if (q.includes("technology") || q.includes("tech")) {
-        return "Tech Innovation Summit: 22 September 2026, 10 AM–5 PM. Ticket price: ₹699.";
-    }
+    updateSummary();
 
-    if (q.includes("art") || q.includes("culture")) {
-        return "Art & Culture Expo: 28 September 2026, 11 AM–6 PM. Ticket price: ₹499.";
+    if (eventSelect.value) {
+        loadBookedSeats();
+    } else {
+        createSeatSelectors();
     }
-
-    if (q.includes("sports")) {
-        return "City Sports Championship: 5 October 2026, 9 AM–6 PM. Ticket price: ₹399.";
-    }
-
-    if (q.includes("skills") || q.includes("workshop")) {
-        return "Future Skills Workshop: 12 October 2026, 10 AM–4 PM. Ticket price: ₹299.";
-    }
-
-    if (q.includes("business") || q.includes("startup")) {
-        return "Startup & Business Summit: 20 October 2026, 10 AM–5 PM. Ticket price: ₹799.";
-    }
-
-    if (q.includes("food")) {
-        return "Food & Lifestyle Festival: 31 October 2026, 12 PM–9 PM. Ticket price: ₹599.";
-    }
-
-    if (q.includes("gaming")) {
-        return "Gaming Arena: 8 November 2026, 11 AM–8 PM. Ticket price: ₹499.";
-    }
-
-    if (q.includes("comedy")) {
-        return "Comedy Night: 15 November 2026, 7 PM–10 PM. Ticket price: ₹799.";
-    }
-
-    if (q.includes("film") || q.includes("entertainment")) {
-        return "Film & Entertainment Festival: 22 November 2026, 5 PM–10 PM. Ticket price: ₹699.";
-    }
-
-    if (q.includes("event") || q.includes("available") || q.includes("upcoming")) {
-        return "Our 10 events are Summer Music Festival, Tech Innovation Summit, Art & Culture Expo, City Sports Championship, Future Skills Workshop, Startup & Business Summit, Food & Lifestyle Festival, Gaming Arena, Comedy Night, and Film & Entertainment Festival.";
-    }
-
-    if (q.includes("book") || q.includes("booking")) {
-        return "Select an event, tickets and available seats, then confirm registration. A Booking ID appears after the server successfully saves the booking.";
-    }
-
-    if (q.includes("thank")) {
-        return "You're welcome! Enjoy your EventEase experience.";
-    }
-
-    return "I can help with events, registration, seats, ticket prices, locations, confirmation emails and Google Calendar. Try asking about one of these topics.";
-}
 </script>
+
 </body>
 </html>
