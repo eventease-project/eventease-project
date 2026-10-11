@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1048,13 +1047,13 @@
 </div>
 
 <script>
-    /* API CONFIGURATION */
+    /* API CONFIGURATION — FIXED FOR RENDER BACKEND */
 
     const API_URL =
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1"
             ? "http://localhost:5000"
-            : window.location.origin;
+            : "https://eventease-project-s92i.onrender.com";
 
     /* EVENT INFORMATION */
 
@@ -1341,14 +1340,16 @@
             loadingSeats = false;
             bookedSeats = [];
 
-            seatStatus.textContent =
-                "Seat availability could not be verified. Please try again.";
+            /* SHOW SEAT OPTIONS EVEN IF THE AVAILABILITY CHECK FAILS.
+               THE SERVER STILL CHECKS FOR DUPLICATE BOOKINGS ON SUBMISSION. */
 
-            seatContainer.innerHTML =
-                '<div class="seat-loading">Unable to load seats. Change the event or try again.</div>';
+            seatStatus.textContent =
+                "Seat availability could not be verified. The server will check seats when you submit.";
+
+            createSeatSelectors();
 
             showFormError(
-                "Could not load seat availability. Please check your connection and try again."
+                "Seat availability could not be checked. You can select seats, but the server must verify them when you submit."
             );
         }
 
