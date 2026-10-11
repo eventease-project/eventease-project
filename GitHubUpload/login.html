@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sign in to your EventEase account.">
+    <title>Sign In | EventEase</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --navy: #101c32;
+            --navy-light: #1b2c49;
+            --gold: #c9a45c;
+            --cream: #f7f5ef;
+            --text: #243047;
+            --muted: #737b89;
+            --border: #e4e6eb;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--cream);
+            color: var(--text);
+        }
+
+        .topbar {
+            width: 100%;
+            min-height: 82px;
+            padding: 15px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            background: #ffffff;
+            border-bottom: 1px solid #e9e5dc;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--navy);
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--navy);
+            color: var(--gold);
+            border-radius: 12px;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .brand strong {
+            display: block;
+            font-size: 21px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 4px;
+            font-size: 9px;
+            letter-spacing: 1.3px;
+            color: var(--muted);
+        }
+
+        .home-link {
+            color: var(--navy);
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .home-link:hover {
+            color: #a77d34;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 45px 20px;
+        }
+
+        .login-layout {
+            width: 100%;
+            max-width: 950px;
+            min-height: 520px;
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            background: #ffffff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 18px 55px rgba(16, 28, 50, 0.10);
+            border: 1px solid #eeece6;
+        }
+
+        .welcome-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 48px 38px;
+            overflow: hidden;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 85% 15%, rgba(201,164,92,.18), transparent 32%),
+                linear-gradient(145deg, #101c32, #1b2c49);
+        }
+
+        .welcome-panel::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            right: -100px;
+            bottom: -100px;
+            border: 1px solid rgba(201,164,92,.35);
+            border-radius: 50%;
+            box-shadow: 0 0 0 25px rgba(201,164,92,.04),
+                        0 0 0 50px rgba(201,164,92,.03);
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+        }
+
+        .welcome-panel h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(32px, 4vw, 44px);
+            line-height: 1.17;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .welcome-panel h1 span {
+            color: var(--gold);
+        }
+
+        .welcome-panel p {
+            color: #d4dbe6;
+            font-size: 14px;
+            line-height: 1.9;
+            max-width: 330px;
+        }
+
+        .welcome-note {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.16);
+            color: #d4dbe6;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .welcome-note span {
+            color: var(--gold);
+            margin-right: 7px;
+        }
+
+        .form-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 48px 45px;
+        }
+
+        .form-panel h2 {
+            color: var(--navy);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-intro {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            min-height: 47px;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #ffffff;
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        input::placeholder {
+            color: #a0a6b0;
+        }
+
+        input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201,164,92,.13);
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap input {
+            padding-right: 68px;
+        }
+
+        .show-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 5px;
+            border: none;
+            background: transparent;
+            color: var(--navy);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .show-password:hover {
+            color: #a77d34;
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 49px;
+            margin-top: 5px;
+            padding: 13px 18px;
+            border: 1px solid var(--navy);
+            border-radius: 9px;
+            background: var(--navy);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s, transform .2s;
+        }
+
+        .submit-button:hover {
+            background: var(--navy-light);
+            transform: translateY(-1px);
+        }
+
+        .submit-button:disabled {
+            opacity: .7;
+            cursor: wait;
+            transform: none;
+        }
+
+        #message {
+            min-height: 20px;
+            margin-top: 16px;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+        .signup-link {
+            margin-top: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .signup-link a {
+            color: var(--navy);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            color: #a77d34;
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: var(--navy);
+        }
+
+        footer {
+            padding: 19px 20px;
+            background: #ffffff;
+            border-top: 1px solid #e9e5dc;
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        footer span {
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        @media (max-width: 700px) {
+            .topbar {
+                min-height: 72px;
+                padding: 13px 5%;
+            }
+
+            .brand strong {
+                font-size: 19px;
+            }
+
+            .brand small {
+                font-size: 8px;
+            }
+
+            main {
+                padding: 25px 14px;
+            }
+
+            .login-layout {
+                max-width: 460px;
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-panel {
+                padding: 30px 27px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 32px;
+            }
+
+            .welcome-panel p {
+                font-size: 13px;
+            }
+
+            .welcome-note {
+                margin-top: 20px;
+            }
+
+            .form-panel {
+                padding: 32px 26px;
+            }
+
+            .form-panel h2 {
+                font-size: 25px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .brand small {
+                letter-spacing: .7px;
+            }
+
+            .home-link {
+                font-size: 12px;
+            }
+
+            .form-panel {
+                padding: 28px 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topbar">
+        <a href="index.html" class="brand">
+            <span class="brand-mark">E</span>
+            <span>
+                <strong>EventEase</strong>
+                <small>EXPERIENCES THAT CONNECT</small>
+            </span>
+        </a>
+
+        <a href="index.html" class="home-link">← Back to Home</a>
+    </header>
+
+    <main>
+        <div class="login-layout">
+
+            <section class="welcome-panel">
+                <span class="eyebrow">WELCOME BACK</span>
+
+                <h1>Your next great<br>experience starts <span>here.</span></h1>
+
+                <p>
+                    Sign in to EventEase to explore upcoming events,
+                    choose your preferred seats and keep your event
+                    experience organised.
+                </p>
+
+                <div class="welcome-note">
+                    <span>✦</span>
+                    Discover experiences. Choose your seat. Make memories.
+                </div>
+            </section>
+
+            <section class="form-panel">
+                <h2>Sign In</h2>
+
+                <p class="form-intro">
+                    Enter your account details to continue to EventEase.
+                </p>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <div class="password-wrap">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="show-password"
+                                id="togglePassword"
+                                aria-label="Show password"
+                            >Show</button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button" id="loginButton">
+                        Sign In →
+                    </button>
+                </form>
+
+                <div id="message" role="status" aria-live="polite"></div>
+
+                <div class="signup-link">
+                    Don't have an account?
+                    <a href="signup.html">Create Account</a>
+                </div>
+
+                <a href="index.html" class="back-link">← Return to EventEase Home</a>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        © 2026 <span>EventEase</span>. All rights reserved.
+        <br>
+        Discover. Experience. Celebrate.
+    </footer>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const message = document.getElementById("message");
+        const loginButton = document.getElementById("loginButton");
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
+
+            passwordInput.type = isPassword ? "text" : "password";
+            togglePassword.textContent = isPassword ? "Hide" : "Show";
+            togglePassword.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+        });
+
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = passwordInput.value;
+
+            message.textContent = "Signing in...";
+            message.style.color = "#737b89";
+            loginButton.disabled = true;
+            loginButton.textContent = "Please wait...";
+
+            try {
+                const response = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    message.textContent =
+                        data.message || "Invalid email or password.";
+                    message.style.color = "#c0392b";
+                    return;
+                }
+
+                if (!data.token || !data.user) {
+                    message.textContent =
+                        "Login response was incomplete. Please try again.";
+                    message.style.color = "#c0392b";
+                    return;
+                }
+
+                sessionStorage.setItem("eventease_token", data.token);
+                sessionStorage.setItem(
+                    "eventease_user",
+                    JSON.stringify(data.user)
+                );
+
+                message.textContent = "Login successful! Redirecting...";
+                message.style.color = "#237a4b";
+                loginButton.textContent = "Success!";
+
+                setTimeout(function () {
+                    window.location.href = "index.html";
+                }, 1000);
+
+            } catch (error) {
+                console.error("Login error:", error);
+
+                message.textContent =
+                    "Server connection failed. Please try again.";
+                message.style.color = "#c0392b";
+
+            } finally {
+                loginButton.disabled = false;
+
+                if (message.style.color !== "rgb(35, 122, 75)") {
+                    loginButton.textContent = "Sign In →";
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
