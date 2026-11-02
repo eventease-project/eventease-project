@@ -1,5 +1,6 @@
 
 
+
 * {
     margin: 0;
     padding: 0;
@@ -1587,4 +1588,8 @@ footer:not(.site-footer) {
     .final-cta {
         padding: 55px 20px;
     }
+}
+
+.event-content a.event-register {
+    margin-top: auto !important;
 }
